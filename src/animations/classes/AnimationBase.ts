@@ -95,7 +95,7 @@ export default abstract class AnimationBase extends Component {
     });
   }
 
-  private triggerElementAnimation(el: HTMLElement) {
+  protected triggerElementAnimation(el: HTMLElement) {
     if (el instanceof NodeList) {
       el.forEach((el2) => this.triggerElementAnimation(el2 as HTMLElement));
     }

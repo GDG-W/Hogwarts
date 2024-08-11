@@ -1,7 +1,8 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './value.module.scss';
+import { default as ValueAnimation } from '@/animations/components/Value';
 
 const Value = () => {
   const items = [
@@ -95,6 +96,16 @@ const Value = () => {
     return () => clearInterval(interval);
   }, [active]);
 
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      new ValueAnimation(styles.values);
+
+      isInitialized.current = true;
+    }
+  }, []);
+
   return (
     <section className={styles.values}>
       <div className={styles.container}>
@@ -116,10 +127,30 @@ const Value = () => {
             </Fragment>
           ))}
         </div>
-        <div className={styles.details}>
-          <h2>{items[active].title}</h2>
-          <p>{items[active].content}</p>
-        </div>
+        {items.map((item, index) => (
+          <div key={item.id} className={styles.details}>
+            <h2
+              data-trigger-style-change
+              data-delay='0.167'
+              data-animate-sentences
+              style={{
+                display: active === index ? 'block' : 'none',
+              }}
+            >
+              {item.title}
+            </h2>
+            <p
+              data-trigger-style-change
+              data-delay='0.167'
+              data-animate-sentences
+              style={{
+                display: active === index ? 'block' : 'none',
+              }}
+            >
+              {item.content}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
