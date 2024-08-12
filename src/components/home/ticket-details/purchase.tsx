@@ -18,7 +18,11 @@ const PurchaseYourTicket = () => {
         <div className={styles.ticketcontent}>
           <div className={styles.imagewrapper}>
             <div className={styles.ticketimage}>
-              <Image src='/yellow-ticket.svg' alt='An image of the one-day ticket' fill />
+              <Image
+                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
+                alt='An image of the one-day ticket'
+                fill
+              />
             </div>
             {/* <div>hello</div> */}
           </div>

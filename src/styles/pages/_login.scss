@@ -6,8 +6,7 @@
   height: 100vh;
   overflow: hidden;
   font-family: var(--generalSans);
-  background-color: var(--pastel-green);
-  background-image: url('/auth-bg.png');
+  background-image: url('https://res.cloudinary.com/defsbafq2/image/upload/v1723023968/auth-bg_p42bqb.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -78,6 +77,12 @@
         }
       }
 
+      .login__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
       .error {
         font-size: 1rem;
         font-weight: 500;
@@ -88,7 +93,7 @@
 
       button {
         width: 100%;
-        margin-top: 2.25rem;
+        margin-top: 1rem;
       }
     }
   }
