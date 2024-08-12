@@ -12,7 +12,7 @@ const TextField = ({
   bottomRight,
   width,
   onChange,
-  // value,
+  value,
   ...inputProps
 }: TextFieldProps) => {
   return (
@@ -24,20 +24,22 @@ const TextField = ({
       <input
         {...inputProps}
         onChange={onChange}
+        value={value}
         style={{ width }}
         type={type}
         id={id}
         placeholder={placeholder}
       />
-      {bottomLeft ||
-        (bottomRight && (
-          <div className={styles.extra}>
-            <div className={styles.left}>{bottomLeft}</div>
+      {(bottomLeft || bottomRight) && (
+        <div className={styles.extra}>
+          <div className={styles.left}>{bottomLeft}</div>
+          {bottomRight && (
             <a className={styles.right} href=''>
               {bottomRight}
             </a>
-          </div>
-        ))}
+          )}
+        </div>
+      )}
     </div>
   );
 };
