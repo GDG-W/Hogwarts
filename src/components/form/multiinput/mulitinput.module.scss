@@ -1,0 +1,38 @@
+.pillInputContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  .pillInput {
+    flex: 1;
+    width: 100%;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    padding: 0.625rem;
+  }
+
+  .pill {
+    background-color: var(--pastel-blue);
+    color: var(--gray-80);
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin: 2px;
+    display: inline-block;
+
+    .close {
+      margin-left: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.errorMessage {
+  margin-top: 8px;
+  color: var(--secondary-red);
+}

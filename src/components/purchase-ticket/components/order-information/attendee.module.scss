@@ -1,0 +1,15 @@
+.attendees {
+  font-family: var(--generalSans);
+  padding: 1rem;
+  border: 1px solid var(--gray-30);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  h3 {
+    font-weight: 600;
+    padding-block: 1rem;
+    border-bottom: 1px solid var(--gray-30);
+  }
+}

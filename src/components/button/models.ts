@@ -11,4 +11,5 @@ export type ButtonProps = {
   outlined?: boolean;
   variant?: 'primary' | 'secondary' | 'transparent' | 'disabled';
   text: string;
+  fullWidth?: boolean;
 } & Props;

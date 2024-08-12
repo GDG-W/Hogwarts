@@ -8,6 +8,8 @@ const Button: React.FC<ButtonProps> = ({
   text,
   icon,
   outlined,
+  fullWidth = false,
+  onClick,
   ...others
 }) => {
   const classes = classNames(
@@ -16,12 +18,13 @@ const Button: React.FC<ButtonProps> = ({
     variant == 'secondary' && styles.secondary,
     variant == 'transparent' && styles.transparent,
     variant == 'disabled' && styles.disabled,
+    fullWidth && styles.full_width,
     outlined && styles.outlined,
     others.className,
   );
 
   return (
-    <button className={classes}>
+    <button onClick={onClick} className={classes}>
       {text}
       {icon}
     </button>

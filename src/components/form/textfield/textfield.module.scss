@@ -23,6 +23,18 @@
     padding: 1rem 0.625rem;
   }
 
+  /* Hide arrows in WebKit browsers (Chrome, Safari, Edge) */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Optionally, set a custom appearance for consistency */
+  input[type='number'] {
+    appearance: none;
+  }
+
   .extra {
     width: 100%;
     display: flex;

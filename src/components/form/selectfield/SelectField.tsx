@@ -18,6 +18,7 @@ const SelectField = ({
   disabled,
   onChange,
   onOpen,
+  width,
 }: SelectFieldProps | MultiSelectFieldProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<OptionProp[] | OptionProp | undefined>(
@@ -187,7 +188,7 @@ const SelectField = ({
   }, []);
 
   return (
-    <div className={styles.selectfield}>
+    <div style={{ width }} className={styles.selectfield}>
       <label htmlFor={id}>
         <span>{label}</span>
         <span>{extraLabel}</span>

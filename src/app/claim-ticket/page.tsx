@@ -9,6 +9,7 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import { OptionProp } from '@/components/form/models';
 import Button from '@/components/button';
 import Modal from '@/components/modals';
+import { roleOptions, sizeOptions, expertiseOptions } from '@/utils/mock-data';
 
 const ClaimTickets = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -32,28 +33,6 @@ const ClaimTickets = () => {
     expertise: Yup.string().required('Expertise is required'),
     size: Yup.string().required('Size is required'),
   });
-
-  const sizeOptions = [
-    { label: 'Small', value: 'Small' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Large', value: 'Large' },
-    { label: 'Extra-Large', value: 'Extra-Large' },
-  ];
-
-  const expertiseOptions = [
-    { label: 'Beginner', value: 'Beginner' },
-    { label: 'Intermediate', value: 'Intermediate' },
-    { label: 'Advanced', value: 'Advanced' },
-  ];
-
-  const roleOptions = [
-    { label: 'Software Engineer', value: 'Software Engineer' },
-    { label: 'Product Designer', value: 'Product Designer' },
-    { label: 'Product Manager', value: 'Product Manager' },
-    { label: 'QA Analyst', value: 'QA Analyst' },
-    { label: 'Technical Writer', value: 'Technical Writer' },
-    { label: 'Others', value: 'Others' },
-  ];
 
   return (
     <div className='claim__tickets'>
