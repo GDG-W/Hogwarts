@@ -66,7 +66,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
 
           <div className={styles.t_container_box_wrapper}>
             <p className={styles.t_container_box_wrapper_detail}>
-              Attend devfest Lagos 2024 for just a day with access to all talks and sessions
+              Attend DevFest Lagos 2024 for just a day with access to all talks and sessions
             </p>
 
             <div className={styles.input_wrapper}>
@@ -112,7 +112,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
 
           <div className={styles.t_container_box_wrapper}>
             <p className={styles.t_container_box_wrapper_detail}>
-              Attend devfest Lagos 2024 for 2 days with access to all talks and sessions
+              Attend DevFest Lagos 2024 for 2 days with access to all talks and sessions
             </p>
 
             <div className={styles.input_wrapper}>
