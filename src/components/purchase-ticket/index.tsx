@@ -12,13 +12,11 @@ const PurchaseTicket = () => {
     oneDay: 0,
     twoDays: 0,
   });
-
   const stepperLists = [
     { name: 'Ticket type', value: 1 },
     { name: 'Order information', value: 2 },
     { name: 'Checkout', value: 3 },
   ];
-
   const handleNextStep = () => {
     if (activeStep > 3) return;
     seActiveStep(activeStep + 1);

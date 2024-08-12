@@ -13,6 +13,11 @@
   align-items: center;
   z-index: 100;
   height: 100%;
+
+  // @include media('<=tablet') {
+  //   display: block;
+  //   // position: relative;
+  // }
 }
 
 .modal_container {
@@ -27,6 +32,16 @@
   @include media('>=tablet') {
     top: 2rem;
     border-radius: 0 0 32px 32px;
+  }
+
+  @include media('<=tablet') {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    min-height: 100vh;
+    position: static;
   }
 }
 
@@ -100,7 +115,7 @@
 
 // width
 .w_md {
-  max-width: 90%;
+  max-width: 100%;
 
   @include media('>=desktop') {
     max-width: 600px;
@@ -108,10 +123,10 @@
 }
 
 .w_full {
-  max-width: 95%;
+  max-width: 100%;
 
   @include media('>=tablet') {
-    max-width: 90%;
+    max-width: 100%;
   }
 
   @include media('>=desktop') {

@@ -1,9 +1,11 @@
+import React from 'react';
+// import { Formik, Form, Field } from 'formik';
+// import * as Yup from 'yup';
 import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
 import styles from './type.module.scss';
 import { OptionProp } from '@/components/form/models';
 import Button from '@/components/button';
-import React from 'react';
 import { TicketPurchaseData, TTicketNumber } from '../../model';
 import { dayOptions } from '@/utils/mock-data';
 import { CacheKeys } from '@/utils/constants';
@@ -30,6 +32,8 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
     if (Array.isArray(valueObj)) return;
     handleChangeSelectDays(Number(valueObj.value));
   };
+  const oneDayTicket = ticketNo.oneDay;
+  const twoDayTicket = ticketNo.twoDays;
 
   const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
     CacheKeys.USER_PURCHASE_TICKET,
@@ -82,6 +86,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                 width='75px'
                 id='ticketNumber'
                 placeholder='0'
+                value={oneDayTicket > 0 ? oneDayTicket.toString() : ''}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   handleChangeTicketNo((prevState) => ({
                     ...prevState,
@@ -115,6 +120,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                 width='75px'
                 id='ticketNumber'
                 placeholder='0'
+                value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   // Assume ticket covers for 2 days
                   handleChangeSelectDays(2);

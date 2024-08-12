@@ -4,6 +4,7 @@ import Image from 'next/image';
 import CancelIcon from '../../../public/icons/cancel.svg';
 
 interface IModalProps {
+  ref?: React.RefObject<HTMLDivElement>;
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export const Modal: React.FC<IModalProps> = ({
   onClose,
   children,
   width,
+  ref,
   showHeader = false,
 }) => {
   if (!open) return null;
@@ -27,7 +29,7 @@ export const Modal: React.FC<IModalProps> = ({
       <div className={`${styles.modal_container} ${m_width}`} onClick={(e) => e.stopPropagation()}>
         {/* header */}
         {showHeader && (
-          <div className={styles.modal_header}>
+          <div ref={ref} className={styles.modal_header}>
             <div className={styles.top_pop}>
               <Image
                 src='/icons/devfest-logo.svg'

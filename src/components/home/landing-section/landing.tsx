@@ -1,11 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import styles from './landing.module.scss';
 import Header from '@/components/header';
 import Button from '@/components/button';
 import { classNames } from '@/utils/classNames';
-// import ArrowRight from '../../../../public/icons/arrow-right.svg';
 import GreenCursor from '../../../../public/green-cursor.svg';
 import YellowCursor from '../../../../public/yellow-cursor.svg';
 import RedCursor from '../../../../public/red-cursor.svg';
@@ -16,14 +15,20 @@ import PurchaseTicket from '@/components/purchase-ticket';
 const Landing = () => {
   const [openTicket, setOpenTicket] = React.useState<boolean>(false);
 
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.height = '100vh';
+    }
+  }, [openTicket]);
+
   return (
     <div className={styles.landing}>
       <div className={styles.container}>
         <div className={styles.headernav}>
-          <Header
-            handleClick={() => setOpenTicket(true)}
-            navContent={<span>Upgrade Tickets</span>}
-          />
+          <Header navContent={<span>Upgrade Tickets</span>} />
         </div>
 
         <div className={styles.uppercursors}>
@@ -34,7 +39,7 @@ const Landing = () => {
         <div className={styles.herocontent}>
           <p>Don’t miss out!</p>
           <h1>Get your ticket now</h1>
-          <Button text='Get Early Bird Tickets' />
+          <Button onClick={() => setOpenTicket(true)} text='Get Early Bird Tickets' />
         </div>
 
         <div className={styles.lowercursors}>
