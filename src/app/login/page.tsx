@@ -55,7 +55,7 @@ const Login = () => {
               validationSchema={schema}
             >
               {({ errors, setFieldValue, validateField }) => (
-                <Form>
+                <Form className='login__form'>
                   <Field
                     as={TextField}
                     name='email'
@@ -82,6 +82,7 @@ const Login = () => {
                     }
                     error={errors.email}
                   />
+
                   <Field
                     as={TextField}
                     name='ticketId'

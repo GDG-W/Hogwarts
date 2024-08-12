@@ -1,11 +1,15 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'YOUR BASE URL HERE',
+  baseURL: 'https://asgard.devfestlagos.com',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    // OTHER HEADERS GO HERE
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+    'Content-Security-Policy': 'default-src http:',
+    'X-Frame-Options': 'SAMEORIGIN',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
   },
 });
 
