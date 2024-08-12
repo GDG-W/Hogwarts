@@ -22,6 +22,11 @@ const Landing = () => {
       bodyElement.style.overflow = 'hidden';
       bodyElement.style.height = '100vh';
     }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
   }, [openTicket]);
 
   return (
