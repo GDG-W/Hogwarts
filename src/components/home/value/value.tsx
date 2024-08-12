@@ -127,30 +127,29 @@ const Value = () => {
             </Fragment>
           ))}
         </div>
-        {items.map((item, index) => (
-          <div key={item.id} className={styles.details}>
-            <h2
-              data-trigger-style-change
-              data-delay='0.167'
-              data-animate-sentences
-              style={{
-                display: active === index ? 'block' : 'none',
-              }}
-            >
-              {item.title}
-            </h2>
-            <p
-              data-trigger-style-change
-              data-delay='0.167'
-              data-animate-sentences
-              style={{
-                display: active === index ? 'block' : 'none',
-              }}
-            >
-              {item.content}
-            </p>
-          </div>
-        ))}
+
+        <div className={styles.text}>
+          {items.map((item, index) => {
+            const props = {
+              'data-delay': '0.167',
+              'data-trigger-animation-change': true,
+              'data-animate-sentences': index === active,
+              'data-animate-sentences-out': index === (active - 1 + items.length) % items.length,
+              style: {
+                display:
+                  active === index || index === (active - 1 + items.length) % items.length
+                    ? 'block'
+                    : 'none',
+              },
+            };
+            return (
+              <div key={item.id} className={styles.details}>
+                <h2 {...props}>{item.title}</h2>
+                <p {...props}>{item.content}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

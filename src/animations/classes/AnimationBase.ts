@@ -103,7 +103,7 @@ export default abstract class AnimationBase extends Component {
     const dataset = el.dataset;
 
     for (const key in dataset) {
-      if (key.startsWith('animate')) {
+      if (key.startsWith('animate') && dataset[key] === 'true') {
         const animationName = this.extractAnimationNameFromDataset(key);
 
         animationName && this.animate(el, animationName);
