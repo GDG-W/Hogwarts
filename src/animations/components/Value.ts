@@ -62,7 +62,7 @@ export default class ValueAnimation extends AnimationBase {
           opacity: 0,
           duration,
           ease: easing,
-          delay: delay + stagger * index,
+          delay: delay - 0.75 + stagger * index,
         },
       );
     });

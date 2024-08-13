@@ -131,7 +131,7 @@ const Value = () => {
         <div className={styles.text}>
           {items.map((item, index) => {
             const props = {
-              'data-delay': '0.167',
+              'data-delay': '1.25',
               'data-trigger-animation-change': true,
               'data-animate-sentences': index === active,
               'data-animate-sentences-out': index === (active - 1 + items.length) % items.length,
