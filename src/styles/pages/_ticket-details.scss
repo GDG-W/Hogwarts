@@ -60,9 +60,19 @@
         }
       }
     }
-
+    .error {
+      font-size: 1rem;
+      font-weight: 500;
+      // text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--secondary-red);
+      @include media('<=tablet') {
+        margin-left: 1.5rem;
+      }
+    }
     .ticket__info {
       display: flex;
+      justify-content: center; // added this
       gap: 7rem;
 
       @include media('<=tablet') {
@@ -102,7 +112,9 @@
               font-weight: 500;
               word-wrap: break-word;
             }
-
+            .capitalize {
+              text-transform: capitalize;
+            }
             .wrap {
               padding-right: 20px;
               max-width: 140px;

@@ -8,15 +8,20 @@ import ArrowRight from '../../../public/icons/arrow-right.svg';
 import InfoCircle from '../../../public/info-circle.svg';
 import Button from '@/components/button';
 import TextField from '@/components/form/textfield/TextField';
+import { initiateSession } from '@/lib/actions/user';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
 
 const Login = () => {
   const [formError, setFormError] = useState('');
+  const [formSuccess, setFormSuccess] = useState('');
 
   const initialValues = {
     email: '',
     ticketId: '',
   };
-
+  const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
     ticketId: Yup.string()
@@ -42,20 +47,56 @@ const Login = () => {
           />
           <div className='login__card'>
             <h1 className='login__title'>Welcome</h1>
-            {formError ? (
+            {formSuccess !== '' ? (
+              <h2 className='success'>{formSuccess}</h2>
+            ) : formError !== '' ? (
               <h2 className='error'>{formError}</h2>
             ) : (
               <h2 className='login__subtitle'>Login to view your ticket</h2>
             )}
-
             <Formik
               initialValues={initialValues}
               enableReinitialize
-              onSubmit={() => {}}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  const response = await initiateSession({
+                    email_address: values.email,
+                    id: values.ticketId,
+                  });
+                  const inSetTime = new Date(new Date().getTime() + 60 * 60 * 1000);
+                  if (response) {
+                    setFormError('');
+                    Cookies.set('token', response.token, inSetTime);
+                    setFormSuccess('Login successful!');
+                    router.push('/ticket-details');
+                  }
+                } catch (error: unknown) {
+                  if (error instanceof AxiosError) {
+                    if (error.response) {
+                      // AxiosError with a response
+                      setFormError(error.response.data?.message || 'An error occurred');
+                    } else if (error.request) {
+                      // AxiosError with a request but no response
+                      setFormError('No response received from the server');
+                    } else {
+                      // Other AxiosError scenarios
+                      setFormError(error.message || 'An unknown error occurred');
+                    }
+                  } else if (error instanceof Error) {
+                    // Non-Axios errors that are instances of Error
+                    setFormError(error.message || 'An unknown error occurred');
+                  } else {
+                    // Fallback for unexpected error types
+                    setFormError('An unexpected error occurred');
+                  }
+                } finally {
+                  setSubmitting(false);
+                }
+              }}
               validationSchema={schema}
             >
-              {({ errors, setFieldValue, validateField }) => (
-                <Form className='login__form'>
+              {({ errors, setFieldValue, validateField, handleSubmit, isSubmitting }) => (
+                <Form className='login__form' onSubmit={handleSubmit}>
                   <Field
                     as={TextField}
                     name='email'
@@ -82,7 +123,6 @@ const Login = () => {
                     }
                     error={errors.email}
                   />
-
                   <Field
                     as={TextField}
                     name='ticketId'
@@ -97,7 +137,7 @@ const Login = () => {
                     bottomRight={'Or get your ticket here'}
                     error={errors.ticketId}
                   />
-                  <Button type='submit' text='Upgrade Tickets' />
+                  <Button type='submit' text='Upgrade Tickets' isLoading={isSubmitting} />
                 </Form>
               )}
             </Formik>

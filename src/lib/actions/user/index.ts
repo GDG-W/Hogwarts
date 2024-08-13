@@ -13,8 +13,12 @@ export const initiateSession = async (props: InitiateSessionProps) => {
 
 export const getUserProfile = async (token: string) => {
   try {
-    const { data } = await client.get('/users/profile', { data: token });
-
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await client.get('/users/profile', config);
     return Promise.resolve(data);
   } catch (error) {
     return Promise.reject(error);

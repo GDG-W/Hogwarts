@@ -2,10 +2,12 @@ import React from 'react';
 import { ButtonProps } from './models';
 import styles from './button.module.scss';
 import { classNames } from '@/utils/classNames';
+import { ButtonLoader } from './loader';
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   text,
+  isLoading,
   icon,
   outlined,
   fullWidth = false,
@@ -25,8 +27,14 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button onClick={onClick} className={classes}>
-      {text}
-      {icon}
+      {isLoading ? (
+        <ButtonLoader />
+      ) : (
+        <>
+          {text}
+          {icon}
+        </>
+      )}
     </button>
   );
 };

@@ -12,4 +12,5 @@ export type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'transparent' | 'disabled';
   text: string;
   fullWidth?: boolean;
+  isLoading?: boolean;
 } & Props;

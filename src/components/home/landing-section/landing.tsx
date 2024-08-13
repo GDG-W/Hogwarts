@@ -11,10 +11,11 @@ import RedCursor from '../../../../public/red-cursor.svg';
 import BlueCursor from '../../../../public/blue-cursor.svg';
 import { Modal } from '@/components/modal';
 import PurchaseTicket from '@/components/purchase-ticket';
+import { useRouter } from 'next/navigation';
 
 const Landing = () => {
   const [openTicket, setOpenTicket] = React.useState<boolean>(false);
-
+  const router = useRouter();
   useEffect(() => {
     const bodyElement = document.body;
 
@@ -33,7 +34,10 @@ const Landing = () => {
     <div className={styles.landing}>
       <div className={styles.container}>
         <div className={styles.headernav}>
-          <Header navContent={<span>Upgrade Tickets</span>} />
+          <Header
+            navContent={<span>Upgrade Tickets</span>}
+            handleClick={() => router.push('/login')}
+          />
         </div>
 
         <div className={styles.uppercursors}>
