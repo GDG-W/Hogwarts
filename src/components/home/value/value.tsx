@@ -114,7 +114,7 @@ const Value = () => {
           <h1 className={styles.heading}>What value will you be getting?</h1>
         </div>
 
-        <div id={styles.carousel}>
+        <div id={styles.carousel} data-animate-driftin-right>
           {items.map((item, index) => (
             <Fragment key={index}>
               <div

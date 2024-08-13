@@ -7,6 +7,7 @@ export default class ValueAnimation extends AnimationBase {
     super({
       sourceElement: `.${sourceElementClassName}`,
       subElements: {
+        animateDriftInRight: '[data-animate-driftin-right]',
         animateSentencesOut: '[data-animate-sentences-out]',
         animationChangeTrigger: '[data-trigger-animation-change]',
       },
@@ -16,7 +17,8 @@ export default class ValueAnimation extends AnimationBase {
     this.observeAnimationChange();
 
     this.registerAnimations({
-      'sentences-out': this.animateSentencesOut,
+      'driftin-right': this.animateDriftInRight.bind(this),
+      'sentences-out': this.animateSentencesOut.bind(this),
     });
   }
 
@@ -66,5 +68,21 @@ export default class ValueAnimation extends AnimationBase {
         },
       );
     });
+  }
+
+  private animateDriftInRight(element: HTMLElement): void {
+    const { delay, duration, easing } = this.getAnimationValues(element);
+
+    this.animationLibrary.core.fromTo(
+      element,
+      { xPercent: 25, opacity: 0 },
+      {
+        xPercent: 0,
+        opacity: 1,
+        duration,
+        delay,
+        ease: easing,
+      },
+    );
   }
 }
