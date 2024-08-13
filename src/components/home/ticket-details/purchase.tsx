@@ -1,12 +1,30 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './purchase.module.scss';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
 import Button from '@/components/button';
+import PurchaseTicket from '@/components/purchase-ticket';
+import { Modal } from '@/components/modal';
 
 const PurchaseYourTicket = () => {
+  const [openTicket, setOpenTicket] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.height = '100vh';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [openTicket]);
+
   return (
     <section className={styles.purchase}>
       <div className={classNames(styles.container)}>
@@ -37,10 +55,14 @@ const PurchaseYourTicket = () => {
               <li>Access to workshops, sessions and talks</li>
             </ul>
 
-            <Button text='Get Early Bird Tickets' />
+            <Button onClick={() => setOpenTicket(true)} text='Get Early Bird Tickets' />
           </div>
         </div>
       </div>
+      {/* Modals */}
+      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
+        <PurchaseTicket />
+      </Modal>
     </section>
   );
 };

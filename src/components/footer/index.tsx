@@ -1,6 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import styles from './footer.module.scss';
 import Button from '@/components/button';
+import { useEffect, useState } from 'react';
+import { Modal } from '../modal';
+import PurchaseTicket from '../purchase-ticket';
 
 const currentYear = new Date().getFullYear();
 
@@ -48,6 +53,7 @@ const footerLinks = [
 ];
 
 export const Footer = () => {
+  const [openTicket, setOpenTicket] = useState<boolean>(false);
   const {
     footerwrapper,
     container,
@@ -58,6 +64,20 @@ export const Footer = () => {
     footerlinks,
     footercopyright,
   } = styles;
+
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.height = '100vh';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [openTicket]);
 
   console.log(styles);
   return (
@@ -111,7 +131,7 @@ export const Footer = () => {
                 layout='responsive'
               />
             </div>
-            <Button text='Get Early Bird Tickets' />
+            <Button onClick={() => setOpenTicket(true)} text='Get Early Bird Tickets' />
 
             <div className={footerlinks}>
               <ul>
@@ -146,6 +166,10 @@ export const Footer = () => {
         </div>
         <p className={footercopyright}>© {currentYear} Devfest Lagos. All Rights Reserved.</p>
       </div>
+      {/* Modals */}
+      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
+        <PurchaseTicket />
+      </Modal>
     </footer>
   );
 };
