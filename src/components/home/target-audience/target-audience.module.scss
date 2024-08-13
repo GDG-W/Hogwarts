@@ -34,6 +34,10 @@
         flex-direction: column-reverse;
       }
 
+      @include media('<=desktop') {
+        gap: 2.5em;
+      }
+
       .contentContainer {
         display: flex;
         flex-direction: column;
@@ -100,46 +104,91 @@
         }
 
         ul {
+          position: relative;
           list-style: none;
           display: flex;
           flex-direction: column;
           gap: 12px;
           padding: 0;
+          height: 610px;
+          overflow-y: hidden;
+          overflow-x: visible;
+
+          @include media('<=900px') {
+            height: 460px;
+          }
+
+          @include media('<=tablet') {
+            height: 350px;
+          }
         }
 
         li {
+          position: absolute;
           color: var(--gray-90);
           font-size: clamp(2rem, 5.5vw, 3.875rem);
           font-weight: 700;
+          left: 0;
           white-space: nowrap;
+          transform: translateY(calc(var(--index) * 87px));
+          transition:
+            transform 1s,
+            left 1s,
+            opacity 1s,
+            z-index 0s;
+
+          @include media('<=900px') {
+            transform: translateY(calc(var(--index) * 65px));
+          }
+
+          @include media('<=tablet') {
+            transform: translateY(calc(var(--index) * 52px));
+          }
         }
 
-        li:nth-child(1) {
+        li.hideTop {
+          opacity: 0;
+          --index: -1;
+        }
+
+        li.one {
           opacity: 0.1;
+          --index: 0;
         }
 
-        li:nth-child(2) {
+        li.two {
           opacity: 1;
+          --index: 1;
         }
 
-        li:nth-child(3) {
+        li.three {
           opacity: 0.8;
+          --index: 2;
         }
 
-        li:nth-child(4) {
+        li.four {
           opacity: 0.6;
+          --index: 3;
         }
 
-        li:nth-child(5) {
+        li.five {
           opacity: 0.4;
+          --index: 4;
         }
 
-        li:nth-child(6) {
+        li.six {
           opacity: 0.2;
+          --index: 5;
         }
 
-        li:nth-child(7) {
+        li.seven {
           opacity: 0.1;
+          --index: 6;
+        }
+
+        li.hideBottom {
+          --index: 7;
+          opacity: 0;
         }
       }
     }
