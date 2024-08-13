@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './value.module.scss';
 import { default as ValueAnimation } from '@/animations/components/Value';
+import useVisibilityInterval from '@/lib/hooks/useVisibilityInterval';
 
 const Value = () => {
   const items = [
@@ -88,13 +89,13 @@ const Value = () => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  useVisibilityInterval(
+    () => {
       moveToSelected('next');
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [active]);
+    },
+    4000,
+    [active],
+  );
 
   const isInitialized = useRef(false);
 
