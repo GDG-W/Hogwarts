@@ -2,24 +2,14 @@
 
 import { classNames } from '@/utils/classNames';
 import React from 'react';
-// import AnimatedLogo from '../../../public/animated-devfest-logo.svg';
+import AnimatedLogo2 from '../logo/AnimatedLogo';
 import styles from './header.module.scss';
 import { HeaderProps } from './models';
-import Image from 'next/image';
 
 const Header: React.FC<HeaderProps> = ({ navContent, className, handleClick }) => {
   return (
     <header className={classNames(styles.header, className)}>
-      <span>
-        <Image
-          src='/animated-devfest-logo.svg'
-          alt='DevFest Lagos logo'
-          width={118}
-          height={34}
-          priority={true}
-        />
-        {/* <AnimatedLogo /> */}
-      </span>
+      <AnimatedLogo2 width={120} height={35} />
       {navContent && (
         <nav>
           <button type='button' onClick={handleClick}>
