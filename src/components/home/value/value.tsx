@@ -1,7 +1,9 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import styles from './value.module.scss';
+import { default as ValueAnimation } from '@/animations/components/Value';
+import useVisibilityInterval from '@/lib/hooks/useVisibilityInterval';
 
 const Value = () => {
   const items = [
@@ -87,13 +89,23 @@ const Value = () => {
     }
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  useVisibilityInterval(
+    () => {
       moveToSelected('next');
-    }, 4000);
+    },
+    4000,
+    [active],
+  );
 
-    return () => clearInterval(interval);
-  }, [active]);
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    if (!isInitialized.current) {
+      new ValueAnimation(styles.values);
+
+      isInitialized.current = true;
+    }
+  }, []);
 
   return (
     <section className={styles.values}>
@@ -103,7 +115,7 @@ const Value = () => {
           <h1 className={styles.heading}>What value will you be getting?</h1>
         </div>
 
-        <div id={styles.carousel}>
+        <div id={styles.carousel} data-animate-driftin-right>
           {items.map((item, index) => (
             <Fragment key={index}>
               <div
@@ -116,9 +128,28 @@ const Value = () => {
             </Fragment>
           ))}
         </div>
-        <div className={styles.details}>
-          <h2>{items[active].title}</h2>
-          <p>{items[active].content}</p>
+
+        <div className={styles.text}>
+          {items.map((item, index) => {
+            const props = {
+              'data-delay': '1.25',
+              'data-trigger-animation-change': true,
+              'data-animate-sentences': index === active,
+              'data-animate-sentences-out': index === (active - 1 + items.length) % items.length,
+              style: {
+                display:
+                  active === index || index === (active - 1 + items.length) % items.length
+                    ? 'block'
+                    : 'none',
+              },
+            };
+            return (
+              <div key={item.id} className={styles.details}>
+                <h2 {...props}>{item.title}</h2>
+                <p {...props}>{item.content}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
