@@ -197,7 +197,7 @@ const SelectField = ({
       <div className={styles.selectWrapper}>
         <div
           ref={inputRef}
-          className={styles.select}
+          className={classNames(styles.select, disabled && styles.disabled)}
           id={id}
           onClick={handleInputClick}
           onKeyDown={handleInputKeyDown}

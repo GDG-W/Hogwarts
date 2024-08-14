@@ -6,20 +6,38 @@ import { OrderInformation } from './components/order-information';
 import { TTicketNumber } from './model';
 
 const PurchaseTicket = () => {
-  const [activeStep, seActiveStep] = React.useState<number>(1);
+  const [activeStep, setActiveStep] = React.useState<number>(1);
   const [selectDays, setSelectDays] = React.useState<number>(0);
   const [ticketNo, setTicketNo] = React.useState<TTicketNumber>({
     oneDay: 0,
     twoDays: 0,
   });
+  const [isTicketTypeComplete, setIsTicketTypeComplete] = React.useState<boolean>(false);
+  const [isOrderInfoComplete, setIsOrderInfoComplete] = React.useState<boolean>(false);
   const stepperLists = [
-    { name: 'Ticket type', value: 1 },
-    { name: 'Order information', value: 2 },
+    { name: 'Ticket type', value: 1, isComplete: isTicketTypeComplete },
+    { name: 'Order information', value: 2, isComplete: isOrderInfoComplete },
     { name: 'Checkout', value: 3 },
   ];
   const handleNextStep = () => {
-    if (activeStep > 3) return;
-    seActiveStep(activeStep + 1);
+    if ((activeStep === 1 && !isTicketTypeComplete) || (activeStep === 2 && !isOrderInfoComplete)) {
+      return; // Prevent moving to the next step if the current step is not complete
+    }
+    if (activeStep < 3) {
+      setActiveStep(activeStep + 1);
+    }
+  };
+
+  const handleTicketTypeCompletion = () => {
+    if (selectDays > 0 && (ticketNo.oneDay > 0 || ticketNo.twoDays > 0)) {
+      setIsTicketTypeComplete(true);
+      handleNextStep();
+    } else return;
+  };
+
+  const handleOrderInfoCompletion = () => {
+    setIsOrderInfoComplete(true);
+    handleNextStep();
   };
 
   return (
@@ -31,7 +49,7 @@ const PurchaseTicket = () => {
             {stepperLists.map((list, id) => (
               <li
                 key={id}
-                onClick={() => seActiveStep(list.value)}
+                onClick={() => list.isComplete && setActiveStep(list.value)}
                 className={`
                   ${styles.title_container_list_group_item} 
                    ${activeStep >= list.value ? styles.title_container_list_group_active : ''}
@@ -51,10 +69,10 @@ const PurchaseTicket = () => {
                 handleChangeSelectDays={setSelectDays}
                 ticketNo={ticketNo}
                 handleChangeTicketNo={setTicketNo}
-                handleNext={handleNextStep}
+                handleNext={handleTicketTypeCompletion}
               />
             )}
-            {activeStep >= 2 && <OrderInformation handleNext={handleNextStep} />}
+            {activeStep >= 2 && <OrderInformation handleNext={handleOrderInfoCompletion} />}
 
             {activeStep === 3 && (
               <div className={styles.mob_checkout}>

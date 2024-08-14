@@ -10,6 +10,7 @@ const Button: React.FC<ButtonProps> = ({
   outlined,
   fullWidth = false,
   onClick,
+  // type = 'submit',
   ...others
 }) => {
   const classes = classNames(

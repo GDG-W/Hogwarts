@@ -10,8 +10,8 @@ interface ICheckoutProps {
 }
 
 export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activeStep }) => {
-  const oneDayTotal = 10000 * ticketNo.oneDay;
-  const twoDayTotal = 20000 * ticketNo.twoDays;
+  const oneDayTotal = 7000 * ticketNo.oneDay;
+  const twoDayTotal = 10000 * ticketNo.twoDays;
 
   return (
     <div className={styles.main_container}>
@@ -53,9 +53,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
 
               <li className={styles.main_container_body_list_group_item}>
                 <span>Total </span>
-                <span>
-                  N{(10000 * ticketNo.oneDay + 20000 * ticketNo.twoDays).toLocaleString()}
-                </span>
+                <span>N{(oneDayTotal + twoDayTotal).toLocaleString()}</span>
               </li>
             </ul>
 

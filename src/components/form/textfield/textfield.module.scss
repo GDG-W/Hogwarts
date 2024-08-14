@@ -13,6 +13,11 @@
     }
   }
 
+  .disabled {
+    background-color: var(--gray-10);
+    cursor: not-allowed;
+  }
+
   input {
     width: 100%;
     font-size: 1rem;

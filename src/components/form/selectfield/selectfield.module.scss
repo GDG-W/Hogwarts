@@ -94,4 +94,9 @@
       }
     }
   }
+
+  .disabled {
+    background-color: var(--gray-10);
+    cursor: not-allowed;
+  }
 }
