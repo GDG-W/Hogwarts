@@ -17,7 +17,6 @@ import styles from './landing.module.scss';
 const Landing = () => {
   const [openTicket, setOpenTicket] = React.useState<boolean>(false);
 
-
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const Landing = () => {
       bodyElement.style.height = 'auto';
     };
   }, [openTicket]);
-
 
   return (
     <div className={styles.landing}>
@@ -176,6 +174,6 @@ const Landing = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default Landing;
