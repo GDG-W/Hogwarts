@@ -34,7 +34,7 @@ const PurchaseYourTicket = () => {
           <div className={styles.imagewrapper}>
             <div className={styles.headContainerWrapper}>
               <Image
-                src='/yellow-ticket.svg'
+                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
                 alt='An image of the one-day ticket'
                 width={650}
                 height={350}
@@ -43,7 +43,7 @@ const PurchaseYourTicket = () => {
 
               <Image
                 src='/red-ticket.svg'
-                alt='An image of the one-day ticket'
+                alt='An image of the two-day ticket'
                 width={650}
                 height={350}
                 className={styles.headImage}

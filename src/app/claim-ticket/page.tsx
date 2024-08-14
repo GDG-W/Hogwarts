@@ -9,6 +9,7 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import { OptionProp } from '@/components/form/models';
 import Button from '@/components/button';
 import Modal from '@/components/modals';
+import { roleOptions, sizeOptions, expertiseOptions } from '@/utils/mock-data';
 
 const ClaimTickets = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -33,28 +34,6 @@ const ClaimTickets = () => {
     size: Yup.string().required('Size is required'),
   });
 
-  const sizeOptions = [
-    { label: 'Small', value: 'Small' },
-    { label: 'Medium', value: 'Medium' },
-    { label: 'Large', value: 'Large' },
-    { label: 'Extra-Large', value: 'Extra-Large' },
-  ];
-
-  const expertiseOptions = [
-    { label: 'Beginner', value: 'Beginner' },
-    { label: 'Intermediate', value: 'Intermediate' },
-    { label: 'Advanced', value: 'Advanced' },
-  ];
-
-  const roleOptions = [
-    { label: 'Software Engineer', value: 'Software Engineer' },
-    { label: 'Product Designer', value: 'Product Designer' },
-    { label: 'Product Manager', value: 'Product Manager' },
-    { label: 'QA Analyst', value: 'QA Analyst' },
-    { label: 'Technical Writer', value: 'Technical Writer' },
-    { label: 'Others', value: 'Others' },
-  ];
-
   return (
     <div className='claim__tickets'>
       <div className='claim__tickets__container'>
@@ -62,7 +41,13 @@ const ClaimTickets = () => {
 
         <div className='claim__tickets__content'>
           <div className='claim__tickets__banner'>
-            <Image src='/claim-ticket.svg' width={558} height={799} alt='' priority />
+            <Image
+              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723026192/claim-ticket_ljyoeo.png'
+              width={558}
+              height={799}
+              alt=''
+              priority
+            />
           </div>
           <div className='claim__tickets__form'>
             <div className='claim__tickets__heading'>

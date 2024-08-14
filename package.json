@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "dev": "next dev -p 2407",
-    "start": "next start -p 2407",
+    "dev": "next dev",
+    "start": "next start",
     "build": "next build",
     "lint": "next lint",
     "prettierrc": "prettier --write ."
@@ -24,7 +24,6 @@
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.77.6",
-    "swiper": "^11.1.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {

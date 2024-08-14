@@ -21,6 +21,7 @@
 }
 
 .primary {
+  border: 2px solid var(--black);
   background: var(--black);
   color: var(--white);
   border: 2px solid var(--black);
@@ -46,4 +47,8 @@
   background: var(--gray-10);
   color: var(--gray-40);
   cursor: not-allowed;
+}
+
+.full_width {
+  width: 100%;
 }

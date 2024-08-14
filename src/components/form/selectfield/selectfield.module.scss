@@ -15,7 +15,6 @@
   }
 
   .select {
-    position: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -30,10 +29,15 @@
     padding: 1rem 0.8rem;
   }
 
+  .selectWrapper {
+    position: relative;
+  }
+
   .menuWrapper {
+    position: absolute;
     width: 100%;
     max-width: 500px;
-    top: 110%;
+    top: 100%;
     right: 0px;
     z-index: 10;
     border: 0.5px solid var(--gray-60);

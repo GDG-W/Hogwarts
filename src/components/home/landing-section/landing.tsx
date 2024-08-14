@@ -17,6 +17,7 @@ import styles from './landing.module.scss';
 const Landing = () => {
   const [openTicket, setOpenTicket] = React.useState<boolean>(false);
 
+
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -26,6 +27,21 @@ const Landing = () => {
       isInitialized.current = true;
     }
   }, []);
+
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.height = '100vh';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [openTicket]);
+
 
   return (
     <div className={styles.landing}>
@@ -86,6 +102,7 @@ const Landing = () => {
           </h1>
 
           <Button
+            onClick={() => setOpenTicket(true)}
             data-animate-scale
             data-delay='0.167'
             data-easing='CTA.button'
@@ -126,7 +143,7 @@ const Landing = () => {
         <div className={styles.ticketWrapper}>
           <div className={classNames(styles.ticket, styles.one)} data-animate-ticket-one>
             <Image
-              src='/green-ticket.svg'
+              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030306/green-ticket_d973oo.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -135,7 +152,7 @@ const Landing = () => {
 
           <div className={classNames(styles.ticket, styles.middle)} data-animate-ticket-middle>
             <Image
-              src='/blue-ticket.svg'
+              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030366/blue-ticket_zqy1z2.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -144,7 +161,7 @@ const Landing = () => {
 
           <div className={classNames(styles.ticket, styles.two)} data-animate-ticket-two>
             <Image
-              src='/yellow-ticket.svg'
+              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -154,11 +171,11 @@ const Landing = () => {
       </div>
 
       {/* Modals */}
-      <Modal open={openTicket} onClose={() => setOpenTicket(false)}>
+      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
         <PurchaseTicket />
       </Modal>
     </div>
   );
-};
+}
 
 export default Landing;
