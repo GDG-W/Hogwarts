@@ -12,6 +12,11 @@ import { initiateSession } from '@/lib/actions/user';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+
+interface InitiateSessionResponse {
+  token: string;
+}
 
 const Login = () => {
   const [formError, setFormError] = useState('');
@@ -23,6 +28,43 @@ const Login = () => {
   };
   const router = useRouter();
 
+  const handleError = (error: unknown) => {
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        setFormError(error.response.data?.message || 'An error occurred');
+      } else if (error.request) {
+        setFormError('No response received from the server');
+      } else {
+        setFormError(error.message || 'An unknown Axios error occurred');
+      }
+    } else if (error instanceof Error) {
+      setFormError(error.message || 'An unknown error occurred');
+    } else {
+      setFormError('An unexpected error occurred');
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: initiateSession,
+    onMutate: () => {
+      setFormSubmitting(true);
+      setFormError('');
+      setFormSuccess('');
+    },
+    onSuccess: (data: InitiateSessionResponse) => {
+      const inSetTime = new Date(new Date().getTime() + 60 * 60 * 1000);
+      Cookies.set('token', data.token, { expires: inSetTime });
+      setFormSuccess('Login successful!');
+      router.push('/ticket-details');
+    },
+    onError: (error: unknown) => {
+      handleError(error);
+    },
+    onSettled: () => {
+      setFormSubmitting(false);
+    },
+  });
+
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
     ticketId: Yup.string()
@@ -33,41 +75,10 @@ const Login = () => {
       .required('Ticket ID is required'),
   });
   const submitForm = async (values: typeof initialValues) => {
-    try {
-      setFormSubmitting(true);
-      const response = await initiateSession({
-        email_address: values.email,
-        id: values.ticketId,
-      });
-      const inSetTime = new Date(new Date().getTime() + 60 * 60 * 1000);
-      if (response) {
-        setFormError('');
-        Cookies.set('token', response.token, inSetTime);
-        setFormSuccess('Login successful!');
-        router.push('/ticket-details');
-      }
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          // AxiosError with a response
-          setFormError(error.response.data?.message || 'An error occurred');
-        } else if (error.request) {
-          // AxiosError with a request but no response
-          setFormError('No response received from the server');
-        } else {
-          // Other AxiosError scenarios
-          setFormError(error.message || 'An unknown error occurred');
-        }
-      } else if (error instanceof Error) {
-        // Non-Axios errors that are instances of Error
-        setFormError(error.message || 'An unknown error occurred');
-      } else {
-        // Fallback for unexpected error types
-        setFormError('An unexpected error occurred');
-      }
-    } finally {
-      setFormSubmitting(false);
-    }
+    mutation.mutate({
+      email_address: values.email,
+      id: values.ticketId,
+    });
   };
   return (
     <div className='login'>
