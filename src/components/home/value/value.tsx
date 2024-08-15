@@ -9,49 +9,49 @@ const Value = () => {
   const items = [
     {
       id: 1,
-      src: '/swags.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/swags_1723722207830.png',
       title: 'Exclusive Swags',
       content:
         'At DevFest Lagos, attendees will receive merch designed to enhance your experience and provide lasting memories.',
     },
     {
       id: 2,
-      src: '/activities.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/activities_1723722207851.png',
       title: 'Recreational Activities',
       content:
         'Participate in games, team-building excercises, to  recharge to make new friends, and create memories.',
     },
     {
       id: 3,
-      src: '/networking.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/networking_1723722207852.png',
       title: 'Networking Opportunities',
       content:
         'Whether you’re looking for mentorship, collaboration opportunities, or simply to expand your tech circle. DevFest Lagos provides the platform to build valuable relationships that can advance your career.',
     },
     {
       id: 4,
-      src: '/swags.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/swags_1723722207830.png',
       title: 'Exclusive Swags',
       content:
         'At DevFest Lagos, attendees will receive merch designed to enhance your experience and provide lasting memories.',
     },
     {
       id: 5,
-      src: '/aniedi.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/aniedi_1723722207853.png',
       title: 'Amazing Speakers',
       content:
         'At DevFest Lagos, we bring together some of the most influential voices in technology. Our speakers are industry experts who are shaping the future of future world.',
     },
     {
       id: 6,
-      src: '/networking.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/networking_1723722207852.png',
       title: 'Networking Opportunities',
       content:
         'Whether you’re looking for mentorship, collaboration opportunities, or simply to expand your tech circle. DevFest Lagos provides the platform to build valuable relationships that can advance your career.',
     },
     {
       id: 5,
-      src: '/meals.png',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/meals_1723722207854.png',
       title: 'Complimentary Meals',
       content:
         'Enjoy complimentary meals all provided at no cost, ensuring you stay energized and focused during the event.',
