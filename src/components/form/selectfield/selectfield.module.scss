@@ -63,12 +63,15 @@
 
     .menuItem {
       padding: 1rem;
-      background-color: white;
+      // background-color: white;
 
       &:hover {
         background-color: var(--cream);
         cursor: pointer;
       }
+    }
+    .selected {
+      background-color: var(--cream);
     }
   }
 

@@ -102,7 +102,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
         validationSchema={validationSchema}
         onSubmit={handleProceed}
       >
-        {({ isValid, values, errors, setFieldValue, submitForm }) => (
+        {({ isValid, values, errors, setFieldValue, submitForm, touched }) => (
           <Form>
             <div className={styles.t_container_body}>
               <div className={styles.t_container_box}>
@@ -149,7 +149,9 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                     />
                   </div>
                 </div>
-                <p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>
+                {touched.oneDayTicketNumber && errors.oneDayTicketNumber && (
+                  <p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>
+                )}
               </div>
 
               <div className={styles.t_container_box}>
