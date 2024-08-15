@@ -54,6 +54,10 @@
         font-size: 12px;
         font-weight: 500;
         text-align: center;
+
+        @include media('<=625px') {
+          font-size: 8px;
+        }
       }
 
       &--productmanager {
@@ -89,7 +93,7 @@
       &--softwareengineer {
         position: absolute;
         bottom: 43%;
-        left: 0%;
+        left: 5%;
 
         .careercursortext {
           color: #34a853;
@@ -98,6 +102,10 @@
 
         svg {
           rotate: 30deg;
+        }
+
+        @include media('<=625px') {
+          left: 10%;
         }
       }
 
@@ -113,6 +121,11 @@
 
         svg {
           rotate: -30deg;
+        }
+
+        @include media('<=625px') {
+          right: 10%;
+          bottom: 41%;
         }
       }
     }
@@ -208,11 +221,6 @@
         bottom: -90%;
         left: 30%;
         transform: rotate(90deg);
-
-        @include media('<=625px') {
-          bottom: -50%;
-          left: 50%;
-        }
       }
 
       .middle {
