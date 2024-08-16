@@ -7,7 +7,7 @@ export type Expertise = 'Beginner' | 'Intermediate' | 'Expert';
 export type ShirtSize = 'xs' | 's' | 'm' | 'lg' | 'xl' | 'xxl';
 
 export type InitiateSessionProps = {
-  email: string;
+  email_address: string;
   id: string;
 };
 

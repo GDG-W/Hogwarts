@@ -40,7 +40,7 @@
         text-align: center;
         margin-bottom: 0.5rem;
 
-        @include media('<=tablet') {
+        @include media('<tablet') {
           font-size: 1.5rem;
           font-weight: 600;
           margin-bottom: 0.25rem;
@@ -54,7 +54,7 @@
         font-weight: 400;
         text-align: center;
 
-        @include media('<=tablet') {
+        @include media('<tablet') {
           text-align: left;
           font-weight: 400;
         }
@@ -64,8 +64,10 @@
     .ticket__info {
       display: flex;
       gap: 7rem;
-
-      @include media('<=tablet') {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      @include media('<tablet') {
         display: block;
       }
 

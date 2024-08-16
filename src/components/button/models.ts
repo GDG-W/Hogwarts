@@ -12,4 +12,5 @@ export type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'transparent' | 'disabled';
   text: string | React.ReactNode;
   fullWidth?: boolean;
+  isLoading?: boolean;
 } & Props;

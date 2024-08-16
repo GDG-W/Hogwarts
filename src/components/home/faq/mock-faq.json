@@ -3,36 +3,28 @@
     "category": "General Questions",
     "questions": [
       {
-        "question": "What is the date and time of the event?",
-        "answer": "The event will be held on August 15, 2024, from 10:00 AM to 6:00 PM."
+        "question": "Can I buy tickets for the event through this platform?",
+        "answer": "Yes! This platform allows you to securely purchase tickets for the one-day or two-day event option."
       },
       {
-        "question": "Where is the event location?",
-        "answer": "The event will take place at the Downtown Convention Center, 123 Main Street, Cityville."
+        "question": " Can I cancel my ticket and get a refund?",
+        "answer": "We understand that unexpected circumstances can arise. Unfortunately, due to the nature of the event, we operate with a no-refund policy for all ticket purchases."
       },
       {
-        "question": "Is there parking available?",
-        "answer": "Yes, there is ample parking available at the venue. Parking fees may apply."
+        "question": "How do I pay for my ticket?",
+        "answer": "We have a number of payment options for your convenience - card payment, bank transfer, USSD"
       },
       {
-        "question": "Are there any age restrictions for the event?",
-        "answer": "The event is open to all ages. However, some sessions may be geared towards adults."
+        "question": "Can I buy tickets for other people?",
+        "answer": "Absolutely!  You can purchase tickets for others, but keep in mind they will need to register for the event separately to claim their tickets."
       },
       {
-        "question": "What is the date and time of the event?",
-        "answer": "The event will be held on August 15, 2024, from 10:00 AM to 6:00 PM."
+        "question": "What information do I need to provide when buying tickets for others?",
+        "answer": "You will need to provide the email address for each person you are purchasing tickets for."
       },
       {
-        "question": "Where is the event location?",
-        "answer": "The event will take place at the Downtown Convention Center, 123 Main Street, Cityville."
-      },
-      {
-        "question": "Is there parking available?",
-        "answer": "Yes, there is ample parking available at the venue. Parking fees may apply."
-      },
-      {
-        "question": "Are there any age restrictions for the event?",
-        "answer": "The event is open to all ages. However, some sessions may be geared towards adults."
+        "question": "Will the people I buy tickets for receive a confirmation email?",
+        "answer": "No, they will not receive a confirmation email with the tickets attached. They will receive an email prompting them to register for the event, and upon successful registration, they will be able to claim their tickets."
       }
     ]
   },
@@ -40,36 +32,16 @@
     "category": "Claiming Your Ticket",
     "questions": [
       {
-        "question": "How do I claim my ticket?",
-        "answer": "You can claim your ticket by logging into your account on our website and downloading it from the 'My Tickets' section."
+        "question": "I purchased a ticket for someone else. How do they claim their ticket?",
+        "answer": "The person you purchased a ticket for will receive an email prompting them to register for the event.  After successful registration, they will receive a confirmation email and they will be able to access and claim their ticket through the platform."
       },
       {
-        "question": "Can I transfer my ticket to someone else?",
-        "answer": "Yes, tickets are transferable. You can transfer your ticket by logging into your account and updating the attendee information."
+        "question": "I haven't received an email to claim my ticket. What should I do?",
+        "answer": "First, check your spam folder. If you still can't find the email, contact DevFest Lagos directly for assistance . team@gdglagos.com"
       },
       {
-        "question": "Do I need to print my ticket?",
-        "answer": "You can either print your ticket or show the digital version on your mobile device at the entrance."
-      },
-      {
-        "question": "What should I do if I haven't received my ticket?",
-        "answer": "If you haven't received your ticket, please check your spam folder. If it's not there, contact our support team at support@event.com."
-      },
-      {
-        "question": "How do I claim my ticket?",
-        "answer": "You can claim your ticket by logging into your account on our website and downloading it from the 'My Tickets' section."
-      },
-      {
-        "question": "Can I transfer my ticket to someone else?",
-        "answer": "Yes, tickets are transferable. You can transfer your ticket by logging into your account and updating the attendee information."
-      },
-      {
-        "question": "Do I need to print my ticket?",
-        "answer": "You can either print your ticket or show the digital version on your mobile device at the entrance."
-      },
-      {
-        "question": "What should I do if I haven't received my ticket?",
-        "answer": "If you haven't received your ticket, please check your spam folder. If it's not there, contact our support team at support@event.com."
+        "question": "Can I claim my ticket before registering for the event?",
+        "answer": "Unfortunately, no. Tickets can only be claimed after successful event registration."
       }
     ]
   },
@@ -77,36 +49,16 @@
     "category": "Upgrading Your Ticket",
     "questions": [
       {
-        "question": "How can I upgrade my ticket?",
-        "answer": "To upgrade your ticket, log into your account, go to 'My Tickets,' and select the upgrade option for your ticket."
+        "question": "I purchased a one-day ticket, but now I want to attend both days. Can I upgrade my ticket?",
+        "answer": "Yes, you can upgrade your one-day ticket to a two-day ticket through this platform (depending on availability)."
       },
       {
-        "question": "What are the benefits of upgrading my ticket?",
-        "answer": "Upgraded tickets offer additional benefits such as VIP seating, access to exclusive sessions, and complimentary refreshments."
-      },
-      {
-        "question": "Is there a deadline for ticket upgrades?",
-        "answer": "Yes, ticket upgrades must be completed at least 24 hours before the event."
+        "question": "How do I upgrade my ticket?",
+        "answer": "Look for the 'Upgrade Ticket' option within your ticket purchase history in your User Profile. Follow the on-screen instructions to complete the upgrade process. "
       },
       {
         "question": "Will I receive a new ticket after upgrading?",
-        "answer": "Yes, a new ticket with the upgraded benefits will be emailed to you after the upgrade is complete."
-      },
-      {
-        "question": "How can I upgrade my ticket?",
-        "answer": "To upgrade your ticket, log into your account, go to 'My Tickets,' and select the upgrade option for your ticket."
-      },
-      {
-        "question": "What are the benefits of upgrading my ticket?",
-        "answer": "Upgraded tickets offer additional benefits such as VIP seating, access to exclusive sessions, and complimentary refreshments."
-      },
-      {
-        "question": "Is there a deadline for ticket upgrades?",
-        "answer": "Yes, ticket upgrades must be completed at least 24 hours before the event."
-      },
-      {
-        "question": "Will I receive a new ticket after upgrading?",
-        "answer": "Yes, a new ticket with the upgraded benefits will be emailed to you after the upgrade is complete."
+        "answer": "Yes, once your upgrade is complete, you will receive a new ticket reflecting your two-day access to the event."
       }
     ]
   }

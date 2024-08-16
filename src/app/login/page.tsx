@@ -8,14 +8,62 @@ import ArrowRight from '../../../public/icons/arrow-right.svg';
 import InfoCircle from '../../../public/info-circle.svg';
 import Button from '@/components/button';
 import TextField from '@/components/form/textfield/TextField';
+import { initiateSession } from '@/lib/actions/user';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { AxiosError } from 'axios';
+import { useMutation } from '@tanstack/react-query';
+
+interface InitiateSessionResponse {
+  token: string;
+}
 
 const Login = () => {
   const [formError, setFormError] = useState('');
-
+  const [formSuccess, setFormSuccess] = useState('');
+  const [formSubmitting, setFormSubmitting] = useState(false);
   const initialValues = {
     email: '',
     ticketId: '',
   };
+  const router = useRouter();
+
+  const handleError = (error: unknown) => {
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        setFormError(error.response.data?.message || 'An error occurred');
+      } else if (error.request) {
+        setFormError('No response received from the server');
+      } else {
+        setFormError(error.message || 'An unknown Axios error occurred');
+      }
+    } else if (error instanceof Error) {
+      setFormError(error.message || 'An unknown error occurred');
+    } else {
+      setFormError('An unexpected error occurred');
+    }
+  };
+
+  const mutation = useMutation({
+    mutationFn: initiateSession,
+    onMutate: () => {
+      setFormSubmitting(true);
+      setFormError('');
+      setFormSuccess('');
+    },
+    onSuccess: (data: InitiateSessionResponse) => {
+      const inSetTime = new Date(new Date().getTime() + 60 * 60 * 1000);
+      Cookies.set('token', data.token, { expires: inSetTime });
+      setFormSuccess('Login successful!');
+      router.push('/ticket-details');
+    },
+    onError: (error: unknown) => {
+      handleError(error);
+    },
+    onSettled: () => {
+      setFormSubmitting(false);
+    },
+  });
 
   const schema = Yup.object().shape({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -26,7 +74,12 @@ const Login = () => {
       )
       .required('Ticket ID is required'),
   });
-
+  const submitForm = async (values: typeof initialValues) => {
+    mutation.mutate({
+      email_address: values.email,
+      id: values.ticketId,
+    });
+  };
   return (
     <div className='login'>
       <div className='backdrop'>
@@ -42,20 +95,21 @@ const Login = () => {
           />
           <div className='login__card'>
             <h1 className='login__title'>Welcome</h1>
-            {formError ? (
+            {formSuccess !== '' ? (
+              <h2 className='success'>{formSuccess}</h2>
+            ) : formError !== '' ? (
               <h2 className='error'>{formError}</h2>
             ) : (
               <h2 className='login__subtitle'>Login to view your ticket</h2>
             )}
-
             <Formik
               initialValues={initialValues}
               enableReinitialize
-              onSubmit={() => {}}
+              onSubmit={(values) => submitForm(values)}
               validationSchema={schema}
             >
-              {({ errors, setFieldValue, validateField }) => (
-                <Form className='login__form'>
+              {({ errors, setFieldValue, validateField, handleSubmit }) => (
+                <Form className='login__form' onSubmit={handleSubmit}>
                   <Field
                     as={TextField}
                     name='email'
@@ -82,7 +136,6 @@ const Login = () => {
                     }
                     error={errors.email}
                   />
-
                   <Field
                     as={TextField}
                     name='ticketId'
@@ -97,7 +150,7 @@ const Login = () => {
                     bottomRight={'Or get your ticket here'}
                     error={errors.ticketId}
                   />
-                  <Button type='submit' text='Log In' />
+                  <Button type='submit' text='Log In' isLoading={formSubmitting} />
                 </Form>
               )}
             </Formik>
