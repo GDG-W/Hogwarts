@@ -44,6 +44,7 @@
 }
 
 .disabled {
+  border: 2px solid var(--gray-10);
   background: var(--gray-10);
   color: var(--gray-40);
   cursor: not-allowed;

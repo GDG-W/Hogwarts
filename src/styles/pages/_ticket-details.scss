@@ -64,10 +64,11 @@
     .ticket__info {
       display: flex;
       gap: 7rem;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      @include media('<tablet') {
+      // flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
+
+      @include media('<=tablet') {
         display: block;
       }
 

@@ -14,6 +14,7 @@ const TextField = ({
   width,
   onChange,
   value,
+  error,
   // disabled,
   ...inputProps
 }: TextFieldProps) => {
@@ -35,7 +36,11 @@ const TextField = ({
       />
       {(bottomLeft || bottomRight) && (
         <div className={styles.extra}>
-          <div className={styles.left}>{bottomLeft}</div>
+          {error ? (
+            <span className={styles.error}>{error}</span>
+          ) : (
+            <div className={styles.left}>{bottomLeft}</div>
+          )}
           {bottomRight && (
             <a className={styles.right} href=''>
               {bottomRight}
