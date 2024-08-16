@@ -1,4 +1,5 @@
 import { classNames } from '@/utils/classNames';
+import { ButtonLoader } from './loader';
 import React from 'react';
 import styles from './button.module.scss';
 import { ButtonProps } from './models';
@@ -6,11 +7,11 @@ import { ButtonProps } from './models';
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   text,
+  isLoading,
   icon,
   outlined,
   fullWidth = false,
   onClick,
-  // type = 'submit',
   ...others
 }) => {
   const classes = classNames(
@@ -20,14 +21,21 @@ const Button: React.FC<ButtonProps> = ({
     variant == 'transparent' && styles.transparent,
     variant == 'disabled' && styles.disabled,
     fullWidth && styles.full_width,
+    others.disabled && styles.disabled,
     outlined && styles.outlined,
     others.className,
   );
 
   return (
     <button onClick={onClick} {...others} className={classes}>
-      {text}
-      {icon}
+      {isLoading ? (
+        <ButtonLoader />
+      ) : (
+        <>
+          {text}
+          {icon}
+        </>
+      )}
     </button>
   );
 };

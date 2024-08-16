@@ -19,6 +19,7 @@ const SelectField = ({
   onChange,
   onOpen,
   width,
+  error,
 }: SelectFieldProps | MultiSelectFieldProps) => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<OptionProp[] | OptionProp | undefined>(
@@ -238,6 +239,7 @@ const SelectField = ({
           </div>
         )}
       </div>
+      {error ? <p className={styles.error}>{error}</p> : null}
     </div>
   );
 };

@@ -40,7 +40,7 @@
         text-align: center;
         margin-bottom: 0.5rem;
 
-        @include media('<=tablet') {
+        @include media('<tablet') {
           font-size: 1.5rem;
           font-weight: 600;
           margin-bottom: 0.25rem;
@@ -54,7 +54,7 @@
         font-weight: 400;
         text-align: center;
 
-        @include media('<=tablet') {
+        @include media('<tablet') {
           text-align: left;
           font-weight: 400;
         }
@@ -64,6 +64,9 @@
     .ticket__info {
       display: flex;
       gap: 7rem;
+      // flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
 
       @include media('<=tablet') {
         display: block;
@@ -101,6 +104,7 @@
               font-size: 1.125rem;
               font-weight: 500;
               word-wrap: break-word;
+              text-transform: capitalize;
             }
 
             .wrap {
@@ -150,6 +154,10 @@
               font-weight: 500;
               line-height: 24px;
             }
+
+            span {
+              text-transform: capitalize;
+            }
           }
         }
       }
@@ -178,6 +186,13 @@
       @include media('<=tablet') {
         display: none;
       }
+    }
+
+    .loader {
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      margin: 0 auto;
     }
   }
 }
