@@ -92,3 +92,10 @@
   font-size: 14px;
   color: red;
 }
+
+.total__mobile {
+  display: none;
+  @include media('<=tablet') {
+    display: inline;
+  }
+}

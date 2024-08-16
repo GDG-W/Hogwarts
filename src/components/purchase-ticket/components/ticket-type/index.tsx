@@ -102,7 +102,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
         validationSchema={validationSchema}
         onSubmit={handleProceed}
       >
-        {({ isValid, values, errors, setFieldValue }) => (
+        {({ isValid, values, errors, setFieldValue, submitForm }) => (
           <Form>
             <div className={styles.t_container_body}>
               <div className={styles.t_container_box}>
@@ -201,8 +201,17 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
             <Button
               fullWidth
               type='submit'
-              text='Buy ticket'
-              // onClick={submitForm}
+              text={
+                <>
+                  <span>Buy ticket</span>
+                  {oneDayTicket * 7000 + twoDayTicket * 10000 !== 0 && (
+                    <span className={styles.total__mobile}>
+                      N{(oneDayTicket * 7000 + twoDayTicket * 10000).toLocaleString()}
+                    </span>
+                  )}
+                </>
+              }
+              onClick={submitForm}
               variant={isValid ? 'primary' : 'disabled'}
             />
           </Form>
