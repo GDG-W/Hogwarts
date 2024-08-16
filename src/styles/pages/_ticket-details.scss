@@ -187,5 +187,12 @@
         display: none;
       }
     }
+
+    .loader {
+      position: absolute;
+      left: 50%;
+      right: 50%;
+      margin: 0 auto;
+    }
   }
 }

@@ -168,7 +168,11 @@ const TicketDetails = () => {
               </div>
             </>
           )}
-          {fetchProfile.isPending && <BlackButtonLoader />}
+          {fetchProfile.isPending && (
+            <div className='loader'>
+              <BlackButtonLoader />
+            </div>
+          )}
           {fetchProfile.isPending && error !== null && <p className='error'>{error}</p>}
         </div>
       </div>
