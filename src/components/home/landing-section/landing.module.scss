@@ -35,35 +35,128 @@
     .headernav {
       width: 100%;
       @include flex-centered;
+
+      .headernavButtonContainer {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
     }
 
-    .uppercursors {
-      svg:nth-child(1) {
+    .careercursor {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .careercursortext {
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+
+        @include media('<=625px') {
+          font-size: 8px;
+        }
+      }
+
+      &--productmanager {
         position: absolute;
         top: 19%;
         left: 8%;
+
+        .careercursortext {
+          color: #f9ab00;
+          background-color: #fde293;
+        }
+
+        svg {
+          rotate: -30deg;
+        }
       }
 
-      svg:nth-child(2) {
+      &--productdesigner {
         position: absolute;
         top: 21%;
         right: 8%;
-      }
-    }
 
-    .lowercursors {
-      svg:nth-child(1) {
+        .careercursortext {
+          color: #ea4335;
+          background-color: #f8d8d8;
+        }
+
+        svg {
+          rotate: 30deg;
+        }
+      }
+
+      &--softwareengineer {
+        position: absolute;
+        bottom: 43%;
+        left: 5%;
+
+        .careercursortext {
+          color: #34a853;
+          background-color: rgba(137, 240, 6, 0.12);
+        }
+
+        svg {
+          rotate: 30deg;
+        }
+
+        @include media('<=625px') {
+          left: 10%;
+        }
+      }
+
+      &--dataanalyst {
         position: absolute;
         bottom: 40%;
-        left: 8%;
-      }
+        right: 15%;
 
-      svg:nth-child(2) {
-        position: absolute;
-        bottom: 38%;
-        right: 8%;
+        .careercursortext {
+          color: #4285f4;
+          background-color: #c3ecf6;
+        }
+
+        svg {
+          rotate: -30deg;
+        }
+
+        @include media('<=625px') {
+          right: 10%;
+          bottom: 41%;
+        }
       }
     }
+
+    // .uppercursors {
+    //   svg:nth-child(1) {
+    //     position: absolute;
+    //     top: 19%;
+    //     left: 8%;
+    //   }
+
+    //   svg:nth-child(2) {
+    //     position: absolute;
+    //     top: 21%;
+    //     right: 8%;
+    //   }
+    // }
+
+    // .lowercursors {
+    //   svg:nth-child(1) {
+    //     position: absolute;
+    //     bottom: 40%;
+    //     left: 8%;
+    //   }
+
+    //   svg:nth-child(2) {
+    //     position: absolute;
+    //     bottom: 38%;
+    //     right: 8%;
+    //   }
+    // }
 
     .herocontent {
       @include flex-centered;
@@ -114,32 +207,35 @@
 
       .one {
         position: absolute;
-        bottom: -51%;
-        right: 49%;
-        transform: rotate(63.67deg);
+        bottom: -90%;
+        right: 30%;
+        transform: rotate(90deg);
+
+        img {
+          width: 85% !important;
+        }
       }
 
       .two {
         position: absolute;
-        bottom: -51%;
-        left: 49%;
-        transform: rotate(120deg);
-
-        @include media('<=625px') {
-          bottom: -50%;
-          left: 50%;
-        }
+        bottom: -90%;
+        left: 30%;
+        transform: rotate(90deg);
       }
 
       .middle {
         position: absolute;
-        bottom: -38%;
+        bottom: -100%;
         left: 19%;
         transform: rotate(90deg);
         z-index: 10;
 
         @include media('<=625px') {
           left: 10%;
+        }
+
+        img {
+          width: 95% !important;
         }
       }
     }
