@@ -20,6 +20,7 @@ export type TextFieldProps = {
   bottomLeft?: string | ReactNode;
   bottomRight?: string;
   width?: string;
+  error?: string;
   // onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & Omit<InputProps, 'size'>;
 

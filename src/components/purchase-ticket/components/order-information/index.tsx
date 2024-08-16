@@ -37,11 +37,13 @@ const validationSchema = Yup.object().shape({
   topicsOfInterest: Yup.array()
     .of(Yup.string())
     .required('Topics of interest are required')
-    .min(1, 'Select at least one topic of interest'),
+    .min(1, 'Select at least one topic of interest')
+    .max(5, 'Select at most five topics of interest'),
   sessionsOfInterest: Yup.array()
     .of(Yup.string())
     .required('Sessions of interest are required')
-    .min(1, 'Select at least one session of interest'),
+    .min(1, 'Select at least one session of interest')
+    .max(3, 'Select at most three sessions of interest'),
 });
 
 export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
@@ -81,12 +83,11 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
       <h3 className={styles.or_container_title}>Buyer Information</h3>
 
       <Formik
-        validateOnMount
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleProceed}
       >
-        {({ setFieldValue, handleSubmit, handleChange, values, isValid, submitForm }) => (
+        {({ setFieldValue, handleSubmit, handleChange, values, errors, isValid, submitForm }) => (
           <Form className={styles.or_form} onSubmit={handleSubmit}>
             <Field
               as={TextField}
@@ -119,7 +120,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
             </label> */}
 
             <div className={`${styles.or_form} ${styles.inner_form}`}>
-              <Field
+              {/* <Field
                 disabled
                 as={TextField}
                 name='fullName'
@@ -139,7 +140,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                 placeholder='example@gmail.com'
                 value={values.email}
                 onChange={handleChange}
-              />
+              /> */}
 
               <Field
                 as={SelectField}
@@ -149,6 +150,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                 placeholder='Select role'
                 options={roleOptions}
                 onChange={(valueObj: OptionProp) => setFieldValue('role', valueObj.value)}
+                error={errors.role}
               />
 
               <Field
@@ -163,6 +165,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                   const selectedValues = selectedOptions.map((option) => option.value);
                   setFieldValue('topicsOfInterest', selectedValues);
                 }}
+                error={errors.topicsOfInterest}
               />
 
               <Field
@@ -177,6 +180,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                   const selectedValues = selectedOptions.map((option) => option.value);
                   setFieldValue('sessionsOfInterest', selectedValues);
                 }}
+                error={errors.sessionsOfInterest}
               />
 
               <Field

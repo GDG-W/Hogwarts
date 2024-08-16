@@ -21,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
     variant == 'transparent' && styles.transparent,
     variant == 'disabled' && styles.disabled,
     fullWidth && styles.full_width,
+    others.disabled && styles.disabled,
     outlined && styles.outlined,
     others.className,
   );

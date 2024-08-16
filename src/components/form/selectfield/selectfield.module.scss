@@ -102,4 +102,9 @@
     background-color: var(--gray-10);
     cursor: not-allowed;
   }
+
+  .error {
+    font: inherit;
+    color: red;
+  }
 }
