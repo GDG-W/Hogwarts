@@ -18,7 +18,7 @@ export const handleError = (
     if (error.response) {
       setFormError(error.response.data?.message || 'An error occurred');
     } else if (error.request) {
-      setFormError('No response received from the server');
+      setFormError('An unexpected error occurred');
     } else {
       setFormError(error.message || 'An unknown Axios error occurred');
     }
