@@ -66,7 +66,7 @@ const TicketDetails = () => {
               </div>
             </div>
             <div className='cta__buttons mobile'>
-              {isOneWayTicket && <Button text='Upgrade Ticket' />}
+              {/* {isOneWayTicket && <Button text='Upgrade Ticket' />} */}
               <Button
                 text='Add to Calendar'
                 variant={isOneWayTicket ? 'transparent' : 'primary'}
@@ -103,7 +103,7 @@ const TicketDetails = () => {
               </div>
             </div>
             <div className='cta__buttons desktop'>
-              {isOneWayTicket && <Button text='Upgrade Ticket' />}
+              {/* {isOneWayTicket && <Button text='Upgrade Ticket' />} */}
               <Button
                 text='Add to Calendar'
                 variant={isOneWayTicket ? 'transparent' : 'primary'}

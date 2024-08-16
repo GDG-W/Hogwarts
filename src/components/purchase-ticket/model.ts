@@ -5,10 +5,13 @@ export type TTicketNumber = {
 export type TicketPurchaseData = {
   selectedDay?: string;
   ticketNo?: TTicketNumber;
+  oneDayTicketNumber: number;
+  twoDayTicketNumber: number;
   name?: string;
   email?: string;
   role?: string;
   expertise?: string;
-  shirtSize?: string;
   isForSelf?: boolean;
+  topicsOfInterest: string[];
+  sessionsOfInterest: string[];
 };

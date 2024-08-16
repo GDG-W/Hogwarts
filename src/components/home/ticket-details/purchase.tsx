@@ -2,10 +2,12 @@
 
 import PurchaseTicketsAnimation from '@/animations/components/PurchaseTickets';
 import Button from '@/components/button';
+import React, { useEffect, useRef } from 'react';
+import styles from './purchase.module.scss';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
-import styles from './purchase.module.scss';
+import PurchaseTicket from '@/components/purchase-ticket';
+import { Modal } from '@/components/modal';
 
 const PurchaseYourTicket = () => {
   const isInitialized = useRef(false);
@@ -17,6 +19,22 @@ const PurchaseYourTicket = () => {
       isInitialized.current = true;
     }
   }, []);
+
+  const [openTicket, setOpenTicket] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      // bodyElement.style.height = '100vh';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [openTicket]);
 
   return (
     <section className={styles.purchase}>
@@ -89,6 +107,7 @@ const PurchaseYourTicket = () => {
             </ul>
 
             <Button
+              onClick={() => setOpenTicket(true)}
               data-animate-scale
               data-delay='0.5'
               data-easing='SCALE'
@@ -101,6 +120,10 @@ const PurchaseYourTicket = () => {
           </div>
         </div>
       </div>
+      {/* Modals */}
+      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
+        <PurchaseTicket />
+      </Modal>
     </section>
   );
 };

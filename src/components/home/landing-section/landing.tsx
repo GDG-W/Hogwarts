@@ -7,7 +7,7 @@ import PurchaseTicket from '@/components/purchase-ticket';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
-import ArrowRight from '../../../../public/icons/arrow-right.svg';
+// import ArrowRight from '../../../../public/icons/arrow-right.svg';
 import DataAnalystCursor from '../../../../public/icons/data-analyst-cursor-icon.svg';
 import ProductDesignerCursor from '../../../../public/icons/product-designer-cursor-icon.svg';
 import ProductManagerCursor from '../../../../public/icons/product-manager-cursor-icon.svg';
@@ -52,17 +52,17 @@ const Landing = () => {
         >
           <Header
             handleClick={() => setOpenTicket(true)}
-            navContent={
-              <div
-                className={styles.headernavButtonContainer}
-                data-animate-y-up
-                data-delay='0.417'
-                data-easing='NAVIGATION.button'
-              >
-                <span>Upgrade Tickets</span>
-                <ArrowRight />
-              </div>
-            }
+            // navContent={
+            //   <div
+            //     className={styles.headernavButtonContainer}
+            //     data-animate-y-up
+            //     data-delay='0.417'
+            //     data-easing='NAVIGATION.button'
+            //   >
+            //     <span>Upgrade Tickets</span>
+            //     <ArrowRight />
+            //   </div>
+            // }
           />
         </div>
 

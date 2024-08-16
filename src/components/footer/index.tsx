@@ -2,8 +2,10 @@
 import FooterAnimation from '@/animations/components/Footer';
 import Button from '@/components/button';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
 import styles from './footer.module.scss';
+import { useEffect, useState, useRef } from 'react';
+import { Modal } from '../modal';
+import PurchaseTicket from '../purchase-ticket';
 
 const currentYear = new Date().getFullYear();
 
@@ -19,14 +21,14 @@ const socialMedia = [
 ];
 
 const footerLinks = [
-  {
-    link: '#',
-    title: 'Claim Ticket',
-  },
-  {
-    link: '#',
-    title: 'Upgrade Ticket',
-  },
+  // {
+  //   link: '#',
+  //   title: 'Claim Ticket',
+  // },
+  // {
+  //   link: '#',
+  //   title: 'Upgrade Ticket',
+  // },
   {
     link: '#',
     title: 'Ticket FAQ',
@@ -51,6 +53,7 @@ const footerLinks = [
 ];
 
 export const Footer = () => {
+  const [openTicket, setOpenTicket] = useState<boolean>(false);
   const {
     footerwrapper,
     container,
@@ -61,6 +64,20 @@ export const Footer = () => {
     footerlinks,
     footercopyright,
   } = styles;
+
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (openTicket) {
+      bodyElement.style.overflow = 'hidden';
+      bodyElement.style.height = '100vh';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [openTicket]);
 
   const isInitialized = useRef(false);
 
@@ -131,6 +148,7 @@ export const Footer = () => {
             </div>
 
             <Button
+              onClick={() => setOpenTicket(true)}
               data-animate-scale
               data-delay='0.167'
               data-easing='SCALE'
@@ -176,6 +194,10 @@ export const Footer = () => {
           © {currentYear} Devfest Lagos. All Rights Reserved.
         </p>
       </div>
+      {/* Modals */}
+      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
+        <PurchaseTicket />
+      </Modal>
     </footer>
   );
 };
