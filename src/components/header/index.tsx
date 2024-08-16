@@ -9,7 +9,10 @@ import { HeaderProps } from './models';
 const Header: React.FC<HeaderProps> = ({ navContent, className, handleClick }) => {
   return (
     <header className={classNames(styles.header, className)}>
-      <AnimatedLogo2 width={120} height={35} />
+      <a href='/'>
+        <span className={styles.hidden}>Go to homepage</span>
+        <AnimatedLogo2 width={120} height={35} />
+      </a>
       {navContent && (
         <nav>
           <button type='button' onClick={handleClick}>
