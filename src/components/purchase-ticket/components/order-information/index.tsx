@@ -7,7 +7,7 @@ import { roleOptions, expertiseOptions, topicsOfInterest, sessions } from '@/uti
 import Button from '@/components/button';
 import React from 'react';
 import { OptionProp } from '@/components/form/models';
-import AttendeeGroup from './AttendeeGroup';
+// import AttendeeGroup from './AttendeeGroup';
 import { useQueryClient } from '@tanstack/react-query';
 import { CacheKeys } from '@/utils/constants';
 import { TicketPurchaseData } from '../../model';
@@ -86,7 +86,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
         validationSchema={validationSchema}
         onSubmit={handleProceed}
       >
-        {({ setFieldValue, handleSubmit, handleChange, values, isValid }) => (
+        {({ setFieldValue, handleSubmit, handleChange, values, isValid, submitForm }) => (
           <Form className={styles.or_form} onSubmit={handleSubmit}>
             <Field
               as={TextField}
@@ -108,7 +108,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
               onChange={handleChange}
             />
 
-            <label className={styles.or_form_checkbox}>
+            {/* <label className={styles.or_form_checkbox}>
               <Field
                 type='checkbox'
                 name='isMyTicket'
@@ -116,9 +116,89 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                 onChange={handleChange}
               />
               This ticket belongs to me
-            </label>
+            </label> */}
 
-            {values.isMyTicket ? (
+            <div className={`${styles.or_form} ${styles.inner_form}`}>
+              <Field
+                disabled
+                as={TextField}
+                name='fullName'
+                id='fullName'
+                label='Full Name'
+                placeholder='Enter Full Name'
+                value={values.fullName}
+                onChange={handleChange}
+              />
+
+              <Field
+                disabled
+                as={TextField}
+                name='email'
+                id='email'
+                label='Email address'
+                placeholder='example@gmail.com'
+                value={values.email}
+                onChange={handleChange}
+              />
+
+              <Field
+                as={SelectField}
+                id='role'
+                label='Role'
+                defaultValue={getOptionsValue(values.role, roleOptions)}
+                placeholder='Select role'
+                options={roleOptions}
+                onChange={(valueObj: OptionProp) => setFieldValue('role', valueObj.value)}
+              />
+
+              <Field
+                isMulti
+                as={SelectField}
+                id='topicsOfInterest'
+                label='Topics of Interest'
+                defaultValue={getMultiOptionsValue(values.topicsOfInterest, topicsOfInterest)}
+                placeholder='Select topics of interest'
+                options={topicsOfInterest}
+                onChange={(selectedOptions: OptionProp[]) => {
+                  const selectedValues = selectedOptions.map((option) => option.value);
+                  setFieldValue('topicsOfInterest', selectedValues);
+                }}
+              />
+
+              <Field
+                isMulti
+                as={SelectField}
+                id='sessionsOfInterest'
+                label='Sessions of Interest'
+                defaultValue={getMultiOptionsValue(values.sessionsOfInterest, sessions)}
+                placeholder='Select sessions of interest'
+                options={sessions}
+                onChange={(selectedOptions: OptionProp[]) => {
+                  const selectedValues = selectedOptions.map((option) => option.value);
+                  setFieldValue('sessionsOfInterest', selectedValues);
+                }}
+              />
+
+              <Field
+                as={SelectField}
+                id='expertLevel'
+                label='Level of Expertise'
+                placeholder='Select expertise'
+                defaultValue={getOptionsValue(values.expertLevel, expertiseOptions)}
+                options={expertiseOptions}
+                onChange={(valueObj: OptionProp) => setFieldValue('expertLevel', valueObj.value)}
+              />
+
+              <Button
+                fullWidth
+                type='submit'
+                onClick={submitForm}
+                text='Proceed to checkout'
+                variant={isValid ? 'primary' : 'disabled'}
+              />
+            </div>
+
+            {/* {values.isMyTicket ? (
               <div className={`${styles.or_form} ${styles.inner_form}`}>
                 <Field
                   disabled
@@ -206,7 +286,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                   <AttendeeGroup title='Two-Day Access' buttonText='Save Information' />
                 </div>
               </div>
-            )}
+            )} */}
           </Form>
         )}
       </Formik>

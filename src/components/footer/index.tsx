@@ -148,6 +148,7 @@ export const Footer = () => {
             </div>
 
             <Button
+              onClick={() => setOpenTicket(true)}
               data-animate-scale
               data-delay='0.167'
               data-easing='SCALE'
@@ -157,7 +158,6 @@ export const Footer = () => {
                 </span>
               }
             />
-            <Button onClick={() => setOpenTicket(true)} text='Get Early Bird Tickets' />
 
             <div className={footerlinks}>
               <ul>

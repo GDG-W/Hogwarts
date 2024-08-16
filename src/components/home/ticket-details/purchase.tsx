@@ -27,7 +27,7 @@ const PurchaseYourTicket = () => {
 
     if (openTicket) {
       bodyElement.style.overflow = 'hidden';
-      bodyElement.style.height = '100vh';
+      // bodyElement.style.height = '100vh';
     }
 
     return () => {
@@ -107,6 +107,7 @@ const PurchaseYourTicket = () => {
             </ul>
 
             <Button
+              onClick={() => setOpenTicket(true)}
               data-animate-scale
               data-delay='0.5'
               data-easing='SCALE'
@@ -116,7 +117,6 @@ const PurchaseYourTicket = () => {
                 </span>
               }
             />
-            <Button onClick={() => setOpenTicket(true)} text='Get Early Bird Tickets' />
           </div>
         </div>
       </div>
