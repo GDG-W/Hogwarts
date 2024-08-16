@@ -26,9 +26,7 @@ const SelectField = ({
   );
   const [searchValue, setSearchValue] = useState<string>('');
 
-  const searchRef = useRef<HTMLInputElement | null>(null);
-  const inputRef = useRef<HTMLDivElement | null>(null);
-  const menuRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const handleInputClick = () => {
     if (!disabled) {
@@ -46,37 +44,30 @@ const SelectField = ({
       handleInputClick();
     } else if (e.key === 'ArrowDown' && showMenu) {
       e.preventDefault();
-      if (menuRef.current) {
-        const firstItem = menuRef.current.querySelector(`.${styles.menuItem}`);
-        if (firstItem) {
-          (firstItem as HTMLElement).focus();
-        }
+      const firstItem = wrapperRef.current?.querySelector(`.${styles.menuItem}`);
+      if (firstItem) {
+        (firstItem as HTMLElement).focus();
       }
     }
   };
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLDivElement>,
-    option: OptionProp,
-    onItemClick: (option: OptionProp) => void,
-  ) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      onItemClick(option);
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      const nextSibling = (e.target as HTMLElement).nextElementSibling;
-      if (nextSibling) {
-        (nextSibling as HTMLElement).focus();
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      const previousSibling = (e.target as HTMLElement).previousElementSibling;
-      if (previousSibling) {
-        (previousSibling as HTMLElement).focus();
-      }
+  const handleClickOutside = (e: MouseEvent) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      setShowMenu(false);
     }
   };
+
+  useEffect(() => {
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
 
   const getDisplay = (): React.ReactNode => {
     if (!selectedValue || (selectedValue as OptionProp[]).length === 0) {
@@ -104,6 +95,29 @@ const SelectField = ({
       );
     }
     return (selectedValue as OptionProp).label;
+  };
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLDivElement>,
+    option: OptionProp,
+    onItemClick: (option: OptionProp) => void,
+  ) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onItemClick(option);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const nextSibling = (e.target as HTMLElement).nextElementSibling;
+      if (nextSibling) {
+        (nextSibling as HTMLElement).focus();
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const previousSibling = (e.target as HTMLElement).previousElementSibling;
+      if (previousSibling) {
+        (previousSibling as HTMLElement).focus();
+      }
+    }
   };
 
   const removeOption = (option: OptionProp): OptionProp[] => {
@@ -163,29 +177,11 @@ const SelectField = ({
 
   useEffect(() => {
     setSearchValue('');
-
-    if (showMenu && searchRef.current) {
-      searchRef.current.focus();
-    }
   }, [showMenu]);
 
   useEffect(() => {
     setSelectedValue(isMulti ? (defaultValue as OptionProp[]) || [] : defaultValue);
   }, [defaultValue, isMulti]);
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setShowMenu(false);
-      }
-    };
-
-    window.addEventListener('click', handler);
-
-    return () => {
-      window.removeEventListener('click', handler);
-    };
-  }, []);
 
   return (
     <div style={{ width }} className={styles.selectfield}>
@@ -194,10 +190,9 @@ const SelectField = ({
         <span>{extraLabel}</span>
       </label>
 
-      <div className={styles.selectWrapper}>
+      <div className={styles.selectWrapper} ref={wrapperRef}>
         <div
-          ref={inputRef}
-          className={styles.select}
+          className={classNames(styles.select, disabled && styles.disabled)}
           id={id}
           onClick={handleInputClick}
           onKeyDown={handleInputKeyDown}
@@ -211,14 +206,13 @@ const SelectField = ({
           {showMenu ? <ArrowUp /> : <ArrowDown />}
         </div>
         {showMenu && (
-          <div ref={menuRef} className={styles.menuWrapper} role='listbox' tabIndex={-1}>
+          <div className={styles.menuWrapper} role='listbox' tabIndex={-1}>
             {isSearchable && (
               <div>
                 <input
                   className={styles.input}
                   onChange={onSearch}
                   value={searchValue}
-                  ref={searchRef}
                   placeholder={searchPlaceholder ? searchPlaceholder : 'Search...'}
                   aria-label={searchPlaceholder ? searchPlaceholder : 'Search...'}
                 />

@@ -1,8 +1,8 @@
-import React from 'react';
-import { ButtonProps } from './models';
-import styles from './button.module.scss';
 import { classNames } from '@/utils/classNames';
 import { ButtonLoader } from './loader';
+import React from 'react';
+import styles from './button.module.scss';
+import { ButtonProps } from './models';
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 
   return (
-    <button onClick={onClick} className={classes}>
+    <button onClick={onClick} {...others} className={classes}>
       {isLoading ? (
         <ButtonLoader />
       ) : (

@@ -146,6 +146,14 @@ const TicketDetails = () => {
                   icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
                 />
               </div>
+              <div className='cta__buttons desktop'>
+                {/* {isOneWayTicket && <Button text='Upgrade Ticket' />} */}
+                <Button
+                  text='Add to Calendar'
+                  variant={isOneWayTicket ? 'transparent' : 'primary'}
+                  icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
+                />
+              </div>
             </div>
           )}
           {loading && <BlackButtonLoader />}

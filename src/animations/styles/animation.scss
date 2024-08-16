@@ -1,0 +1,32 @@
+[data-animate-sentences],
+[data-animate-text] {
+  > span {
+    overflow: hidden;
+    display: inline-flex;
+  }
+
+  span span {
+    display: inline-flex;
+  }
+}
+
+[data-animate-sentences],
+[data-animate-y-up] {
+  opacity: 0;
+}
+
+[data-animate-scale] {
+  scale: 0;
+}
+
+[data-animate-fadein] {
+  opacity: 0;
+}
+
+[data-animate-fadein-left] {
+  transform: translateX(-100vw);
+}
+
+[data-animate-fadein-right] {
+  transform: translateX(100vw);
+}

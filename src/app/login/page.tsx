@@ -150,7 +150,7 @@ const Login = () => {
                     bottomRight={'Or get your ticket here'}
                     error={errors.ticketId}
                   />
-                  <Button type='submit' text='Upgrade Tickets' isLoading={formSubmitting} />
+                  <Button type='submit' text='Log In' isLoading={formSubmitting} />
                 </Form>
               )}
             </Formik>

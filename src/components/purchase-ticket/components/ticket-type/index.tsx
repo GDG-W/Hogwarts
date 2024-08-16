@@ -1,6 +1,6 @@
 import React from 'react';
-// import { Formik, Form, Field } from 'formik';
-// import * as Yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
 import styles from './type.module.scss';
@@ -21,7 +21,6 @@ interface ITicketTypeProps {
 }
 
 export const TicketType: React.FC<ITicketTypeProps> = ({
-  selectDays,
   ticketNo,
   handleChangeSelectDays,
   handleChangeTicketNo,
@@ -39,12 +38,52 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
     CacheKeys.USER_PURCHASE_TICKET,
   ]);
 
-  const handleProceed = () => {
+  console.log(getTicketPurchaseData);
+
+  const initialValues = {
+    selectedDay: getTicketPurchaseData?.selectedDay || '',
+    oneDayTicketNumber: getTicketPurchaseData?.oneDayTicketNumber || 0,
+    twoDayTicketNumber: getTicketPurchaseData?.twoDayTicketNumber || 0,
+  };
+
+  const validationSchema = Yup.object({
+    selectedDay: Yup.string().test(
+      'day-ticket-dependency',
+      'Please select a day when a ticket is chosen',
+      function (value) {
+        const { oneDayTicketNumber } = this.parent;
+        // Check if the day must be selected (if ticket number > 0)
+        return oneDayTicketNumber === 0 || !!value;
+      },
+    ),
+    oneDayTicketNumber: Yup.number()
+      .min(0, 'Cannot be negative')
+      .max(1, 'A user may only buy one ticket at this time')
+      .test(
+        'ticket-day-dependency',
+        'Please select at least one ticket when a day is chosen',
+        function (value) {
+          const { selectedDay } = this.parent;
+          // Check if the ticket number must be provided (if a day is selected)
+          return !selectedDay || (value !== undefined && value > 0);
+        },
+      ),
+    twoDayTicketNumber: Yup.number()
+      .min(0, 'Cannot be negative')
+      .max(1, 'A user may only buy one ticket at this time'),
+  });
+
+  const handleProceed = (values: typeof initialValues) => {
     queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
       return {
         ...prevData,
-        ticketNo: ticketNo,
-        selectedDay: selectDays,
+        ticketNo: {
+          oneDay: values.oneDayTicketNumber,
+          twoDays: values.twoDayTicketNumber,
+        },
+        selectedDay: values.selectedDay,
+        oneDayTicketNumber: values.oneDayTicketNumber,
+        twoDayTicketNumber: values.twoDayTicketNumber,
       };
     });
     handleNext();
@@ -57,96 +96,127 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
         <p className={styles.t_container_header_detail}> Choose your ticket for entry pass</p>
       </div>
 
-      <div className={styles.t_container_body}>
-        <div className={styles.t_container_box}>
-          <div className={styles.t_container_box_wrapper}>
-            <h5 className={styles.t_container_box_wrapper_title}>One-day access</h5>
-            <span className={styles.t_container_box_wrapper_title}>N10,000</span>
-          </div>
+      <Formik
+        enableReinitialize
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleProceed}
+      >
+        {({ isValid, values, errors, setFieldValue, submitForm }) => (
+          <Form>
+            <div className={styles.t_container_body}>
+              <div className={styles.t_container_box}>
+                <div className={styles.t_container_box_wrapper}>
+                  <h5 className={styles.t_container_box_wrapper_title}>One-day access</h5>
+                  <span className={styles.t_container_box_wrapper_title}>N7,000</span>
+                </div>
 
-          <div className={styles.t_container_box_wrapper}>
-            <p className={styles.t_container_box_wrapper_detail}>
-              Attend DevFest Lagos 2024 for just a day with access to all talks and sessions
-            </p>
+                <div className={styles.t_container_box_wrapper}>
+                  <p className={styles.t_container_box_wrapper_detail}>
+                    Attend DevFest Lagos 2024 for just a day with access to all talks and sessions
+                  </p>
 
-            <div className={styles.input_wrapper}>
-              <SelectField
-                width='135px'
-                placeholder='Select Day'
-                options={dayOptions}
-                defaultValue={getOptionsValue(
-                  getTicketPurchaseData?.selectedDay as string,
-                  dayOptions,
-                )}
-                id='selectDay'
-                onChange={onHandleChangeSelectDays}
-              />
+                  <div className={styles.input_wrapper}>
+                    <Field
+                      disabled={values.twoDayTicketNumber}
+                      as={SelectField}
+                      width='135px'
+                      placeholder='Select Day'
+                      options={dayOptions}
+                      defaultValue={getOptionsValue(values.selectedDay, dayOptions)}
+                      id='selectedDay'
+                      onChange={(valueObj: OptionProp) => {
+                        setFieldValue('selectedDay', valueObj.value);
+                        onHandleChangeSelectDays(valueObj);
+                      }}
+                    />
 
-              <TextField
-                width='75px'
-                id='ticketNumber'
-                placeholder='0'
-                value={oneDayTicket > 0 ? oneDayTicket.toString() : ''}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  handleChangeTicketNo((prevState) => ({
-                    ...prevState,
-                    oneDay: Number(event.target.value),
-                  }));
-                }}
-              />
+                    <Field
+                      disabled={values.twoDayTicketNumber}
+                      as={TextField}
+                      width='75px'
+                      id='oneDayTicketNumber'
+                      placeholder='0'
+                      value={oneDayTicket > 0 ? oneDayTicket.toString() : ''}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFieldValue('oneDayTicketNumber', Number(event.target.value));
+                        setFieldValue('twoDayTicketNumber', 0);
+                        handleChangeTicketNo((prevState) => ({
+                          ...prevState,
+                          oneDay: Number(event.target.value),
+                        }));
+                      }}
+                    />
+                  </div>
+                </div>
+                {<p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>}
+              </div>
+
+              <div className={styles.t_container_box}>
+                <div className={styles.t_container_body_holder_title}></div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className={styles.t_container_box}>
-          <div className={styles.t_container_body_holder_title}></div>
-        </div>
-      </div>
+            <div className={styles.t_container_body}>
+              <div className={styles.t_container_box}>
+                <div className={styles.t_container_box_wrapper}>
+                  <h5 className={styles.t_container_box_wrapper_title}>Two-day access</h5>
+                  <span className={styles.t_container_box_wrapper_title}>N10,000</span>
+                </div>
 
-      <div className={styles.t_container_body}>
-        <div className={styles.t_container_box}>
-          <div className={styles.t_container_box_wrapper}>
-            <h5 className={styles.t_container_box_wrapper_title}>Two-day access</h5>
-            <span className={styles.t_container_box_wrapper_title}>N20,000</span>
-          </div>
+                <div className={styles.t_container_box_wrapper}>
+                  <p className={styles.t_container_box_wrapper_detail}>
+                    Attend DevFest Lagos 2024 for 2 days with access to all talks and sessions
+                  </p>
 
-          <div className={styles.t_container_box_wrapper}>
-            <p className={styles.t_container_box_wrapper_detail}>
-              Attend DevFest Lagos 2024 for 2 days with access to all talks and sessions
-            </p>
+                  <div className={styles.input_wrapper}>
+                    <Field
+                      disabled={values.oneDayTicketNumber}
+                      as={TextField}
+                      width='75px'
+                      id='twoDayTicketNumber'
+                      placeholder='0'
+                      value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setFieldValue('twoDayTicketNumber', event.target.value);
+                        setFieldValue('oneDayTicketNumber', 0);
+                        setFieldValue('selectedDay', ''); // remove in next rollout
+                        handleChangeSelectDays(2);
+                        handleChangeTicketNo((prevState) => ({
+                          ...prevState,
+                          twoDays: Number(event.target.value),
+                        }));
+                      }}
+                    />
+                  </div>
+                </div>
+                <p className={styles.error}>{errors.twoDayTicketNumber}</p>
+              </div>
 
-            <div className={styles.input_wrapper}>
-              <TextField
-                width='75px'
-                id='ticketNumber'
-                placeholder='0'
-                value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  // Assume ticket covers for 2 days
-                  handleChangeSelectDays(2);
-                  handleChangeTicketNo((prevState) => ({
-                    ...prevState,
-                    twoDays: Number(event.target.value),
-                  }));
-                }}
-              />
+              <div className={styles.t_container_box}>
+                <div className={styles.t_container_body_holder_title}></div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className={styles.t_container_box}>
-          <div className={styles.t_container_body_holder_title}></div>
-        </div>
-      </div>
-
-      <Button
-        fullWidth
-        text='Buy ticket'
-        variant={
-          selectDays > 0 && (ticketNo.oneDay > 0 || ticketNo.twoDays > 0) ? 'primary' : 'disabled'
-        }
-        onClick={handleProceed}
-      />
+            <Button
+              fullWidth
+              type='submit'
+              text={
+                <>
+                  <span>Buy ticket</span>
+                  {oneDayTicket * 7000 + twoDayTicket * 10000 !== 0 && (
+                    <span className={styles.total__mobile}>
+                      N{(oneDayTicket * 7000 + twoDayTicket * 10000).toLocaleString()}
+                    </span>
+                  )}
+                </>
+              }
+              onClick={submitForm}
+              variant={isValid ? 'primary' : 'disabled'}
+            />
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

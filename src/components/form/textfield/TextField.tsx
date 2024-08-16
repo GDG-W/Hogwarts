@@ -1,6 +1,7 @@
 import React from 'react';
 import { TextFieldProps } from '../models';
 import styles from './textfield.module.scss';
+import { classNames } from '@/utils/classNames';
 
 const TextField = ({
   id,
@@ -13,16 +14,18 @@ const TextField = ({
   width,
   onChange,
   value,
+  // disabled,
   ...inputProps
 }: TextFieldProps) => {
   return (
-    <div className={styles.textfield}>
+    <div className={classNames(styles.textfield)}>
       <label htmlFor={id}>
         <span>{label}</span>
         <span>{extraLabel}</span>
       </label>
       <input
         {...inputProps}
+        className={inputProps.disabled ? styles.disabled : ''}
         onChange={onChange}
         value={value}
         style={{ width }}
