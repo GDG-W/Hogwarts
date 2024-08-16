@@ -158,7 +158,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext }) => {
                   id='topicsOfInterest'
                   label='Topics of Interest'
                   defaultValue={getMultiOptionsValue(values.topicsOfInterest, topicsOfInterest)}
-                  placeholder='Select sessions of interest'
+                  placeholder='Select topics of interest'
                   options={topicsOfInterest}
                   onChange={(selectedOptions: OptionProp[]) => {
                     const selectedValues = selectedOptions.map((option) => option.value);

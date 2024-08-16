@@ -102,7 +102,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
         validationSchema={validationSchema}
         onSubmit={handleProceed}
       >
-        {({ isValid, values, errors, setFieldValue, submitForm, touched }) => (
+        {({ isValid, values, errors, setFieldValue }) => (
           <Form>
             <div className={styles.t_container_body}>
               <div className={styles.t_container_box}>
@@ -149,9 +149,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                     />
                   </div>
                 </div>
-                {touched.oneDayTicketNumber && errors.oneDayTicketNumber && (
-                  <p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>
-                )}
+                {<p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>}
               </div>
 
               <div className={styles.t_container_box}>
@@ -183,7 +181,6 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                         setFieldValue('twoDayTicketNumber', event.target.value);
                         setFieldValue('oneDayTicketNumber', 0);
                         setFieldValue('selectedDay', ''); // remove in next rollout
-                        // Assume ticket covers for 2 days
                         handleChangeSelectDays(2);
                         handleChangeTicketNo((prevState) => ({
                           ...prevState,
@@ -205,7 +202,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
               fullWidth
               type='submit'
               text='Buy ticket'
-              onClick={submitForm}
+              // onClick={submitForm}
               variant={isValid ? 'primary' : 'disabled'}
             />
           </Form>
