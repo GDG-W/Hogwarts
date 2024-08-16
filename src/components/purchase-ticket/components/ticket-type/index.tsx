@@ -108,7 +108,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
               <div className={styles.t_container_box}>
                 <div className={styles.t_container_box_wrapper}>
                   <h5 className={styles.t_container_box_wrapper_title}>One-day access</h5>
-                  <span className={styles.t_container_box_wrapper_title}>N10,000</span>
+                  <span className={styles.t_container_box_wrapper_title}>N7,000</span>
                 </div>
 
                 <div className={styles.t_container_box_wrapper}>
@@ -161,7 +161,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
               <div className={styles.t_container_box}>
                 <div className={styles.t_container_box_wrapper}>
                   <h5 className={styles.t_container_box_wrapper_title}>Two-day access</h5>
-                  <span className={styles.t_container_box_wrapper_title}>N20,000</span>
+                  <span className={styles.t_container_box_wrapper_title}>N10,000</span>
                 </div>
 
                 <div className={styles.t_container_box_wrapper}>

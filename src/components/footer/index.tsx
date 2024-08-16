@@ -21,14 +21,14 @@ const socialMedia = [
 ];
 
 const footerLinks = [
-  {
-    link: '#',
-    title: 'Claim Ticket',
-  },
-  {
-    link: '#',
-    title: 'Upgrade Ticket',
-  },
+  // {
+  //   link: '#',
+  //   title: 'Claim Ticket',
+  // },
+  // {
+  //   link: '#',
+  //   title: 'Upgrade Ticket',
+  // },
   {
     link: '#',
     title: 'Ticket FAQ',
