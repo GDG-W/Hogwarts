@@ -13,7 +13,7 @@ const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
         gcTime: 20 * (60 * 1000),
       },
       mutations: {
-        retry: 1,
+        retry: 3,
       },
     },
   });
