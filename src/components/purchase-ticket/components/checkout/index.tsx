@@ -54,6 +54,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({
       data.payment_url && openInNewTab(data.payment_url);
 
       queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
+      queryClient.clear();
 
       setTriggerSuccessModal(true);
     },
