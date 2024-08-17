@@ -5,7 +5,7 @@ import Landing from '@/components/home/landing-section/landing';
 import TargetAudience from '@/components/home/target-audience/target-audience';
 import PurchaseYourTicket from '@/components/home/ticket-details/purchase';
 import Value from '@/components/home/value/value';
-import { Modal } from '@/components/modal';
+import { ModalLayout } from '@/components/modal-layout';
 import PurchaseTicket from '@/components/purchase-ticket';
 import { useState } from 'react';
 
@@ -30,9 +30,13 @@ export default function Home() {
         <Footer setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
       </div>
 
-      <Modal showHeader open={showTicketModal} onClose={closeModal}>
+      {/* <Modal showHeader open={showTicketModal} onClose={closeModal}>
         <PurchaseTicket closeModal={closeModal} />
-      </Modal>
+      </Modal> */}
+
+      <ModalLayout showHeader showModal={showTicketModal} onClose={closeModal}>
+        <PurchaseTicket closeModal={closeModal} />
+      </ModalLayout>
     </main>
   );
 }

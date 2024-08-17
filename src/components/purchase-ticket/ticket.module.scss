@@ -9,7 +9,7 @@
   padding: 1.5rem;
   border-radius: unset;
   height: 100%;
-  overflow: scroll;
+  overflow: hidden;
 
   @include media('>=tablet') {
     padding: 2rem;
