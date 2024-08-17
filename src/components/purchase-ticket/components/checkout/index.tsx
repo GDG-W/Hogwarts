@@ -1,5 +1,4 @@
 import Button from '@/components/button';
-import Modal from '@/components/modals';
 import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
 import { CacheKeys } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
@@ -56,7 +55,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({
       queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
       queryClient.clear();
 
-      setTriggerSuccessModal(true);
+      closeModal();
     },
     onError: (error: unknown) => {
       console.log(error);
@@ -123,8 +122,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     if (newWindow) newWindow.opener = null;
   };
 
-  const [triggerSuccessModal, setTriggerSuccessModal] = useState(false);
-
   return (
     <div className={styles.main_container}>
       <div className={styles.main_container_header}>Order summary</div>
@@ -178,14 +175,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({
               variant={activeStep === 3 ? 'primary' : 'disabled'}
               isLoading={isLoading || isPending}
               disabled={isLoading || isPending}
-            />
-
-            <Modal
-              isOpen={triggerSuccessModal}
-              onClose={() => {
-                setTriggerSuccessModal(false);
-                closeModal();
-              }}
             />
           </>
         ) : (
