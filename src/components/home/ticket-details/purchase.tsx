@@ -122,7 +122,7 @@ const PurchaseYourTicket = () => {
       </div>
       {/* Modals */}
       <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket />
+        <PurchaseTicket closeModal={() => setOpenTicket(false)} />
       </Modal>
     </section>
   );

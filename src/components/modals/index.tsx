@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './modal.module.scss';
 import CloseIcon from '../../../public/close-icon.svg';
 import Notification from '../../../public/sms-notification.svg';
 import Button from '../button';
+import styles from './modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;
@@ -30,7 +30,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </p>
           </div>
           <div className={styles.buttons}>
-            <Button variant='primary' text='Ok' />
+            <Button variant='primary' text='Ok' onClick={onClose} />
             <Button variant='transparent' text='Upgrade Ticket' />
           </div>
         </div>

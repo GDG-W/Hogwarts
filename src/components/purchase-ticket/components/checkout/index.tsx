@@ -1,17 +1,126 @@
-import React from 'react';
-import styles from './checkout.module.scss';
-import { TTicketNumber } from '../../model';
 import Button from '@/components/button';
+import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
+import { CacheKeys } from '@/utils/constants';
+import { handleError } from '@/utils/helper';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import { TicketPurchaseData, TTicketNumber } from '../../model';
+import styles from './checkout.module.scss';
 
 interface ICheckoutProps {
   selectDays: number;
   ticketNo: TTicketNumber;
   activeStep: number;
+  closeModal: () => void;
 }
 
-export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activeStep }) => {
+interface Ticket {
+  id: string;
+  title: string;
+  description: string;
+  tag: string;
+  price: number;
+  total_units: number;
+  available_units: number;
+  total_minted: number;
+  created_at: string;
+}
+
+export const Checkout: React.FC<ICheckoutProps> = ({
+  selectDays,
+  ticketNo,
+  activeStep,
+  closeModal,
+}) => {
   const oneDayTotal = 7000 * ticketNo.oneDay;
   const twoDayTotal = 10000 * ticketNo.twoDays;
+
+  const queryClient = useQueryClient();
+  const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
+    CacheKeys.USER_PURCHASE_TICKET,
+  ]);
+
+  const { data, isLoading, refetch } = useQuery<Ticket[]>({
+    queryKey: [CacheKeys.USER_TICKETS],
+    queryFn: fetchTickets,
+  });
+
+  const [formError, setFormError] = useState('');
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: ticketCheckout,
+    onSuccess: (data) => {
+      data.payment_url && openInNewTab(data.payment_url);
+
+      queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
+      queryClient.clear();
+
+      closeModal();
+    },
+    onError: (error: unknown) => {
+      console.log(error);
+      handleError(error, setFormError);
+    },
+  });
+
+  const getTicketId = (
+    selectedTicket: TicketPurchaseData,
+    ticketArray: Ticket[],
+  ): Ticket | undefined => {
+    if (selectedTicket?.selectedDay == '1') {
+      return ticketArray.find((ticket) => ticket.tag === 'day_one');
+    } else if (selectedTicket?.selectedDay == '2') {
+      return ticketArray.find((ticket) => ticket.tag === 'day_two');
+    } else if (!selectedTicket.selectedDay) {
+      return ticketArray.find((ticket) => ticket.tag === 'both_days');
+    }
+
+    return undefined;
+  };
+
+  const handleCheckout = async (retry: number = 0): Promise<void> => {
+    if (
+      !getTicketPurchaseData?.email ||
+      !getTicketPurchaseData?.name ||
+      !getTicketPurchaseData?.ticketNo
+    )
+      return;
+
+    if (!data || data.length === 0) {
+      if (retry >= 3) return;
+
+      await refetch();
+      return handleCheckout(retry + 1);
+    }
+
+    const selectedTicket = getTicketId(getTicketPurchaseData, data);
+
+    if (!selectedTicket) return;
+
+    const payload = {
+      payer: {
+        email_address: getTicketPurchaseData?.email,
+        fullname: getTicketPurchaseData?.name,
+      },
+      payer_is_attendee: true,
+      attendees: [
+        {
+          email_address: getTicketPurchaseData?.email,
+          ticket_id: selectedTicket.id,
+          fullname: getTicketPurchaseData?.name,
+          role: getTicketPurchaseData?.role,
+          level_of_expertise: getTicketPurchaseData?.expertise,
+        },
+      ],
+    };
+
+    mutateAsync(payload);
+  };
+
+  const openInNewTab = (url: string) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+  };
 
   return (
     <div className={styles.main_container}>
@@ -57,7 +166,16 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
               </li>
             </ul>
 
-            <Button fullWidth text='Checkout' variant={activeStep === 3 ? 'primary' : 'disabled'} />
+            <p className={styles.error}> {formError}</p>
+
+            <Button
+              onClick={() => handleCheckout()}
+              fullWidth
+              text='Checkout'
+              variant={activeStep === 3 ? 'primary' : 'disabled'}
+              isLoading={isLoading || isPending}
+              disabled={isLoading || isPending}
+            />
           </>
         ) : (
           <p className={styles.main_container_body_date}>
