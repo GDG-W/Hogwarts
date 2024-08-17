@@ -2,14 +2,16 @@
 
 import PurchaseTicketsAnimation from '@/animations/components/PurchaseTickets';
 import Button from '@/components/button';
-import React, { useEffect, useRef } from 'react';
-import styles from './purchase.module.scss';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
-import PurchaseTicket from '@/components/purchase-ticket';
-import { Modal } from '@/components/modal';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import styles from './purchase.module.scss';
 
-const PurchaseYourTicket = () => {
+interface IPurchaseYourTicketProps {
+  setShowTicketModal: Dispatch<SetStateAction<boolean>>;
+  showTicketModal: boolean;
+}
+const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -20,21 +22,18 @@ const PurchaseYourTicket = () => {
     }
   }, []);
 
-  const [openTicket, setOpenTicket] = React.useState<boolean>(false);
-
   useEffect(() => {
     const bodyElement = document.body;
 
-    if (openTicket) {
+    if (props.showTicketModal) {
       bodyElement.style.overflow = 'hidden';
-      // bodyElement.style.height = '100vh';
     }
 
     return () => {
       bodyElement.style.overflow = 'scroll';
       bodyElement.style.height = 'auto';
     };
-  }, [openTicket]);
+  }, [props.showTicketModal]);
 
   return (
     <section className={styles.purchase}>
@@ -107,7 +106,7 @@ const PurchaseYourTicket = () => {
             </ul>
 
             <Button
-              onClick={() => setOpenTicket(true)}
+              onClick={() => props.setShowTicketModal(true)}
               data-animate-scale
               data-delay='0.5'
               data-easing='SCALE'
@@ -120,10 +119,6 @@ const PurchaseYourTicket = () => {
           </div>
         </div>
       </div>
-      {/* Modals */}
-      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket closeModal={() => setOpenTicket(false)} />
-      </Modal>
     </section>
   );
 };
