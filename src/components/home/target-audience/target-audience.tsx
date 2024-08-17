@@ -15,6 +15,7 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
   'Designers',
   'Founders',
   'Developers',
@@ -22,6 +23,7 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
 ];
 
 const TargetAudience = () => {
