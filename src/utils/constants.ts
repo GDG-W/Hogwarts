@@ -7,4 +7,5 @@
 
 export enum CacheKeys {
   USER_PURCHASE_TICKET = 'userPurchaseTicket',
+  USER_TICKETS = 'userTickets',
 }

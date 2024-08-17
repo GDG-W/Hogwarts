@@ -183,7 +183,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                       placeholder='0'
                       value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setFieldValue('twoDayTicketNumber', event.target.value);
+                        setFieldValue('twoDayTicketNumber', Number(event.target.value));
                         setFieldValue('oneDayTicketNumber', 0);
                         setFieldValue('selectedDay', ''); // remove in next rollout
                         handleChangeSelectDays(2);

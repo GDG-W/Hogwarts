@@ -196,7 +196,7 @@ export const Footer = () => {
       </div>
       {/* Modals */}
       <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket />
+        <PurchaseTicket closeModal={() => setOpenTicket(false)} />
       </Modal>
     </footer>
   );

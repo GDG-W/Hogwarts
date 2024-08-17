@@ -29,3 +29,14 @@ type Attendee = {
   email_address: string;
   ticket_id: string;
 };
+
+export type TicketCheckoutResponse = {
+  amount: number;
+  created_at: string;
+  email_address: string;
+  fullname: string;
+  id: string;
+  payment_url: string;
+  provider_response: string | null;
+  status: string;
+};

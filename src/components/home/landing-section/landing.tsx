@@ -41,6 +41,8 @@ const Landing = () => {
     };
   }, [openTicket]);
 
+  const closeModal = () => setOpenTicket(false);
+
   return (
     <div className={styles.landing}>
       <div className={styles.container}>
@@ -169,8 +171,8 @@ const Landing = () => {
       </div>
 
       {/* Modals */}
-      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket />
+      <Modal showHeader open={openTicket} onClose={closeModal}>
+        <PurchaseTicket closeModal={closeModal} />
       </Modal>
     </div>
   );
