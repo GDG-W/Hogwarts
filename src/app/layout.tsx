@@ -9,9 +9,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "DevFest Lagos'24 | Tickets",
-  description: 'A simple project to help you boostrap DevFest websites',
-  keywords: 'devfest, devfest lagos, coming soon, date, venue',
-  metadataBase: new URL('https://devfest-boilerplate.vercel.app/'), // synonymous to the base URL
+  description: 'Get Early Bird Tickets',
+  keywords: 'devfest, devfest lagos, tickets, devfest 2024, early bird tickets, date, venue',
 };
 
 const GeneralSans = localFont({
