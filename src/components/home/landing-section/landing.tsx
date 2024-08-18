@@ -13,6 +13,7 @@ import ProductDesignerCursor from '../../../../public/icons/product-designer-cur
 import ProductManagerCursor from '../../../../public/icons/product-manager-cursor-icon.svg';
 import SoftwareEngineerCursor from '../../../../public/icons/software-engineer-cursor-icon.svg';
 import styles from './landing.module.scss';
+import Link from 'next/link';
 
 const Landing = () => {
   const [openTicket, setOpenTicket] = React.useState<boolean>(false);
@@ -53,18 +54,23 @@ const Landing = () => {
           className={styles.headernav}
         >
           <Header
-            handleClick={() => setOpenTicket(true)}
-            // navContent={
-            //   <div
-            //     className={styles.headernavButtonContainer}
-            //     data-animate-y-up
-            //     data-delay='0.417'
-            //     data-easing='NAVIGATION.button'
-            //   >
-            //     <span>Upgrade Tickets</span>
-            //     <ArrowRight />
-            //   </div>
-            // }
+            navContent={
+              <div
+                className={styles.headernavButtonContainer}
+                data-animate-y-up
+                data-delay='0.417'
+                data-easing='NAVIGATION.button'
+              >
+                <Link
+                  href={'https://dflagos24-trivia.netlify.app/'}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Checkout our Trivia!
+                </Link>
+                {/* <ArrowRight /> */}
+              </div>
+            }
           />
         </div>
 

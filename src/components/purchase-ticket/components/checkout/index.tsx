@@ -1,11 +1,12 @@
+import React, { useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Button from '@/components/button';
 import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
 import { CacheKeys } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
 import { TicketPurchaseData, TTicketNumber } from '../../model';
 import styles from './checkout.module.scss';
+import ErrorModal from '@/components/error-modal';
 
 interface ICheckoutProps {
   selectDays: number;
@@ -32,6 +33,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({
   activeStep,
   closeModal,
 }) => {
+  const [formError, setFormError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const oneDayTotal = 7000 * ticketNo.oneDay;
   const twoDayTotal = 10000 * ticketNo.twoDays;
 
@@ -44,8 +48,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     queryKey: [CacheKeys.USER_TICKETS],
     queryFn: fetchTickets,
   });
-
-  const [formError, setFormError] = useState('');
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
@@ -60,6 +62,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     onError: (error: unknown) => {
       console.log(error);
       handleError(error, setFormError);
+      setIsModalOpen(true); // Open modal on error
     },
   });
 
@@ -67,9 +70,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     selectedTicket: TicketPurchaseData,
     ticketArray: Ticket[],
   ): Ticket | undefined => {
-    if (selectedTicket?.selectedDay == '1') {
+    if (selectedTicket?.selectedDay === '1') {
       return ticketArray.find((ticket) => ticket.tag === 'day_one');
-    } else if (selectedTicket?.selectedDay == '2') {
+    } else if (selectedTicket?.selectedDay === '2') {
       return ticketArray.find((ticket) => ticket.tag === 'day_two');
     } else if (!selectedTicket.selectedDay) {
       return ticketArray.find((ticket) => ticket.tag === 'both_days');
@@ -166,8 +169,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({
               </li>
             </ul>
 
-            <p className={styles.error}> {formError}</p>
-
             <Button
               onClick={() => handleCheckout()}
               fullWidth
@@ -183,6 +184,10 @@ export const Checkout: React.FC<ICheckoutProps> = ({
           </p>
         )}
       </div>
+
+      <ErrorModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <p>{formError}</p>
+      </ErrorModal>
     </div>
   );
 };
