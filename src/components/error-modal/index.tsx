@@ -23,7 +23,7 @@ const ErrorModal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         <div className={styles.modalContent}>
           <Info />
           <div className={styles.modalText}>
-            <h1>Checkout Successful</h1>
+            <h1>Checkout Unsuccessful</h1>
             {children}
           </div>
           <div className={styles.buttons}>
