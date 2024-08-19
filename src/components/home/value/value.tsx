@@ -50,7 +50,7 @@ const Value = () => {
         'Whether you’re looking for mentorship, collaboration opportunities, or simply to expand your tech circle. DevFest Lagos provides the platform to build valuable relationships that can advance your career.',
     },
     {
-      id: 5,
+      id: 7,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/meals_1723722207854.png',
       title: 'Complimentary Meals',
       content:
