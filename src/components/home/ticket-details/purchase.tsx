@@ -75,6 +75,7 @@ const PurchaseYourTicket = () => {
               <Image
                 src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
                 alt='An image of the one-day ticket'
+                className={styles.thumbnailImage}
                 width={83}
                 height={43}
               />
@@ -82,6 +83,7 @@ const PurchaseYourTicket = () => {
               <Image
                 src='https://res.cloudinary.com/defsbafq2/image/upload/v1723722423/devfest_2024/red-ticket_1723722419669.svg'
                 alt='An image of the Two-day ticket'
+                className={styles.thumbnailImage}
                 width={83}
                 height={43}
               />
