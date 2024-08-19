@@ -29,7 +29,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       scrollTrigger: {
         trigger: `.${this.styles.purchase}`,
         start: 'top top',
-        end: '+=300%',
+        end: '+=150%',
         scrub: true,
         pin: true,
       },
@@ -43,7 +43,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       scrollTrigger: {
         trigger: `.${this.styles.purchase}`,
         start: 'top top',
-        end: '+=300%',
+        end: '+=150%',
         scrub: true,
 
         onUpdate: (self) => {
