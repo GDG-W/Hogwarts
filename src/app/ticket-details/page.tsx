@@ -25,7 +25,12 @@ interface ITicketDetail {
 enum Dates {
   'day_one' = '15th Nov, 2024',
   'day_two' = '16th Nov, 2024',
-  'both' = '15th & 16th Nov, 2024',
+  'both_days' = '15th & 16th Nov, 2024',
+}
+enum CalendarLinks {
+  'day_one' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024+Day+1&dates=20241115T000000/20241115T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
+  'day_two' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024+Day+2&dates=20241116T000000/20241116T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
+  'both_days' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024&dates=20241115T000000/20241116T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
 }
 
 const TicketDetails = () => {
@@ -60,7 +65,12 @@ const TicketDetails = () => {
       fetchProfile.mutateAsync(token);
     }
   }, []);
-
+  const handleCalendarClick = () => {
+    if (profile?.ticketTag) {
+      router.push(CalendarLinks[profile.ticketTag]);
+    }
+  };
+  
   return (
     <div className='ticket__details'>
       <div className='ticket__container'>
@@ -126,6 +136,7 @@ const TicketDetails = () => {
                     text='Add to Calendar'
                     variant={isOneWayTicket ? 'transparent' : 'primary'}
                     icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
+                    onClick={handleCalendarClick}
                   />
                 </div>
               </div>
@@ -163,6 +174,7 @@ const TicketDetails = () => {
                     text='Add to Calendar'
                     variant={isOneWayTicket ? 'transparent' : 'primary'}
                     icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
+                    onClick={handleCalendarClick}
                   />
                 </div>
               </div>
