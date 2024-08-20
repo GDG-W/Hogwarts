@@ -15,6 +15,7 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
   'Designers',
   'Founders',
   'Developers',
@@ -22,6 +23,7 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
 ];
 
 const TargetAudience = () => {
@@ -94,7 +96,7 @@ const TargetAudience = () => {
             <p data-animate-y-up>DevFest is for Everyone</p>
             <ul>
               {items.map((item, index) => (
-                <li key={item} className={getClassNames(index)}>
+                <li key={item + index} className={getClassNames(index)}>
                   {item}
                 </li>
               ))}

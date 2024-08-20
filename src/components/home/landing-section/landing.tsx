@@ -2,12 +2,10 @@
 import HeroAnimation from '@/animations/components/Hero';
 import Button from '@/components/button';
 import Header from '@/components/header';
-import { Modal } from '@/components/modal';
-import PurchaseTicket from '@/components/purchase-ticket';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
 import ArrowRight from '../../../../public/icons/arrow-right.svg';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import DataAnalystCursor from '../../../../public/icons/data-analyst-cursor-icon.svg';
 import ProductDesignerCursor from '../../../../public/icons/product-designer-cursor-icon.svg';
 import ProductManagerCursor from '../../../../public/icons/product-manager-cursor-icon.svg';
@@ -15,9 +13,12 @@ import SoftwareEngineerCursor from '../../../../public/icons/software-engineer-c
 import styles from './landing.module.scss';
 import Link from 'next/link';
 
-const Landing = () => {
-  const [openTicket, setOpenTicket] = React.useState<boolean>(false);
+interface ILandingProps {
+  setShowTicketModal: Dispatch<SetStateAction<boolean>>;
+  showTicketModal: boolean;
+}
 
+const Landing = (props: ILandingProps) => {
   const isInitialized = useRef(false);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Landing = () => {
   useEffect(() => {
     const bodyElement = document.body;
 
-    if (openTicket) {
+    if (props.showTicketModal) {
       bodyElement.style.overflow = 'hidden';
       bodyElement.style.height = '100vh';
     }
@@ -40,7 +41,7 @@ const Landing = () => {
       bodyElement.style.overflow = 'scroll';
       bodyElement.style.height = 'auto';
     };
-  }, [openTicket]);
+  }, [props.showTicketModal]);
 
   return (
     <div className={styles.landing}>
@@ -103,7 +104,7 @@ const Landing = () => {
           </h1>
 
           <Button
-            onClick={() => setOpenTicket(true)}
+            onClick={() => props.setShowTicketModal(true)}
             data-animate-scale
             data-delay='0.167'
             data-easing='CTA.button'
@@ -170,11 +171,6 @@ const Landing = () => {
           </div>
         </div>
       </div>
-
-      {/* Modals */}
-      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket />
-      </Modal>
     </div>
   );
 };

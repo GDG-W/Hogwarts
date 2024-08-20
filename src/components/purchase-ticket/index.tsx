@@ -1,11 +1,15 @@
-import styles from './ticket.module.scss';
 import React from 'react';
 import { Checkout } from './components/checkout';
-import { TicketType } from './components/ticket-type';
 import { OrderInformation } from './components/order-information';
+import { TicketType } from './components/ticket-type';
 import { TTicketNumber } from './model';
+import styles from './ticket.module.scss';
 
-const PurchaseTicket = () => {
+interface IPurchaseTicketProps {
+  closeModal: () => void;
+}
+
+const PurchaseTicket = (props: IPurchaseTicketProps) => {
   const [activeStep, setActiveStep] = React.useState<number>(1);
   const [selectDays, setSelectDays] = React.useState<number>(0);
   const [ticketNo, setTicketNo] = React.useState<TTicketNumber>({
@@ -76,12 +80,22 @@ const PurchaseTicket = () => {
 
             {activeStep === 3 && (
               <div className={styles.mob_checkout}>
-                <Checkout selectDays={selectDays} ticketNo={ticketNo} activeStep={activeStep} />
+                <Checkout
+                  closeModal={props.closeModal}
+                  selectDays={selectDays}
+                  ticketNo={ticketNo}
+                  activeStep={activeStep}
+                />
               </div>
             )}
           </div>
           <div className={`${styles.wrapper_container} ${styles.wrapper_sticky_top}`}>
-            <Checkout selectDays={selectDays} ticketNo={ticketNo} activeStep={activeStep} />
+            <Checkout
+              closeModal={props.closeModal}
+              selectDays={selectDays}
+              ticketNo={ticketNo}
+              activeStep={activeStep}
+            />
           </div>
         </div>
       </div>
