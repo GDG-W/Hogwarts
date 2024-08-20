@@ -69,7 +69,7 @@ const TicketDetails = () => {
       router.push(CalendarLinks[profile.ticketTag]);
     }
   };
-  
+
   return (
     <div className='ticket__details'>
       <div className='ticket__container'>
