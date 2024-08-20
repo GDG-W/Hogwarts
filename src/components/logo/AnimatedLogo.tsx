@@ -23,7 +23,7 @@ const AnimatedLogo = ({ width = 291, height = 94 }: LogoProps) => {
         height='34.1982'
         rx='17.0991'
         stroke='#1D1D1D'
-        stroke-width='2.63063'
+        strokeWidth='2.63063'
       />
 
       <path
@@ -77,7 +77,7 @@ const AnimatedLogo = ({ width = 291, height = 94 }: LogoProps) => {
         transform='matrix(-0.821252 0.570566 0.570566 0.821252 91.8958 34.9767)'
         fill='#F8AD00'
         stroke='black'
-        stroke-width='1.84144'
+        strokeWidth='1.84144'
         className={styles.yellowpath}
       />
 
@@ -90,7 +90,7 @@ const AnimatedLogo = ({ width = 291, height = 94 }: LogoProps) => {
         transform='rotate(34.7897 65.9496 19.2556)'
         fill='#38A952'
         stroke='black'
-        stroke-width='1.84144'
+        strokeWidth='1.84144'
         className={styles.greenpath}
       />
 
@@ -103,7 +103,7 @@ const AnimatedLogo = ({ width = 291, height = 94 }: LogoProps) => {
         transform='matrix(0.821252 -0.570566 -0.570566 -0.821252 11.4424 62.1735)'
         fill='#E8443D'
         stroke='black'
-        stroke-width='1.84144'
+        strokeWidth='1.84144'
         className={styles.redpath}
       />
 
@@ -116,7 +116,7 @@ const AnimatedLogo = ({ width = 291, height = 94 }: LogoProps) => {
         transform='rotate(-145.21 39.2301 79.741)'
         fill='#3F86F9'
         stroke='black'
-        stroke-width='1.84144'
+        strokeWidth='1.84144'
         className={styles.bluepath}
       />
     </svg>
