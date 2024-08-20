@@ -32,8 +32,7 @@ const Value = () => {
       id: 4,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/swags_1723722207830.png',
       title: 'Exclusive Freebies',
-      content:
-        'At DevFest Lagos 2024, lots of swags would be up for grabs courtesy our sponsors.',
+      content: 'At DevFest Lagos 2024, lots of swags would be up for grabs courtesy our sponsors.',
     },
     {
       id: 5,
