@@ -50,7 +50,6 @@ const TicketDetails = () => {
         ticketTitle: ticket.title,
         ticketTag: ticket.tag,
       });
-      console.log(data);
     },
     onError: (error) => {
       handleError(error, setError);
@@ -108,7 +107,7 @@ const TicketDetails = () => {
                       <div className='detail'>
                         <p className='property'>Ticket type</p>
                         <span className='value'>
-                          {profile.ticketTag === 'both' ? 'Two-Day Access' : 'One-Day Access'}
+                          {profile.ticketTag === 'both_days' ? 'Two-Day Access' : 'One-Day Access'}
                         </span>
                       </div>
 
