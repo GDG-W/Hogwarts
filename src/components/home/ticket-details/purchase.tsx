@@ -94,13 +94,13 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
             </h2>
             <ul>
               <li data-animate-y-up data-delay='0.167'>
-                Attend event for just a day of your choice{' '}
+                Get the one-day tickets for you or your friends{' '}
               </li>
               <li data-animate-y-up data-delay='0.250'>
                 Access to workshops, sessions and talks
               </li>
               <li data-animate-y-up data-delay='0.333'>
-                Meal Tickets
+                Meal Ticket
               </li>
             </ul>
 
