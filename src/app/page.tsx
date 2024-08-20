@@ -26,7 +26,7 @@ export default function Home() {
           showTicketModal={showTicketModal}
         />
         <FAQs />
-        <TargetAudience />
+        <TargetAudience setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
         <Footer setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
       </div>
 
