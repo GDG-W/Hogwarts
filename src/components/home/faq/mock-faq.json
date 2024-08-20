@@ -12,11 +12,11 @@
       },
       {
         "question": "How do I pay for my ticket?",
-        "answer": "We have a number of payment options for your convenience - card payment, bank transfer, USSD"
+        "answer": "We have a number of payment options for your convenience - card payment, bank transfer and USSD."
       },
       {
         "question": "Can I buy tickets for other people?",
-        "answer": "Absolutely!  You can purchase tickets for others, but keep in mind they will need to register for the event separately to claim their tickets."
+        "answer": "Absolutely!  You can purchase tickets for others, but keep in mind they will need to check their emails to claim their tickets. Please note that this feature is in development. Check back later."
       },
       {
         "question": "What information do I need to provide when buying tickets for others?",
@@ -24,7 +24,7 @@
       },
       {
         "question": "Will the people I buy tickets for receive a confirmation email?",
-        "answer": "No, they will not receive a confirmation email with the tickets attached. They will receive an email prompting them to register for the event, and upon successful registration, they will be able to claim their tickets."
+        "answer": "Yes, they will receive an email prompting them to confirm their registration."
       }
     ]
   },
@@ -37,11 +37,11 @@
       },
       {
         "question": "I haven't received an email to claim my ticket. What should I do?",
-        "answer": "First, check your spam folder. If you still can't find the email, contact DevFest Lagos directly for assistance . team@gdglagos.com"
+        "answer": "First, check your spam folder. If you still can't find the email, contact DevFest Lagos directly on @gdglagos on Twitter."
       },
       {
         "question": "Can I claim my ticket before registering for the event?",
-        "answer": "Unfortunately, no. Tickets can only be claimed after successful event registration."
+        "answer": "Unfortunately, no. Tickets can only be claimed after successful purchase."
       }
     ]
   },
@@ -50,11 +50,11 @@
     "questions": [
       {
         "question": "I purchased a one-day ticket, but now I want to attend both days. Can I upgrade my ticket?",
-        "answer": "Yes, you can upgrade your one-day ticket to a two-day ticket through this platform (depending on availability)."
+        "answer": "Yes, you can upgrade your one-day ticket to a two-day ticket through this platform (depending on availability). Please note that this feature is in development. Check back later."
       },
       {
         "question": "How do I upgrade my ticket?",
-        "answer": "Look for the 'Upgrade Ticket' option within your ticket purchase history in your User Profile. Follow the on-screen instructions to complete the upgrade process. "
+        "answer": "Look for the 'Upgrade Ticket' option within your ticket purchase history in your User Profile. Follow the on-screen instructions to complete the upgrade process. Please note that this feature is in development. Check back later."
       },
       {
         "question": "Will I receive a new ticket after upgrading?",
