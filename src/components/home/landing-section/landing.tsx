@@ -4,13 +4,14 @@ import Button from '@/components/button';
 import Header from '@/components/header';
 import { classNames } from '@/utils/classNames';
 import Image from 'next/image';
+import ArrowRight from '../../../../public/icons/arrow-right.svg';
 import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
-// import ArrowRight from '../../../../public/icons/arrow-right.svg';
 import DataAnalystCursor from '../../../../public/icons/data-analyst-cursor-icon.svg';
 import ProductDesignerCursor from '../../../../public/icons/product-designer-cursor-icon.svg';
 import ProductManagerCursor from '../../../../public/icons/product-manager-cursor-icon.svg';
 import SoftwareEngineerCursor from '../../../../public/icons/software-engineer-cursor-icon.svg';
 import styles from './landing.module.scss';
+import Link from 'next/link';
 
 interface ILandingProps {
   setShowTicketModal: Dispatch<SetStateAction<boolean>>;
@@ -52,18 +53,20 @@ const Landing = (props: ILandingProps) => {
           className={styles.headernav}
         >
           <Header
-            handleClick={() => props.setShowTicketModal(true)}
-            // navContent={
-            //   <div
-            //     className={styles.headernavButtonContainer}
-            //     data-animate-y-up
-            //     data-delay='0.417'
-            //     data-easing='NAVIGATION.button'
-            //   >
-            //     <span>Upgrade Tickets</span>
-            //     <ArrowRight />
-            //   </div>
-            // }
+            handleClick={() => {}}
+            navContent={
+              <Link
+                className={styles.headernavButtonContainer}
+                data-animate-y-up
+                data-delay='0.417'
+                data-easing='NAVIGATION.button'
+                href={'https://dflagos24-trivia.netlify.app/'}
+                target='_blank'
+              >
+                <span>Play Trivia</span>
+                <ArrowRight />
+              </Link>
+            }
           />
         </div>
 

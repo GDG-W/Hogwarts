@@ -1,18 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
-import * as Yup from 'yup';
-import { Formik, Form, Field } from 'formik';
-import Header from '@/components/header';
-import { handleError } from '@/utils/helper';
-// import ArrowRight from '../../../public/icons/arrow-right.svg';
-import InfoCircle from '../../../public/info-circle.svg';
 import Button from '@/components/button';
 import TextField from '@/components/form/textfield/TextField';
+import Header from '@/components/header';
 import { initiateSession } from '@/lib/actions/user';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
+import { handleError } from '@/utils/helper';
 import { useMutation } from '@tanstack/react-query';
+import { Field, Form, Formik } from 'formik';
+import Cookies from 'js-cookie';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import ArrowRight from '../../../public/icons/arrow-right.svg';
+import InfoCircle from '../../../public/info-circle.svg';
 
 const Login = () => {
   const [formError, setFormError] = useState('');
@@ -53,13 +54,17 @@ const Login = () => {
       <div className='backdrop'>
         <div className='container'>
           <Header
-          // navContent={
-          //   <>
-          //     <span>Get Tickets For Your Friends</span>
-          //     <ArrowRight />
-          //   </>
-          // }
-          // handleClick={() => {}}
+            handleClick={() => {}}
+            navContent={
+              <Link
+                className='play_trivia'
+                href={'https://dflagos24-trivia.netlify.app/'}
+                target='_blank'
+              >
+                <span>Play Trivia</span>
+                <ArrowRight />
+              </Link>
+            }
           />
           <div className='login__card'>
             <h1 className='login__title'>Welcome</h1>
@@ -113,9 +118,15 @@ const Login = () => {
                       setFieldValue('ticketId', event.target.value);
                       setFormError('');
                     }}
-                    bottomRight={'Or get your ticket here'}
                     error={errors.ticketId}
                   />
+
+                  <div className='get_your_ticket_container'>
+                    <a className='get_your_ticket' href='/'>
+                      Or get your ticket here
+                    </a>
+                  </div>
+
                   <Button
                     disabled={!isValid}
                     type='submit'

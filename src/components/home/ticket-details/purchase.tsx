@@ -102,9 +102,6 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               <li data-animate-y-up data-delay='0.333'>
                 Meal Tickets
               </li>
-              <li data-animate-y-up data-delay='0.417'>
-                Devfest Swags
-              </li>
             </ul>
 
             <Button
