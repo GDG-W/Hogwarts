@@ -9,38 +9,38 @@ const Value = () => {
   const items = [
     {
       id: 1,
-      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/swags_1723722207830.png',
-      title: 'Exclusive Swags',
+      src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1724166684/DEV_FESTIVAL1_584_fhyj3g.jpg',
+      title: 'Amazing Speakers',
       content:
-        'At DevFest Lagos, attendees will receive merch designed to enhance your experience and provide lasting memories.',
+        'Seasoned speakers who are industry experts and thought leaders as they will share their insights on shaping the future of the world at DevFest Lagos 2024.',
     },
     {
       id: 2,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/activities_1723722207851.png',
       title: 'Recreational Activities',
       content:
-        'Participate in games, team-building excercises, to  recharge to make new friends, and create memories.',
+        'Recharge and refocus by participating in recreational activities, including games, fun exercises, and many more focused on helping you make new friends and create unforgettable memories.',
     },
     {
       id: 3,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/networking_1723722207852.png',
       title: 'Networking Opportunities',
       content:
-        'Whether you’re looking for mentorship, collaboration opportunities, or simply to expand your tech circle. DevFest Lagos provides the platform to build valuable relationships that can advance your career.',
+        'DevFest Lagos is more than just an event; it’s a platform for networking, growth, and opportunities that can elevate your career to the next level.',
     },
     {
       id: 4,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/swags_1723722207830.png',
-      title: 'Exclusive Swags',
+      title: 'Exclusive Freebies',
       content:
-        'At DevFest Lagos, attendees will receive merch designed to enhance your experience and provide lasting memories.',
+        'At DevFest Lagos 2024, lots of swags would be up for grabs courtesy our sponsors.',
     },
     {
       id: 5,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/aniedi_1723722207853.png',
       title: 'Amazing Speakers',
       content:
-        'At DevFest Lagos, we bring together some of the most influential voices in technology. Our speakers are industry experts who are shaping the future of future world.',
+        'Seasoned speakers who are industry experts and thought leaders as they will share their insights on shaping the future of the world at DevFest Lagos 2024.',
     },
     {
       id: 6,
@@ -54,7 +54,7 @@ const Value = () => {
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/meals_1723722207854.png',
       title: 'Complimentary Meals',
       content:
-        'Enjoy complimentary meals all provided at no cost, ensuring you stay energized and focused during the event.',
+        'You have nothing to worry about! Devfest Lagos has got you covered with tasty and healthy meals, to keep you energised throughout the entire event.',
     },
   ];
 
