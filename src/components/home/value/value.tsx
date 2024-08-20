@@ -26,7 +26,7 @@ const Value = () => {
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/networking_1723722207852.png',
       title: 'Networking Opportunities',
       content:
-        'DevFest Lagos is more than just an event; it’s a platform for networking, growth, and opportunities that can elevate your career to the next level.',
+        'DevFest Lagos is more than just an event; it is a platform for networking, growth, and opportunities that can elevate your career to the next level.',
     },
     {
       id: 4,
@@ -47,10 +47,10 @@ const Value = () => {
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/networking_1723722207852.png',
       title: 'Networking Opportunities',
       content:
-        'DevFest Lagos is more than just an event; it’s a platform for networking, growth, and opportunities that can elevate your career to the next level.',
+        'DevFest Lagos is more than just an event; it is a platform for networking, growth, and opportunities that can elevate your career to the next level.',
     },
     {
-      id: 5,
+      id: 7,
       src: 'https://res.cloudinary.com/defsbafq2/image/upload/v1723722210/devfest_2024/meals_1723722207854.png',
       title: 'Complimentary Meals',
       content:
