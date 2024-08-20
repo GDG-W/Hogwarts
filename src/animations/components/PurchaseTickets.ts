@@ -104,22 +104,19 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
   private updateTicketDetails(ticketContainerClassname: string, index: number) {
     const ticketDetails = [
       {
-        title: '1 day access only | <span> N7,000</span>',
+        title: '1 Day Access ONLY | <span> N7,000</span>',
         details: [
           'Attend event for just a day of your choice',
           'Access to workshops, sessions and talks',
-          'Meal Tickets',
-          'Devfest Swags',
+          'Meal tickets',
         ],
       },
       {
-        title: '2 day access only | <span> N10,000</span>',
+        title: '2 Days Access | <span> N10,000</span>',
         details: [
           'Attend event for both days',
           'Access to workshops, sessions and talks',
-          'Meal Tickets',
-          'Devfest Swags',
-          'Exclusive Networking Event',
+          'Meal tickets',
         ],
       },
     ];
