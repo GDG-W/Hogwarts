@@ -37,6 +37,12 @@
     max-width: 1200px;
     margin: 0 auto;
 
+    .play_trivia {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
     header {
       @include media('<=500px') {
         padding: 1.5rem 0rem;
@@ -82,6 +88,18 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+
+        .get_your_ticket_container {
+          display: flex;
+        }
+
+        .get_your_ticket {
+          color: #4285f4;
+          font-size: 0.875rem;
+          font-weight: 500;
+          margin-left: auto;
+          margin-top: -1em;
+        }
       }
 
       .error {

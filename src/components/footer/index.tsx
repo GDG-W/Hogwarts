@@ -39,7 +39,7 @@ const footerLinks = [
     title: 'Join the community',
   },
   {
-    link: ' https://policies.google.com/privacy',
+    link: 'https://developers.google.com/community-guidelines',
     title: 'Community Guidelines',
   },
   {
@@ -47,7 +47,7 @@ const footerLinks = [
     title: 'Privacy Policy',
   },
   {
-    link: '',
+    link: 'https://twitter.com/gdglagos',
     title: 'Contact Us',
   },
 ];
@@ -191,7 +191,7 @@ export const Footer = () => {
           </div>
         </div>
         <p data-animate-text data-delay={0.1} className={footercopyright}>
-          © {currentYear} Devfest Lagos. All Rights Reserved.
+          © {currentYear} DevFest Lagos. All Rights Reserved.
         </p>
       </div>
       {/* Modals */}
