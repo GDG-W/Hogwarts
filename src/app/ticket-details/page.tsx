@@ -19,7 +19,7 @@ interface ITicketDetail {
   name: string;
   ticketTitle: string;
   ticketId: string;
-  ticketTag: 'day_one' | 'day_two' | 'both';
+  ticketTag: 'day_one' | 'day_two' | 'both_days';
 }
 
 enum Dates {
