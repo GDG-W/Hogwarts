@@ -124,17 +124,17 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       {
         title: '1 Day Access ONLY | <span> N7,000</span>',
         details: [
-          'Attend event for just a day of your choice',
+          'Get the one-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
-          'Meal tickets',
+          'Meal ticket',
         ],
       },
       {
         title: '2 Days Access | <span> N10,000</span>',
         details: [
-          'Attend event for both days',
+          'Get the two-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
-          'Meal tickets',
+          'Meal ticket',
         ],
       },
     ];
