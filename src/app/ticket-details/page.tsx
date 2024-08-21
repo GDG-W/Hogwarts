@@ -18,12 +18,17 @@ interface ITicketDetail {
   name: string;
   ticketTitle: string;
   ticketId: string;
-  ticketTag: 'day_one' | 'day_two' | 'both';
+  ticketTag: 'day_one' | 'day_two' | 'both_days';
 }
 enum Dates {
   'day_one' = '15th Nov, 2024',
   'day_two' = '16th Nov, 2024',
-  'both' = '15th & 16th Nov, 2024',
+  'both_days' = '15th & 16th Nov, 2024',
+}
+enum CalendarLinks {
+  'day_one' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024+Day+1&dates=20241115T000000/20241115T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
+  'day_two' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024+Day+2&dates=20241116T000000/20241116T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
+  'both_days' = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=DevFest+Lagos+2024&dates=20241115T000000/20241116T235959&details=You+can+find+the+event+agenda,+links+to+the+mobile+app,+manage+your+ticket+and+more+on+the+website+-+devfestlagos.com&location=Landmark+Centre,+Plot+2+%26+3,+Water+Corporation+Dr,+Victoria+Island,+Annex+106104,+Lagos,+Nigeria&sf=true',
 }
 const TicketDetails = () => {
   const [isOneWayTicket] = useState(true);
@@ -62,7 +67,7 @@ const TicketDetails = () => {
         // Non-Axios errors that are instances of Error
         setError(error.message || 'An unknown error occurred');
       } else {
-        // Fallback for unexpected error types
+        // Fallback for unexpected error typesconsole.log();
         setError('An unexpected error occurred');
       }
     } finally {
@@ -79,7 +84,11 @@ const TicketDetails = () => {
       fetchProfile(token);
     }
   }, []);
-
+  const handleCalendarClick = () => {
+    if (profile?.ticketTag) {
+      router.push(CalendarLinks[profile.ticketTag]);
+    }
+  };
   return (
     <div className='ticket__details'>
       <div className='ticket__container'>
@@ -116,7 +125,7 @@ const TicketDetails = () => {
                     <div className='detail'>
                       <p className='property'>Ticket type</p>
                       <span className='value'>
-                        {profile.ticketTag === 'both' ? 'Two-Day Access' : 'One-Day Access'}
+                        {profile.ticketTag === 'both_days' ? 'Two-Day Access' : 'One-Day Access'}
                       </span>
                     </div>
 
@@ -144,6 +153,7 @@ const TicketDetails = () => {
                   text='Add to Calendar'
                   variant={isOneWayTicket ? 'transparent' : 'primary'}
                   icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
+                  onClick={handleCalendarClick}
                 />
               </div>
               <div className='cta__buttons desktop'>
@@ -152,6 +162,7 @@ const TicketDetails = () => {
                   text='Add to Calendar'
                   variant={isOneWayTicket ? 'transparent' : 'primary'}
                   icon={isOneWayTicket ? <Calendar /> : <WhiteCalendar />}
+                  onClick={handleCalendarClick}
                 />
               </div>
             </div>
