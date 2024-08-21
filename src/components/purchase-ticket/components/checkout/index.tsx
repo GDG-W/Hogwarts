@@ -3,7 +3,7 @@ import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
 import { CacheKeys } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TicketPurchaseData, TTicketNumber } from '../../model';
 import styles from './checkout.module.scss';
 
@@ -50,7 +50,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
     onSuccess: (data) => {
-      data.payment_url && openInNewTab(data.payment_url);
+      if (data.payment_url) {
+        window.open(data.payment_url, '_blank');
+      }
 
       queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
       queryClient.clear();
@@ -117,10 +119,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     mutateAsync(payload);
   };
 
-  const openInNewTab = (url: string) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (newWindow) newWindow.opener = null;
-  };
+  useEffect(() => {
+    setFormError('');
+  }, [selectDays, ticketNo, getTicketPurchaseData, activeStep]);
 
   return (
     <div className={styles.main_container}>
@@ -174,7 +175,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({
               text='Checkout'
               variant={activeStep === 3 ? 'primary' : 'disabled'}
               isLoading={isLoading || isPending}
-              disabled={isLoading || isPending}
+              disabled={activeStep !== 3 || isLoading || isPending}
             />
           </>
         ) : (

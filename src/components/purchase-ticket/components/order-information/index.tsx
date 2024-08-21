@@ -123,6 +123,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
             as={TextField}
             name='email'
             id='email'
+            type='email'
             label='Email address'
             placeholder='example@gmail.com'
             value={values.email}
