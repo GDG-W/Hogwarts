@@ -140,7 +140,9 @@ const TicketDetails = () => {
                 </div>
               </div>
               <div className='ticket__content'>
-                <div className='content__title'>Two-Day Access</div>
+                <div className='content__title'>
+                  {profile.ticketTag === 'both' ? 'Two-Day Access' : 'One-Day Access'}
+                </div>
                 <div className='detailed__content'>
                   <div className='detail'>
                     <p className='property'>Full Name</p>
