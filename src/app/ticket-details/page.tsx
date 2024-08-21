@@ -141,7 +141,7 @@ const TicketDetails = () => {
               </div>
               <div className='ticket__content'>
                 <div className='content__title'>
-                  {profile.ticketTag === 'both' ? 'Two-Day Access' : 'One-Day Access'}
+                  {profile.ticketTag === 'both_days' ? 'Two-Day Access' : 'One-Day Access'}
                 </div>
                 <div className='detailed__content'>
                   <div className='detail'>
