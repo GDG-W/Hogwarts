@@ -76,7 +76,12 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
                 handleNext={handleTicketTypeCompletion}
               />
             )}
-            {activeStep >= 2 && <OrderInformation handleNext={handleOrderInfoCompletion} />}
+            {activeStep >= 2 && (
+              <OrderInformation
+                handleNext={handleOrderInfoCompletion}
+                setActiveStep={setActiveStep}
+              />
+            )}
 
             {activeStep === 3 && (
               <div className={styles.mob_checkout}>
