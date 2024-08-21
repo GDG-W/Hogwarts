@@ -82,7 +82,7 @@ export function ModalLayout(props: IModalProps) {
           <div className={styles.modal_header}>
             <div className={styles.top_pop}>
               <Image
-                src='/icons/devfest-logo.svg'
+                src='/animated-devfest-logo.svg'
                 alt='DevFest Lagos logo'
                 width={132}
                 height={34}
