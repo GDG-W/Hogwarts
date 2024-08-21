@@ -64,6 +64,7 @@
 
   @include media('>=tablet') {
     max-height: 85vh;
+    border-radius: 0 0 32px 32px;
   }
 }
 
