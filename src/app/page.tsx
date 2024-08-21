@@ -7,14 +7,24 @@ import PurchaseYourTicket from '@/components/home/ticket-details/purchase';
 import Value from '@/components/home/value/value';
 import { ModalLayout } from '@/components/modal-layout';
 import PurchaseTicket from '@/components/purchase-ticket';
-import { useState } from 'react';
+import { CacheKeys } from '@/utils/constants';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [showTicketModal, setShowTicketModal] = useState<boolean>(false);
+  const queryClient = useQueryClient();
 
   const closeModal = () => {
     setShowTicketModal(false);
   };
+
+  useEffect(() => {
+    if (!showTicketModal) {
+      queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
+      queryClient.clear();
+    }
+  }, [showTicketModal]);
 
   return (
     <main className='main'>
