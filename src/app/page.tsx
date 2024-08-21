@@ -45,7 +45,7 @@ export default function Home() {
       </Modal> */}
 
       <ModalLayout showHeader showModal={showTicketModal} onClose={closeModal}>
-        <PurchaseTicket closeModal={closeModal} />
+        <PurchaseTicket closeModal={closeModal} showTicketModal={showTicketModal} />
       </ModalLayout>
     </main>
   );

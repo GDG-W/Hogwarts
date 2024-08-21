@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Checkout } from './components/checkout';
 import { OrderInformation } from './components/order-information';
 import { TicketType } from './components/ticket-type';
@@ -7,6 +7,7 @@ import styles from './ticket.module.scss';
 
 interface IPurchaseTicketProps {
   closeModal: () => void;
+  showTicketModal: boolean;
 }
 
 const PurchaseTicket = (props: IPurchaseTicketProps) => {
@@ -43,6 +44,16 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
     setIsOrderInfoComplete(true);
     handleNextStep();
   };
+
+  useEffect(() => {
+    if (!props.showTicketModal) {
+      setActiveStep(1);
+      setSelectDays(0);
+      setTicketNo({ oneDay: 0, twoDays: 0 });
+      setIsTicketTypeComplete(false);
+      setIsOrderInfoComplete(false);
+    }
+  }, [props.showTicketModal]);
 
   return (
     <div className={styles.ticket_container}>
