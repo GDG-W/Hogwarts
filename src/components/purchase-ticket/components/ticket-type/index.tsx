@@ -149,7 +149,12 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                     />
                   </div>
                 </div>
-                {<p className={styles.error}>{errors.selectedDay || errors.oneDayTicketNumber}</p>}
+                {
+                  <p className={styles.error}>
+                    {(!errors.selectedDay?.includes('NaN') && errors.selectedDay) ||
+                      (!errors.oneDayTicketNumber?.includes('NaN') && errors.oneDayTicketNumber)}
+                  </p>
+                }
               </div>
 
               <div className={styles.t_container_box}>
@@ -178,7 +183,7 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                       placeholder='0'
                       value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setFieldValue('twoDayTicketNumber', event.target.value);
+                        setFieldValue('twoDayTicketNumber', Number(event.target.value));
                         setFieldValue('oneDayTicketNumber', 0);
                         setFieldValue('selectedDay', ''); // remove in next rollout
                         handleChangeSelectDays(2);
@@ -190,7 +195,9 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
                     />
                   </div>
                 </div>
-                <p className={styles.error}>{errors.twoDayTicketNumber}</p>
+                <p className={styles.error}>
+                  {!errors.twoDayTicketNumber?.includes('NaN') && errors.twoDayTicketNumber}
+                </p>
               </div>
 
               <div className={styles.t_container_box}>

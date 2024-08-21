@@ -1,6 +1,6 @@
 import AnimationBase from '@/animations/classes/AnimationBase';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import { ScrollTrigger, ScrollToPlugin } from 'gsap/all';
 
 export default class PurchaseTicketsAnimation extends AnimationBase {
   private currentIndex: number;
@@ -13,6 +13,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       sourceElement: `.${sourceElementClassName}`,
     });
 
+    gsap.registerPlugin(ScrollToPlugin);
     gsap.registerPlugin(ScrollTrigger);
 
     this.currentIndex = 0;
@@ -29,7 +30,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       scrollTrigger: {
         trigger: `.${this.styles.purchase}`,
         start: 'top top',
-        end: '+=300%',
+        end: '+=150%',
         scrub: true,
         pin: true,
       },
@@ -43,7 +44,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       scrollTrigger: {
         trigger: `.${this.styles.purchase}`,
         start: 'top top',
-        end: '+=300%',
+        end: '+=150%',
         scrub: true,
 
         onUpdate: (self) => {
@@ -98,28 +99,42 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
       },
     });
 
+    const ticketThumbnailImages: HTMLElement[] = gsap.utils.toArray(
+      `.${this.styles.thumbnailImage}`,
+    );
+
+    ticketThumbnailImages.forEach((image, index) => {
+      image.onclick = () => {
+        gsap.to(window, {
+          duration: 1,
+          ease: 'power3.out',
+          scrollTo:
+            index === 0
+              ? backgroundTimeline.scrollTrigger!.start
+              : backgroundTimeline.scrollTrigger!.end,
+        });
+      };
+    });
+
     this.updateTicketDetails(this.styles.ticketdetails, 0);
   };
 
   private updateTicketDetails(ticketContainerClassname: string, index: number) {
     const ticketDetails = [
       {
-        title: '1 day access only | <span> N20,000</span>',
+        title: '1 Day Access ONLY | <span> N7,000</span>',
         details: [
-          'Attend event for just a day of your choice',
+          'Get the one-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
-          'Meal Tickets',
-          'Devfest Swags',
+          'Meal ticket',
         ],
       },
       {
-        title: '2 day access only | <span> N30,000</span>',
+        title: '2 Days Access | <span> N10,000</span>',
         details: [
-          'Attend event for both days',
+          'Get the two-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
-          'Meal Tickets',
-          'Devfest Swags',
-          'Exclusive Networking Event',
+          'Meal ticket',
         ],
       },
     ];

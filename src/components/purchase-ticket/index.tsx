@@ -1,11 +1,16 @@
-import styles from './ticket.module.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Checkout } from './components/checkout';
-import { TicketType } from './components/ticket-type';
 import { OrderInformation } from './components/order-information';
+import { TicketType } from './components/ticket-type';
 import { TTicketNumber } from './model';
+import styles from './ticket.module.scss';
 
-const PurchaseTicket = () => {
+interface IPurchaseTicketProps {
+  closeModal: () => void;
+  showTicketModal: boolean;
+}
+
+const PurchaseTicket = (props: IPurchaseTicketProps) => {
   const [activeStep, setActiveStep] = React.useState<number>(1);
   const [selectDays, setSelectDays] = React.useState<number>(0);
   const [ticketNo, setTicketNo] = React.useState<TTicketNumber>({
@@ -40,6 +45,16 @@ const PurchaseTicket = () => {
     handleNextStep();
   };
 
+  useEffect(() => {
+    if (!props.showTicketModal) {
+      setActiveStep(1);
+      setSelectDays(0);
+      setTicketNo({ oneDay: 0, twoDays: 0 });
+      setIsTicketTypeComplete(false);
+      setIsOrderInfoComplete(false);
+    }
+  }, [props.showTicketModal]);
+
   return (
     <div className={styles.ticket_container}>
       <div className={styles.ticket_body}>
@@ -72,16 +87,31 @@ const PurchaseTicket = () => {
                 handleNext={handleTicketTypeCompletion}
               />
             )}
-            {activeStep >= 2 && <OrderInformation handleNext={handleOrderInfoCompletion} />}
+            {activeStep >= 2 && (
+              <OrderInformation
+                handleNext={handleOrderInfoCompletion}
+                setActiveStep={setActiveStep}
+              />
+            )}
 
             {activeStep === 3 && (
               <div className={styles.mob_checkout}>
-                <Checkout selectDays={selectDays} ticketNo={ticketNo} activeStep={activeStep} />
+                <Checkout
+                  closeModal={props.closeModal}
+                  selectDays={selectDays}
+                  ticketNo={ticketNo}
+                  activeStep={activeStep}
+                />
               </div>
             )}
           </div>
           <div className={`${styles.wrapper_container} ${styles.wrapper_sticky_top}`}>
-            <Checkout selectDays={selectDays} ticketNo={ticketNo} activeStep={activeStep} />
+            <Checkout
+              closeModal={props.closeModal}
+              selectDays={selectDays}
+              ticketNo={ticketNo}
+              activeStep={activeStep}
+            />
           </div>
         </div>
       </div>

@@ -2,10 +2,8 @@
 import FooterAnimation from '@/animations/components/Footer';
 import Button from '@/components/button';
 import Image from 'next/image';
+import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
 import styles from './footer.module.scss';
-import { useEffect, useState, useRef } from 'react';
-import { Modal } from '../modal';
-import PurchaseTicket from '../purchase-ticket';
 
 const currentYear = new Date().getFullYear();
 
@@ -39,7 +37,7 @@ const footerLinks = [
     title: 'Join the community',
   },
   {
-    link: ' https://policies.google.com/privacy',
+    link: 'https://developers.google.com/community-guidelines',
     title: 'Community Guidelines',
   },
   {
@@ -47,13 +45,17 @@ const footerLinks = [
     title: 'Privacy Policy',
   },
   {
-    link: '',
+    link: 'https://twitter.com/gdglagos',
     title: 'Contact Us',
   },
 ];
 
-export const Footer = () => {
-  const [openTicket, setOpenTicket] = useState<boolean>(false);
+interface IFooterProps {
+  setShowTicketModal: Dispatch<SetStateAction<boolean>>;
+  showTicketModal: boolean;
+}
+
+export const Footer = (props: IFooterProps) => {
   const {
     footerwrapper,
     container,
@@ -68,16 +70,15 @@ export const Footer = () => {
   useEffect(() => {
     const bodyElement = document.body;
 
-    if (openTicket) {
+    if (props.showTicketModal) {
       bodyElement.style.overflow = 'hidden';
-      bodyElement.style.height = '100vh';
     }
 
     return () => {
       bodyElement.style.overflow = 'scroll';
       bodyElement.style.height = 'auto';
     };
-  }, [openTicket]);
+  }, [props.showTicketModal]);
 
   const isInitialized = useRef(false);
 
@@ -148,7 +149,7 @@ export const Footer = () => {
             </div>
 
             <Button
-              onClick={() => setOpenTicket(true)}
+              onClick={() => props.setShowTicketModal(true)}
               data-animate-scale
               data-delay='0.167'
               data-easing='SCALE'
@@ -191,13 +192,9 @@ export const Footer = () => {
           </div>
         </div>
         <p data-animate-text data-delay={0.1} className={footercopyright}>
-          © {currentYear} Devfest Lagos. All Rights Reserved.
+          © {currentYear} DevFest Lagos. All Rights Reserved.
         </p>
       </div>
-      {/* Modals */}
-      <Modal showHeader open={openTicket} onClose={() => setOpenTicket(false)}>
-        <PurchaseTicket />
-      </Modal>
     </footer>
   );
 };

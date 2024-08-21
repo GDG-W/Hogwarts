@@ -2,11 +2,14 @@
 
 .ticket_container {
   position: relative;
+  height: 100%;
 }
 
 .ticket_body {
   padding: 1.5rem;
   border-radius: unset;
+  height: 100%;
+  overflow: hidden;
 
   @include media('>=tablet') {
     padding: 2rem;

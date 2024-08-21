@@ -37,6 +37,12 @@
     max-width: 1200px;
     margin: 0 auto;
 
+    .play_trivia {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
     header {
       @include media('<=500px') {
         padding: 1.5rem 0rem;
@@ -82,19 +88,32 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+
+        .get_your_ticket_container {
+          display: flex;
+        }
+
+        .get_your_ticket {
+          color: #4285f4;
+          font-size: 0.875rem;
+          font-weight: 500;
+          margin-left: auto;
+          margin-top: -1em;
+        }
       }
 
       .error {
         font-size: 1rem;
         font-weight: 500;
-        // text-align: center;
+        text-align: center;
         margin-bottom: 1.5rem;
-        color: var(--secondary-red);
+        color: red;
       }
+
       .success {
         font-size: 1rem;
         font-weight: 500;
-        // text-align: center;
+        text-align: center;
         margin-bottom: 1.5rem;
         color: var(--primary-blue);
       }

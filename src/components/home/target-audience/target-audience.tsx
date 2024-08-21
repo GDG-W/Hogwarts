@@ -4,7 +4,7 @@ import TargetAudienceAnimation from '@/animations/components/TargetAudience';
 import Button from '@/components/button';
 import { classNames } from '@/utils/classNames';
 import useVisibilityInterval from '@/lib/hooks/useVisibilityInterval';
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import styles from './target-audience.module.scss';
 
 const items = [
@@ -15,6 +15,7 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
   'Designers',
   'Founders',
   'Developers',
@@ -22,9 +23,15 @@ const items = [
   'Engineers',
   'Data Analysts',
   'Product Managers',
+  'Everyone',
 ];
 
-const TargetAudience = () => {
+interface IProps {
+  setShowTicketModal: Dispatch<SetStateAction<boolean>>;
+  showTicketModal: boolean;
+}
+
+const TargetAudience = (props: IProps) => {
   const isInitialized = useRef(false);
   const [active, setActive] = useState(1);
 
@@ -59,6 +66,19 @@ const TargetAudience = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const bodyElement = document.body;
+
+    if (props.showTicketModal) {
+      bodyElement.style.overflow = 'hidden';
+    }
+
+    return () => {
+      bodyElement.style.overflow = 'scroll';
+      bodyElement.style.height = 'auto';
+    };
+  }, [props.showTicketModal]);
+
   return (
     <section className={styles.targetAudience}>
       <div className={classNames(styles.container)}>
@@ -78,6 +98,7 @@ const TargetAudience = () => {
 
             <Button
               data-animate-scale
+              onClick={() => props.setShowTicketModal(true)}
               data-delay='0.583'
               data-easing='CTA.button'
               variant='secondary'
@@ -94,7 +115,7 @@ const TargetAudience = () => {
             <p data-animate-y-up>DevFest is for Everyone</p>
             <ul>
               {items.map((item, index) => (
-                <li key={item} className={getClassNames(index)}>
+                <li key={item + index} className={getClassNames(index)}>
                   {item}
                 </li>
               ))}
