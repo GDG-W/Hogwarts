@@ -3,6 +3,7 @@ import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
 import { CacheKeys } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { TicketPurchaseData, TTicketNumber } from '../../model';
 import styles from './checkout.module.scss';
@@ -26,12 +27,7 @@ interface Ticket {
   created_at: string;
 }
 
-export const Checkout: React.FC<ICheckoutProps> = ({
-  selectDays,
-  ticketNo,
-  activeStep,
-  closeModal,
-}) => {
+export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activeStep }) => {
   const oneDayTotal = 7000 * ticketNo.oneDay;
   const twoDayTotal = 10000 * ticketNo.twoDays;
 
@@ -47,15 +43,22 @@ export const Checkout: React.FC<ICheckoutProps> = ({
 
   const [formError, setFormError] = useState('');
 
+  const router = useRouter();
+
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
     onSuccess: (data) => {
-      data.payment_url && openInNewTab(data.payment_url);
+      if (data.payment_url) {
+        router.push(data.payment_url);
 
-      queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS], undefined);
-      queryClient.clear();
+        queryClient.setQueryData(
+          [CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS],
+          undefined,
+        );
+        queryClient.clear();
+      }
 
-      closeModal();
+      // closeModal();
     },
     onError: (error: unknown) => {
       console.log(error);
@@ -115,11 +118,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({
     };
 
     mutateAsync(payload);
-  };
-
-  const openInNewTab = (url: string) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (newWindow) newWindow.opener = null;
   };
 
   return (
