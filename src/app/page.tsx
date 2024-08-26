@@ -29,15 +29,12 @@ export default function Home() {
   return (
     <main className='main'>
       <div className='container'>
-        <Landing setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
+        <Landing setShowTicketModal={setShowTicketModal} />
         <Value />
-        <PurchaseYourTicket
-          setShowTicketModal={setShowTicketModal}
-          showTicketModal={showTicketModal}
-        />
+        <PurchaseYourTicket setShowTicketModal={setShowTicketModal} />
         <FAQs />
-        <TargetAudience setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
-        <Footer setShowTicketModal={setShowTicketModal} showTicketModal={showTicketModal} />
+        <TargetAudience setShowTicketModal={setShowTicketModal} />
+        <Footer setShowTicketModal={setShowTicketModal} />
       </div>
 
       {/* <Modal showHeader open={showTicketModal} onClose={closeModal}>
