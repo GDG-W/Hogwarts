@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     'date',
     'venue',
   ],
+  openGraph: {
+    images: 'https://i.postimg.cc/q7GyC82C/opengraph-image.png',
+  },
   // metadataBase: new URL('https://tickets.devfestlagos.com'),
 };
 
