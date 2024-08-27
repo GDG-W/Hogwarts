@@ -55,6 +55,17 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
     }
   }, [props.showTicketModal]);
 
+  useEffect(() => {
+    if (activeStep === 3) {
+      const element = document.querySelector(`.${styles.wrapper_container}`);
+      const wrapper = document.querySelector(`.${styles.wrapper}`);
+
+      if (!element || !wrapper) return;
+
+      wrapper?.scrollTo(0, element.scrollHeight);
+    }
+  }, [activeStep]);
+
   return (
     <div className={styles.ticket_container}>
       <div className={styles.ticket_body}>
