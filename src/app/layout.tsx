@@ -10,7 +10,19 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: "DevFest Lagos'24 | Tickets",
   description: 'Get Early Bird Tickets',
-  keywords: 'devfest, devfest lagos, tickets, devfest 2024, early bird tickets, date, venue',
+  keywords: [
+    'devfest',
+    'devfest lagos',
+    'tickets',
+    'devfest 2024',
+    'early bird tickets',
+    'date',
+    'venue',
+  ],
+  openGraph: {
+    images: 'https://i.postimg.cc/q7GyC82C/opengraph-image.png',
+  },
+  // metadataBase: new URL('https://tickets.devfestlagos.com'),
 };
 
 const GeneralSans = localFont({
