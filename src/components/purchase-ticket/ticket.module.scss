@@ -96,6 +96,7 @@
   flex-wrap: wrap;
   max-height: calc(85vh - 128px);
   overflow-y: auto;
+  scroll-behavior: smooth;
 
   &::-webkit-scrollbar {
     display: none;
