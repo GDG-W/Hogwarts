@@ -52,7 +52,6 @@ const footerLinks = [
 
 interface IFooterProps {
   setShowTicketModal: Dispatch<SetStateAction<boolean>>;
-  showTicketModal: boolean;
 }
 
 export const Footer = (props: IFooterProps) => {
@@ -66,19 +65,6 @@ export const Footer = (props: IFooterProps) => {
     footerlinks,
     footercopyright,
   } = styles;
-
-  useEffect(() => {
-    const bodyElement = document.body;
-
-    if (props.showTicketModal) {
-      bodyElement.style.overflow = 'hidden';
-    }
-
-    return () => {
-      bodyElement.style.overflow = 'scroll';
-      bodyElement.style.height = 'auto';
-    };
-  }, [props.showTicketModal]);
 
   const isInitialized = useRef(false);
 

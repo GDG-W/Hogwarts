@@ -9,7 +9,6 @@ import styles from './purchase.module.scss';
 
 interface IPurchaseYourTicketProps {
   setShowTicketModal: Dispatch<SetStateAction<boolean>>;
-  showTicketModal: boolean;
 }
 const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
   const isInitialized = useRef(false);
@@ -21,19 +20,6 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
       isInitialized.current = true;
     }
   }, []);
-
-  useEffect(() => {
-    const bodyElement = document.body;
-
-    if (props.showTicketModal) {
-      bodyElement.style.overflow = 'hidden';
-    }
-
-    return () => {
-      bodyElement.style.overflow = 'scroll';
-      bodyElement.style.height = 'auto';
-    };
-  }, [props.showTicketModal]);
 
   return (
     <section className={styles.purchase}>

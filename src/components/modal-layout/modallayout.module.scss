@@ -11,6 +11,7 @@
   transition:
     opacity 0.3s ease-in-out,
     visibility 0.3s ease-in-out;
+  overflow: hidden;
 
   &.hidden {
     opacity: 0;
