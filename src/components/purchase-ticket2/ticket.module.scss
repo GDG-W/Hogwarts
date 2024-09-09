@@ -1,0 +1,134 @@
+@import 'utils/breakpoints';
+
+.ticket_container {
+  position: relative;
+  height: 100%;
+}
+
+.ticket_body {
+  padding: 1.5rem;
+  border-radius: unset;
+  height: 100%;
+  overflow: hidden;
+
+  @include media('>=tablet') {
+    padding: 2rem;
+    border-radius: 0px 0px 32px 32px;
+  }
+}
+
+.title_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 30px;
+
+  @include media('>=tablet') {
+    padding-bottom: 60px;
+  }
+
+  &_name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #000000;
+
+    @include media('>=tablet') {
+      font-size: 1.75rem;
+    }
+  }
+
+  &_list_group {
+    list-style: none;
+    display: flex;
+    gap: 0.55rem;
+
+    &_item {
+      display: flex;
+      position: relative;
+      align-items: center;
+      color: #9a9a9a;
+      transition: 0.3s all ease;
+      cursor: pointer;
+      gap: 0.55rem;
+      font-size: 0.75rem;
+
+      &::after {
+        height: 0.5px;
+        border-bottom: 0.5px dashed #9a9a9a;
+        content: ' ';
+        width: 25px;
+      }
+
+      &:last-child {
+        &::after {
+          content: none;
+        }
+      }
+    }
+
+    &_active {
+      color: #333333;
+
+      &::after {
+        border-color: #333333;
+      }
+    }
+
+    @include media('>=desktop') {
+      gap: 0.875rem;
+
+      &_item {
+        gap: 0.875rem;
+        font-size: 0.875rem;
+
+        &::after {
+          content: ' ';
+          width: 60px;
+        }
+      }
+    }
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: calc(85vh - 128px);
+  overflow-y: auto;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &_container {
+    width: 100%;
+  }
+
+  &_sticky_top {
+    display: none;
+  }
+
+  @include media('>=tablet') {
+    flex-wrap: nowrap;
+    gap: 60px;
+    max-height: calc(85vh - 210px);
+
+    &_sticky_top {
+      display: block;
+      position: sticky;
+      top: 0;
+    }
+  }
+}
+
+.mob_checkout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @include media('>=tablet') {
+    display: none;
+  }
+}

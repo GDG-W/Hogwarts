@@ -6,7 +6,8 @@ import TargetAudience from '@/components/home/target-audience/target-audience';
 import PurchaseYourTicket from '@/components/home/ticket-details/purchase';
 import Value from '@/components/home/value/value';
 import { ModalLayout } from '@/components/modal-layout';
-import PurchaseTicket from '@/components/purchase-ticket';
+import PurchaseTicket from '@/components/purchase-ticket2';
+// import PurchaseTicket from '@/components/purchase-ticket';
 import { CacheKeys } from '@/utils/constants';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -45,7 +46,8 @@ export default function Home() {
       </Modal> */}
 
       <ModalLayout showHeader showModal={showTicketModal} onClose={closeModal}>
-        <PurchaseTicket closeModal={closeModal} showTicketModal={showTicketModal} />
+        {/* <PurchaseTicket closeModal={closeModal} showTicketModal={showTicketModal} /> */}
+        <PurchaseTicket />
       </ModalLayout>
     </main>
   );

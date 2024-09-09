@@ -35,8 +35,8 @@ export const roleOptions: OptionProp[] = [
 ];
 
 export const dayOptions: OptionProp[] = [
-  { label: 'Day 1', value: '1' },
-  { label: 'Day 2', value: '2' },
+  { label: 'Day 1', value: 'day_one' },
+  { label: 'Day 2', value: 'day_two' },
 ];
 
 export const topicsOfInterest = [
