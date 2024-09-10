@@ -4,82 +4,20 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
 import { getOptionsValue } from '@/utils/helper';
 import { dayOptions } from '@/utils/mock-data';
-import { Field, Form, Formik, useFormik } from 'formik';
-import { useEffect } from 'react';
-import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
 import { useTicketContext } from '../context';
-import { ClientTicketType, SelectedDays } from '../model';
+import { SelectedDays } from '../model';
 import styles from './style.module.scss';
+import { useTicketTypeForm } from './useTicketTypeForm';
 
-export const TicketTypeForm = () => {
+export const TicketTypeForm = ({ handleSubmit }: { handleSubmit: () => void }) => {
   const {
-    state: { oneDayTickets, twoDayTickets, ticketTotalPrice },
+    state: { ticketTotalPrice },
     dispatch,
   } = useTicketContext();
 
-  const initialValues = {
-    one_day: {
-      quantity: oneDayTickets.length,
-      selected_day: 'day_one',
-    },
-
-    two_days: {
-      quantity: twoDayTickets.length,
-    },
-  };
-
-  const validationSchema = Yup.object({
-    one_day: Yup.object({
-      quantity: Yup.number().min(1, 'Quantity must be at least 1').required('Quantity is required'),
-      selected_day: Yup.string()
-        .oneOf(['first', 'second', 'third'], 'Selected day must be valid')
-        .required('Selected day is required'),
-    }),
-
-    two_days: Yup.object({
-      quantity: Yup.number().min(1, 'Quantity must be at least 1').required('Quantity is required'),
-    }),
-  });
-
-  // const ticketTotal = useCallback(() => calculateTicketTotal(), [calculateTicketTotal]);
-
-  const handleProceed = (values: typeof initialValues) => {
-    console.log(values);
-  };
-
-  const { values, setFieldValue, errors, submitForm, isValid } = useFormik({
-    enableReinitialize: true,
-    initialValues,
-    validationSchema,
-    onSubmit: handleProceed,
-  });
-
-  const handleAddItem = (type: ClientTicketType) => {
-    if (type === 'two_days') {
-      return dispatch({
-        type: 'UPDATE_TICKET_AMOUNT',
-        payload: {
-          type,
-          quantity: values.two_days.quantity,
-        },
-      });
-    }
-
-    return dispatch({
-      type: 'UPDATE_TICKET_AMOUNT',
-      payload: {
-        type,
-        quantity: values.one_day.quantity,
-      },
-    });
-  };
-
-  useEffect(() => {
-    console.log({
-      oneDayTickets,
-      twoDayTickets,
-    });
-  }, [oneDayTickets, twoDayTickets]);
+  const { values, setFieldValue, errors, submitForm, isValid, initialValues, handleProceed } =
+    useTicketTypeForm(handleSubmit);
 
   return (
     <div className={styles.t_container}>
@@ -88,12 +26,7 @@ export const TicketTypeForm = () => {
         <p className={styles.t_container_header_detail}> Choose your ticket for entry pass</p>
       </div>
 
-      <Formik
-        enableReinitialize
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleProceed}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleProceed}>
         <Form>
           <div className={styles.t_container_body}>
             <div className={styles.t_container_box}>
@@ -113,15 +46,23 @@ export const TicketTypeForm = () => {
                     width='135px'
                     placeholder='Select Day'
                     options={dayOptions}
-                    defaultValue={getOptionsValue(values.one_day.selected_day, dayOptions)}
+                    defaultValue={getOptionsValue(values.one_day.selectedDay, dayOptions)}
                     id='selectedDay'
                     onChange={(valueObj: OptionProp) => {
-                      setFieldValue('selectedDay', valueObj.value);
-                      handleAddItem({ selectedDay: valueObj.value as SelectedDays });
+                      setFieldValue('one_day.selectedDay', valueObj.value);
+
+                      dispatch({
+                        type: 'UPDATE_TICKET_AMOUNT',
+                        payload: {
+                          type: { selectedDay: valueObj.value as SelectedDays },
+                          quantity: values.one_day.quantity,
+                        },
+                      });
                     }}
                   />
 
                   <Field
+                    disabled={!values.one_day.selectedDay}
                     as={TextField}
                     width='75px'
                     id='one_day.quantity'
@@ -129,7 +70,14 @@ export const TicketTypeForm = () => {
                     value={values.one_day.quantity > 0 ? values.one_day.quantity.toString() : ''}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('one_day.quantity', Number(event.target.value));
-                      handleAddItem({ selectedDay: values.one_day.selected_day as SelectedDays });
+
+                      dispatch({
+                        type: 'UPDATE_TICKET_AMOUNT',
+                        payload: {
+                          type: { selectedDay: values.one_day.selectedDay as SelectedDays },
+                          quantity: Number(event.target.value),
+                        },
+                      });
                     }}
                   />
                 </div>
@@ -137,12 +85,12 @@ export const TicketTypeForm = () => {
 
               <p className={styles.error}>
                 {(() => {
-                  const { selected_day, quantity } = errors?.one_day || {};
+                  const { selectedDay, quantity } = errors?.one_day || {};
 
-                  const hasSelectedDayError = selected_day && !selected_day.includes('NaN');
+                  const hasSelectedDayError = selectedDay && !selectedDay.includes('NaN');
                   const hasQuantityError = quantity && !quantity.includes('NaN');
 
-                  return hasSelectedDayError ? selected_day : hasQuantityError ? quantity : null;
+                  return hasSelectedDayError ? selectedDay : hasQuantityError ? quantity : null;
                 })()}
               </p>
             </div>
@@ -173,7 +121,14 @@ export const TicketTypeForm = () => {
                     value={values.two_days.quantity > 0 ? values.two_days.quantity.toString() : ''}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('two_days.quantity', Number(event.target.value));
-                      // handleAddItem("two_days");
+
+                      dispatch({
+                        type: 'UPDATE_TICKET_AMOUNT',
+                        payload: {
+                          type: 'two_days',
+                          quantity: Number(event.target.value),
+                        },
+                      });
                     }}
                   />
                 </div>
@@ -195,13 +150,9 @@ export const TicketTypeForm = () => {
             text={
               <>
                 <span>Buy ticket</span>
-                {/* {ticketTotal()} */}
-                {ticketTotalPrice}
-                {/* {oneDayTicket * 7000 + twoDayTicket * 10000 !== 0 && (
-                  <span className={styles.total__mobile}>
-                    N{(oneDayTicket * 7000 + twoDayTicket * 10000).toLocaleString()}
-                  </span>
-                )} */}
+                {ticketTotalPrice !== 0 && (
+                  <span className={styles.total__mobile}>N{ticketTotalPrice}</span>
+                )}
               </>
             }
             onClick={submitForm}
