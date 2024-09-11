@@ -1,32 +1,36 @@
-export type TTicketNumber = {
-  oneDay: number;
-  twoDays: number;
-};
+export type SelectedDays = 'day_one' | 'day_two';
 
-export const allowedTicketTypes = ['day_one', 'day_two'] as const;
-
-export type AllowedTicketType = (typeof allowedTicketTypes)[number];
-
-export type TicketTypes = {
+export type SelectedTickets = {
   one_day: {
     quantity: number;
-    selectedDay: AllowedTicketType | undefined;
+    selectedDay: SelectedDays | null;
   };
-  two_day: {
-    quantity: 0;
+
+  two_days: {
+    quantity: number;
   };
+};
+
+type BuyForOthersForm = {
+  oneDayAccessEmails: string[];
+  twoDaysAccessEmails: string[];
+};
+
+type BuyForYourselfForm = {
+  role: string;
+  expertise: string;
+  topicsOfInterest: string[];
+  sessionsOfInterest: string[];
+};
+
+type BuyerInfo = {
+  fullName: string;
+  email_address: string;
 };
 
 export type TicketPurchaseData = {
-  selectedDay?: string;
-  ticketNo?: TTicketNumber;
-  oneDayTicketNumber: number;
-  twoDayTicketNumber: number;
-  name?: string;
-  email?: string;
-  role?: string;
-  expertise?: string;
-  isForSelf?: boolean;
-  topicsOfInterest: string[];
-  sessionsOfInterest: string[];
+  selectedTickets: SelectedTickets;
+  buyerInformation: BuyerInfo;
+  personalOrderInformation: BuyForYourselfForm;
+  othersOrderInformation: BuyForOthersForm;
 };

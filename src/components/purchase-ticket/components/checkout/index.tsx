@@ -1,37 +1,27 @@
 import Button from '@/components/button';
 import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
-import { CacheKeys } from '@/utils/constants';
+import { Ticket } from '@/lib/actions/tickets/models';
+import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { TicketPurchaseData, TTicketNumber } from '../../model';
+import React, { useMemo, useState } from 'react';
+import { SelectedTickets, TicketPurchaseData } from '../../model';
+import { validateTicketPurchaseData } from '../../tickets.util';
 import styles from './checkout.module.scss';
 
 interface ICheckoutProps {
-  selectDays: number;
-  ticketNo: TTicketNumber;
   activeStep: number;
   closeModal: () => void;
+  selectedTickets: SelectedTickets;
 }
 
-interface Ticket {
-  id: string;
-  title: string;
-  description: string;
-  tag: string;
-  price: number;
-  total_units: number;
-  available_units: number;
-  total_minted: number;
-  created_at: string;
-}
-
-export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activeStep }) => {
-  const oneDayTotal = 7000 * ticketNo.oneDay;
-  const twoDayTotal = 10000 * ticketNo.twoDays;
-
+export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets, closeModal }) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+
+  const [formError, setFormError] = useState('');
+
   const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
     CacheKeys.USER_PURCHASE_TICKET,
   ]);
@@ -40,10 +30,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
     queryKey: [CacheKeys.USER_TICKETS],
     queryFn: fetchTickets,
   });
-
-  const [formError, setFormError] = useState('');
-
-  const router = useRouter();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
@@ -58,7 +44,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
         queryClient.clear();
       }
 
-      // closeModal();
+      closeModal();
     },
     onError: (error: unknown) => {
       console.log(error);
@@ -66,101 +52,169 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
     },
   });
 
-  const getTicketId = (
-    selectedTicket: TicketPurchaseData,
-    ticketArray: Ticket[],
-  ): Ticket | undefined => {
-    if (selectedTicket?.selectedDay == '1') {
-      return ticketArray.find((ticket) => ticket.tag === 'day_one');
-    } else if (selectedTicket?.selectedDay == '2') {
-      return ticketArray.find((ticket) => ticket.tag === 'day_two');
-    } else if (!selectedTicket.selectedDay) {
-      return ticketArray.find((ticket) => ticket.tag === 'both_days');
-    }
-
-    return undefined;
-  };
-
   const handleCheckout = async (retry: number = 0): Promise<void> => {
-    if (
-      !getTicketPurchaseData?.email ||
-      !getTicketPurchaseData?.name ||
-      !getTicketPurchaseData?.ticketNo
-    )
-      return;
+    if (!getTicketPurchaseData) return;
+
+    const isFormValid = validateTicketPurchaseData(getTicketPurchaseData);
+
+    if (!isFormValid) return;
 
     if (!data || data.length === 0) {
       if (retry >= 3) return;
 
       await refetch();
+
       return handleCheckout(retry + 1);
     }
 
-    const selectedTicket = getTicketId(getTicketPurchaseData, data);
+    const { one_day, two_days } = getTicketPurchaseData.selectedTickets;
 
-    if (!selectedTicket) return;
+    const isPersonal = one_day.quantity + two_days.quantity === 1;
+
+    if (isPersonal) {
+      const selected = one_day.quantity === 0 ? 'both_days' : one_day.selectedDay;
+
+      const ticket = data?.find((ticket) => ticket.tag === selected);
+
+      if (!ticket) return;
+
+      const payload = {
+        payer: {
+          fullname: getTicketPurchaseData?.buyerInformation.fullName,
+          email_address: getTicketPurchaseData?.buyerInformation.email_address,
+        },
+        payer_is_attendee: true,
+        attendees: [
+          {
+            ticket_id: ticket.id,
+            email_address: getTicketPurchaseData?.buyerInformation.email_address,
+            fullname: getTicketPurchaseData?.buyerInformation.fullName,
+            role: getTicketPurchaseData?.personalOrderInformation.role,
+            level_of_expertise: getTicketPurchaseData?.personalOrderInformation.expertise,
+          },
+        ],
+      };
+
+      mutateAsync(payload);
+
+      return;
+    }
+
+    function getOneDayTicketId() {
+      const { quantity, selectedDay } = one_day;
+
+      if (quantity === 0 || !selectedDay) return;
+
+      const ticket = data?.find((ticket) => ticket.tag === selectedDay);
+
+      if (!ticket) return;
+
+      return ticket.id;
+    }
+
+    function getTwoDayTicketId() {
+      const ticket = data?.find((ticket) => ticket.tag === 'both_days');
+
+      if (!ticket) return;
+
+      return ticket.id;
+    }
+
+    const { oneDayAccessEmails, twoDaysAccessEmails } =
+      getTicketPurchaseData.othersOrderInformation;
+
+    const tickets = [];
+
+    const oneDayTicket = getOneDayTicketId();
+
+    if (oneDayAccessEmails.length > 0 && oneDayTicket) {
+      const oneDayTickets = oneDayAccessEmails.map((email) => {
+        return {
+          email_address: email,
+          ticket_id: oneDayTicket,
+        };
+      });
+
+      tickets.push(...oneDayTickets);
+    }
+
+    const twoDayTicket = getTwoDayTicketId();
+
+    if (twoDaysAccessEmails.length > 0 && twoDayTicket) {
+      const twoDayTickets = twoDaysAccessEmails.map((email) => {
+        return {
+          email_address: email,
+          ticket_id: twoDayTicket,
+        };
+      });
+
+      tickets.push(...twoDayTickets);
+    }
 
     const payload = {
       payer: {
-        email_address: getTicketPurchaseData?.email,
-        fullname: getTicketPurchaseData?.name,
+        fullname: getTicketPurchaseData?.buyerInformation.fullName,
+        email_address: getTicketPurchaseData?.buyerInformation.email_address,
       },
-      payer_is_attendee: true,
-      attendees: [
-        {
-          email_address: getTicketPurchaseData?.email,
-          ticket_id: selectedTicket.id,
-          fullname: getTicketPurchaseData?.name,
-          role: getTicketPurchaseData?.role,
-          level_of_expertise: getTicketPurchaseData?.expertise,
-        },
-      ],
+      payer_is_attendee: false,
+      attendees: tickets,
     };
 
     mutateAsync(payload);
+
+    return;
   };
+
+  const { one_day, two_days } = selectedTickets;
+
+  const ticketTotal = useMemo(() => {
+    const oneDayTotal = one_day.quantity * TICKET_PRICES.DAY_ONE;
+    const twoDaysTotal = two_days.quantity * TICKET_PRICES.DAY_TWO;
+
+    return oneDayTotal + twoDaysTotal;
+  }, [selectedTickets]);
 
   return (
     <div className={styles.main_container}>
       <div className={styles.main_container_header}>Order summary</div>
 
       <div className={styles.main_container_body}>
-        {selectDays > 0 && (ticketNo.oneDay > 0 || ticketNo.twoDays > 0) ? (
+        {one_day.quantity > 0 || two_days.quantity > 0 ? (
           <>
             <ul className={styles.main_container_body_list_group}>
-              {ticketNo.oneDay > 0 && (
+              {one_day.quantity > 0 && (
                 <li className={styles.main_container_body_list_group_item_one}>
                   <p className={styles.main_container_body_date}>
-                    {selectDays === 1 && <> 15th</>}
-                    {selectDays === 2 && <> 16th</>} November 2024
+                    {one_day.selectedDay === 'day_one' && <> 15th</>}
+                    {one_day.selectedDay === 'day_two' && <> 16th</>} November 2024
                   </p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>One day access x{ticketNo.oneDay}</span>
-                    <span>N{oneDayTotal.toLocaleString()}</span>
+                    <span>One day access x{one_day.quantity}</span>
+                    <span>N{(one_day.quantity * TICKET_PRICES.DAY_ONE).toLocaleString()}</span>
                   </li>
                 </li>
               )}
 
-              {ticketNo.twoDays > 0 && (
+              {two_days.quantity > 0 && (
                 <li className={styles.main_container_body_list_group_item_two}>
                   <p className={styles.main_container_body_date}>15th & 16th November 2024</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two days access x{ticketNo.twoDays}</span>
-                    <span>N{twoDayTotal.toLocaleString()}</span>
+                    <span>Two days access x{two_days.quantity}</span>
+                    <span>N{(two_days.quantity * TICKET_PRICES.DAY_TWO).toLocaleString()}</span>
                   </li>
                 </li>
               )}
 
               <li className={styles.main_container_body_list_group_item}>
                 <span>Subtotal </span>
-                <span>N{(oneDayTotal + twoDayTotal).toLocaleString()}</span>
+                <span>N{ticketTotal.toLocaleString()}</span>
               </li>
 
               <li className={styles.main_container_body_list_group_item}>
                 <span>Total </span>
-                <span>N{(oneDayTotal + twoDayTotal).toLocaleString()}</span>
+                <span>N{ticketTotal.toLocaleString()}</span>
               </li>
             </ul>
 
@@ -172,7 +226,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ selectDays, ticketNo, activ
               text='Checkout'
               variant={activeStep === 3 ? 'primary' : 'disabled'}
               isLoading={isLoading || isPending}
-              disabled={isLoading || isPending}
+              disabled={activeStep !== 3 || isLoading || isPending}
             />
           </>
         ) : (

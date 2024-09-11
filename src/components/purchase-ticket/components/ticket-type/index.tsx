@@ -1,93 +1,65 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import Button from '@/components/button';
+import { OptionProp } from '@/components/form/models';
 import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
-import styles from './type.module.scss';
-import { OptionProp } from '@/components/form/models';
-import Button from '@/components/button';
-import { TicketPurchaseData, TTicketNumber } from '../../model';
-import { dayOptions } from '@/utils/mock-data';
-import { CacheKeys } from '@/utils/constants';
-import { useQueryClient } from '@tanstack/react-query';
+import { TICKET_PRICES } from '@/utils/constants';
 import { getOptionsValue } from '@/utils/helper';
-
-interface ITicketTypeProps {
-  selectDays: number;
-  ticketNo: TTicketNumber;
-  handleChangeSelectDays: React.Dispatch<React.SetStateAction<number>>;
-  handleChangeTicketNo: React.Dispatch<React.SetStateAction<TTicketNumber>>;
-  handleNext: () => void;
+import { dayOptions } from '@/utils/mock-data';
+import { Field, Form, Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import { SelectedDays, SelectedTickets } from '../../model';
+import styles from './type.module.scss';
+interface TicketTypeFormProps {
+  selectedTickets: SelectedTickets;
+  setSelectedTickets: React.Dispatch<React.SetStateAction<SelectedTickets>>;
+  handleSubmit: (values: SelectedTickets) => void;
 }
 
-export const TicketType: React.FC<ITicketTypeProps> = ({
-  ticketNo,
-  handleChangeSelectDays,
-  handleChangeTicketNo,
-  handleNext,
-}) => {
-  const queryClient = useQueryClient();
-  const onHandleChangeSelectDays = (valueObj: OptionProp | OptionProp[]) => {
-    if (Array.isArray(valueObj)) return;
-    handleChangeSelectDays(Number(valueObj.value));
-  };
-  const oneDayTicket = ticketNo.oneDay;
-  const twoDayTicket = ticketNo.twoDays;
-
-  const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
-    CacheKeys.USER_PURCHASE_TICKET,
-  ]);
-
-  console.log(getTicketPurchaseData);
-
-  const initialValues = {
-    selectedDay: getTicketPurchaseData?.selectedDay || '',
-    oneDayTicketNumber: getTicketPurchaseData?.oneDayTicketNumber || 0,
-    twoDayTicketNumber: getTicketPurchaseData?.twoDayTicketNumber || 0,
-  };
-
-  const validationSchema = Yup.object({
-    selectedDay: Yup.string().test(
-      'day-ticket-dependency',
-      'Please select a day when a ticket is chosen',
-      function (value) {
-        const { oneDayTicketNumber } = this.parent;
-        // Check if the day must be selected (if ticket number > 0)
-        return oneDayTicketNumber === 0 || !!value;
-      },
-    ),
-    oneDayTicketNumber: Yup.number()
-      .min(0, 'Cannot be negative')
-      .max(1, 'A user may only buy one ticket at this time')
+const validationSchema = Yup.object().shape({
+  one_day: Yup.object().shape({
+    quantity: Yup.number()
+      .min(0, 'Quantity cannot be less than 0')
       .test(
-        'ticket-day-dependency',
-        'Please select at least one ticket when a day is chosen',
+        'at-least-one',
+        'At least one day must have a quantity greater than 0',
         function (value) {
-          const { selectedDay } = this.parent;
-          // Check if the ticket number must be provided (if a day is selected)
-          return !selectedDay || (value !== undefined && value > 0);
+          const { two_days } = this.options.context || {};
+          const oneDayQuantity = value ?? 0;
+          const twoDayQuantity = two_days?.quantity ?? 0;
+
+          return oneDayQuantity > 0 || twoDayQuantity > 0;
         },
       ),
-    twoDayTicketNumber: Yup.number()
-      .min(0, 'Cannot be negative')
-      .max(1, 'A user may only buy one ticket at this time'),
-  });
 
-  const handleProceed = (values: typeof initialValues) => {
-    queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
-      return {
-        ...prevData,
-        ticketNo: {
-          oneDay: values.oneDayTicketNumber,
-          twoDays: values.twoDayTicketNumber,
+    selectedDay: Yup.string().when('quantity', ([quantity], schema) => {
+      return quantity > 0
+        ? schema
+            .oneOf(['day_one', 'day_two'], 'Invalid selected day')
+            .required('Please select a valid day')
+        : schema.nullable();
+    }),
+  }),
+
+  two_days: Yup.object().shape({
+    quantity: Yup.number()
+      .min(0, 'Quantity cannot be less than 0')
+      .test(
+        'at-least-one',
+        'At least one day must have a quantity greater than 0',
+        function (value) {
+          const { one_day } = this.options.context || {};
+          const oneDayQuantity = one_day?.quantity ?? 0;
+          const twoDayQuantity = value ?? 0;
+
+          return oneDayQuantity > 0 || twoDayQuantity > 0;
         },
-        selectedDay: values.selectedDay,
-        oneDayTicketNumber: values.oneDayTicketNumber,
-        twoDayTicketNumber: values.twoDayTicketNumber,
-      };
-    });
-    handleNext();
-  };
+      ),
+  }),
+});
+
+export const TicketType = (props: TicketTypeFormProps) => {
+  const { selectedTickets, setSelectedTickets, handleSubmit } = props;
 
   return (
     <div className={styles.t_container}>
@@ -98,9 +70,9 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
 
       <Formik
         enableReinitialize
-        initialValues={initialValues}
+        initialValues={selectedTickets}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
-        onSubmit={handleProceed}
       >
         {({ isValid, values, errors, setFieldValue, submitForm }) => (
           <Form>
@@ -118,43 +90,55 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
 
                   <div className={styles.input_wrapper}>
                     <Field
-                      disabled={values.twoDayTicketNumber}
                       as={SelectField}
                       width='135px'
                       placeholder='Select Day'
                       options={dayOptions}
-                      defaultValue={getOptionsValue(values.selectedDay, dayOptions)}
+                      defaultValue={getOptionsValue(values.one_day.selectedDay ?? '', dayOptions)}
                       id='selectedDay'
                       onChange={(valueObj: OptionProp) => {
-                        setFieldValue('selectedDay', valueObj.value);
-                        onHandleChangeSelectDays(valueObj);
+                        setFieldValue('one_day.selectedDay', valueObj.value);
+                        setSelectedTickets({
+                          ...selectedTickets,
+                          one_day: {
+                            ...selectedTickets.one_day,
+                            selectedDay: valueObj.value as SelectedDays,
+                          },
+                        });
                       }}
                     />
 
                     <Field
-                      disabled={values.twoDayTicketNumber}
+                      disabled={!values.one_day.selectedDay}
                       as={TextField}
                       width='75px'
-                      id='oneDayTicketNumber'
+                      id='one_day.quantity'
                       placeholder='0'
-                      value={oneDayTicket > 0 ? oneDayTicket.toString() : ''}
+                      value={values.one_day.quantity > 0 ? values.one_day.quantity.toString() : ''}
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setFieldValue('oneDayTicketNumber', Number(event.target.value));
-                        setFieldValue('twoDayTicketNumber', 0);
-                        handleChangeTicketNo((prevState) => ({
-                          ...prevState,
-                          oneDay: Number(event.target.value),
-                        }));
+                        setFieldValue('one_day.quantity', Number(event.target.value));
+                        setSelectedTickets({
+                          ...selectedTickets,
+                          one_day: {
+                            ...selectedTickets.one_day,
+                            quantity: Number(event.target.value),
+                          },
+                        });
                       }}
                     />
                   </div>
                 </div>
-                {
-                  <p className={styles.error}>
-                    {(!errors.selectedDay?.includes('NaN') && errors.selectedDay) ||
-                      (!errors.oneDayTicketNumber?.includes('NaN') && errors.oneDayTicketNumber)}
-                  </p>
-                }
+
+                <p className={styles.error}>
+                  {(() => {
+                    const { selectedDay, quantity } = errors?.one_day || {};
+
+                    const hasSelectedDayError = selectedDay && !selectedDay.includes('NaN');
+                    const hasQuantityError = quantity && !quantity.includes('NaN');
+
+                    return hasSelectedDayError ? selectedDay : hasQuantityError ? quantity : null;
+                  })()}
+                </p>
               </div>
 
               <div className={styles.t_container_box}>
@@ -176,27 +160,29 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
 
                   <div className={styles.input_wrapper}>
                     <Field
-                      disabled={values.oneDayTicketNumber}
                       as={TextField}
                       width='75px'
-                      id='twoDayTicketNumber'
+                      id='two_days.quantity'
                       placeholder='0'
-                      value={twoDayTicket > 0 ? twoDayTicket.toString() : ''}
+                      value={
+                        values.two_days.quantity > 0 ? values.two_days.quantity.toString() : ''
+                      }
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setFieldValue('twoDayTicketNumber', Number(event.target.value));
-                        setFieldValue('oneDayTicketNumber', 0);
-                        setFieldValue('selectedDay', ''); // remove in next rollout
-                        handleChangeSelectDays(2);
-                        handleChangeTicketNo((prevState) => ({
-                          ...prevState,
-                          twoDays: Number(event.target.value),
-                        }));
+                        setFieldValue('two_days.quantity', Number(event.target.value));
+                        setSelectedTickets({
+                          ...selectedTickets,
+                          two_days: {
+                            ...selectedTickets.one_day,
+                            quantity: Number(event.target.value),
+                          },
+                        });
                       }}
                     />
                   </div>
                 </div>
+
                 <p className={styles.error}>
-                  {!errors.twoDayTicketNumber?.includes('NaN') && errors.twoDayTicketNumber}
+                  {!errors.two_days?.quantity?.includes('NaN') && errors.two_days?.quantity}
                 </p>
               </div>
 
@@ -211,11 +197,21 @@ export const TicketType: React.FC<ITicketTypeProps> = ({
               text={
                 <>
                   <span>Buy ticket</span>
-                  {oneDayTicket * 7000 + twoDayTicket * 10000 !== 0 && (
-                    <span className={styles.total__mobile}>
-                      N{(oneDayTicket * 7000 + twoDayTicket * 10000).toLocaleString()}
-                    </span>
-                  )}
+
+                  {(() => {
+                    const { one_day, two_days } = values;
+
+                    const oneDayTotal = one_day.quantity * TICKET_PRICES.DAY_ONE;
+                    const twoDaysTotal = two_days.quantity * TICKET_PRICES.DAY_TWO;
+
+                    if (oneDayTotal + twoDaysTotal == 0) return;
+
+                    return (
+                      <span className={styles.total__mobile}>
+                        N{(oneDayTotal + twoDaysTotal).toLocaleString()}
+                      </span>
+                    );
+                  })()}
                 </>
               }
               onClick={submitForm}

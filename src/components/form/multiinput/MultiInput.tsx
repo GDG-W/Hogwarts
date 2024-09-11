@@ -5,9 +5,10 @@ interface PillInputProps {
   pills: string[];
   onAddPill: (value: string) => void;
   onRemovePill: (index: number) => void;
+  limit?: number;
 }
 
-const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }) => {
+const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill, limit }) => {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,6 +22,10 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }
     if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault();
       const trimmedValue = inputValue.trim();
+
+      if (limit && pills.length >= limit) {
+        return setErrorMessage('Email Limit');
+      }
 
       if (!trimmedValue) {
         setErrorMessage('Please enter an email address.');
@@ -39,6 +44,10 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (limit && pills.length >= limit) {
+      return setErrorMessage('Email Limit');
+    }
+
     setInputValue(event.target.value);
   };
 

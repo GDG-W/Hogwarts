@@ -17,7 +17,12 @@ export type ListTicketsResponse = Ticket[];
 export type TicketCheckoutPayload = {
   payer: PayerInfo;
   payer_is_attendee: boolean;
-  attendees: Attendee[];
+  attendees:
+    | {
+        ticket_id: string;
+        email_address: string;
+      }[]
+    | Attendee[];
 };
 
 type PayerInfo = {
@@ -26,8 +31,11 @@ type PayerInfo = {
 };
 
 type Attendee = {
-  email_address: string;
   ticket_id: string;
+  email_address: string;
+  fullname: string;
+  role: string;
+  level_of_expertise: string;
 };
 
 export type TicketCheckoutResponse = {
