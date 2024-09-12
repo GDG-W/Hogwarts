@@ -37,19 +37,34 @@
       margin-bottom: 1rem;
 
       &_item {
-        padding-bottom: 1rem;
+        padding-bottom: 0.8rem;
+        margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 18px;
-        font-weight: 500;
-        color: #808080;
+        color: #1c1c1c;
+        border-bottom: 1px solid #cccccc;
+
+        span {
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+        &:nth-child(3) {
+          border-bottom: none;
+        }
 
         &_one,
         &_two {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+        }
+
+        &_subtotal {
+          span {
+            color: #808080 !important;
+          }
         }
 
         span:first-child {
@@ -105,5 +120,11 @@
 .error {
   font-size: 14px;
   color: red;
+  margin-bottom: 0.5em;
+}
+
+.success {
+  font-size: 14px;
+  color: green;
   margin-bottom: 0.5em;
 }

@@ -1,6 +1,7 @@
 import Button from '@/components/button';
 import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
 import { Ticket } from '@/lib/actions/tickets/models';
+import { classNames } from '@/utils/classNames';
 import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -16,11 +17,12 @@ interface ICheckoutProps {
   selectedTickets: SelectedTickets;
 }
 
-export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets, closeModal }) => {
+export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const [formError, setFormError] = useState('');
+  const [formSuccess, setFormSuccess] = useState('');
 
   const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
     CacheKeys.USER_PURCHASE_TICKET,
@@ -41,10 +43,17 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
           [CacheKeys.USER_PURCHASE_TICKET, CacheKeys.USER_TICKETS],
           undefined,
         );
+
         queryClient.clear();
+
+        setFormSuccess('Please Wait, You would be redirected Soon.');
+      } else {
+        handleError('Invalid Payment Link. Please Try again', setFormError);
       }
 
-      closeModal();
+      // setTimeout(() => {
+      //   closeModal();
+      // }, 2000)
     },
     onError: (error: unknown) => {
       console.log(error);
@@ -176,7 +185,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
 
   return (
     <div className={styles.main_container}>
-      <div className={styles.main_container_header}>Order summary</div>
+      <div className={styles.main_container_header}>
+        {activeStep === 3 ? 'Checkout' : 'Order summary'}
+      </div>
 
       <div className={styles.main_container_body}>
         {one_day.quantity > 0 || two_days.quantity > 0 ? (
@@ -207,7 +218,12 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
                 </li>
               )}
 
-              <li className={styles.main_container_body_list_group_item}>
+              <li
+                className={classNames(
+                  styles.main_container_body_list_group_item,
+                  styles.main_container_body_list_group_item_subtotal,
+                )}
+              >
                 <span>Subtotal </span>
                 <span>N{ticketTotal.toLocaleString()}</span>
               </li>
@@ -219,15 +235,18 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
             </ul>
 
             <p className={styles.error}> {formError}</p>
+            <p className={styles.success}> {formSuccess}</p>
 
-            <Button
-              onClick={() => handleCheckout()}
-              fullWidth
-              text='Checkout'
-              variant={activeStep === 3 ? 'primary' : 'disabled'}
-              isLoading={isLoading || isPending}
-              disabled={activeStep !== 3 || isLoading || isPending}
-            />
+            {activeStep === 3 && (
+              <Button
+                onClick={() => handleCheckout()}
+                fullWidth
+                text='Checkout'
+                variant={activeStep === 3 ? 'primary' : 'disabled'}
+                isLoading={isLoading || isPending}
+                disabled={activeStep !== 3 || isLoading || isPending || formSuccess ? true : false}
+              />
+            )}
           </>
         ) : (
           <p className={styles.main_container_body_date}>

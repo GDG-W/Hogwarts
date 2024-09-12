@@ -166,6 +166,8 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
 
   const { setFieldValue, handleSubmit, handleChange, values, errors, isValid, submitForm } =
     useFormik({
+      enableReinitialize: true,
+      validateOnMount: true,
       initialValues,
       validationSchema,
       onSubmit: handleProceed,
@@ -186,9 +188,11 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
       <h3 className={styles.or_container_title}>Buyer Information</h3>
 
       <Formik
+        enableReinitialize
+        validateOnMount={true}
+        onSubmit={handleProceed}
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleProceed}
       >
         <Form className={styles.or_form} onSubmit={handleSubmit}>
           <Field
@@ -317,14 +321,16 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
               </div>
             )}
 
-            <Button
-              fullWidth
-              type='submit'
-              onClick={submitForm}
-              text='Proceed to checkout'
-              variant={isValid ? 'primary' : 'disabled'}
-              disabled={!isValid}
-            />
+            {isValid && (
+              <Button
+                fullWidth
+                type='submit'
+                onClick={submitForm}
+                text='Proceed to checkout'
+                variant={isValid ? 'primary' : 'disabled'}
+                disabled={!isValid}
+              />
+            )}
           </div>
         </Form>
       </Formik>

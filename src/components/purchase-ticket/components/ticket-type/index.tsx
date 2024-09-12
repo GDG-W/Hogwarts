@@ -70,8 +70,9 @@ export const TicketType = (props: TicketTypeFormProps) => {
 
       <Formik
         enableReinitialize
-        initialValues={selectedTickets}
+        validateOnMount={true}
         onSubmit={handleSubmit}
+        initialValues={selectedTickets}
         validationSchema={validationSchema}
       >
         {({ isValid, values, errors, setFieldValue, submitForm }) => (
