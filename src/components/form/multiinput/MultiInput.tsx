@@ -31,7 +31,7 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill, 
         setErrorMessage('Please enter an email address.');
       } else if (!isValidEmail(trimmedValue)) {
         setErrorMessage('Please enter a valid email address.');
-      } else if (pills.includes(trimmedValue)) {
+      } else if (pills.some((pill) => pill.toLowerCase() === trimmedValue.toLowerCase())) {
         setErrorMessage('This email has already been added.');
       } else {
         onAddPill(trimmedValue);
