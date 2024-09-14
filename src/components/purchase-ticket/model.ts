@@ -33,4 +33,5 @@ export type TicketPurchaseData = {
   buyerInformation: BuyerInfo;
   personalOrderInformation: BuyForYourselfForm;
   othersOrderInformation: BuyForOthersForm;
+  couponCode: string;
 };

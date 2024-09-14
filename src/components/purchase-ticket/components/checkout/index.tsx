@@ -6,9 +6,9 @@ import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SelectedTickets, TicketPurchaseData } from '../../model';
-import { validateTicketPurchaseData } from '../../tickets.util';
+import { useDebounce, validateTicketPurchaseData } from '../../tickets.util';
 import styles from './checkout.module.scss';
 
 interface ICheckoutProps {
@@ -21,17 +21,38 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [formError, setFormError] = useState('');
-  const [formSuccess, setFormSuccess] = useState('');
-
   const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
     CacheKeys.USER_PURCHASE_TICKET,
   ]);
+
+  const [formError, setFormError] = useState('');
+  const [formSuccess, setFormSuccess] = useState('');
+  const [couponCode, setCouponCode] = useState(getTicketPurchaseData?.couponCode ?? '');
 
   const { data, isLoading, refetch } = useQuery<Ticket[]>({
     queryKey: [CacheKeys.USER_TICKETS],
     queryFn: fetchTickets,
   });
+
+  const { one_day, two_days } = selectedTickets;
+
+  const ticketTotal = useMemo(() => {
+    const oneDayTotal = one_day.quantity * TICKET_PRICES.DAY_ONE;
+    const twoDaysTotal = two_days.quantity * TICKET_PRICES.DAY_TWO;
+
+    return oneDayTotal + twoDaysTotal;
+  }, [selectedTickets]);
+
+  const debouncedValue = useDebounce(couponCode, 500);
+
+  useEffect(() => {
+    queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
+      return {
+        ...prevData,
+        couponCode: debouncedValue,
+      };
+    });
+  }, [debouncedValue]);
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
@@ -93,6 +114,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
           email_address: getTicketPurchaseData?.buyerInformation.email_address,
         },
         payer_is_attendee: true,
+        coupon_code: couponCode,
         attendees: [
           {
             ticket_id: ticket.id,
@@ -166,6 +188,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
         email_address: getTicketPurchaseData?.buyerInformation.email_address,
       },
       payer_is_attendee: false,
+      coupon_code: couponCode,
       attendees: tickets,
     };
 
@@ -173,15 +196,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
 
     return;
   };
-
-  const { one_day, two_days } = selectedTickets;
-
-  const ticketTotal = useMemo(() => {
-    const oneDayTotal = one_day.quantity * TICKET_PRICES.DAY_ONE;
-    const twoDaysTotal = two_days.quantity * TICKET_PRICES.DAY_TWO;
-
-    return oneDayTotal + twoDaysTotal;
-  }, [selectedTickets]);
 
   return (
     <div className={styles.main_container}>
@@ -219,13 +233,27 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
               )}
 
               <li
-                className={classNames(
-                  styles.main_container_body_list_group_item,
-                  styles.main_container_body_list_group_item_subtotal,
-                )}
+                className={classNames(styles.main_container_body_list_group_item_three)}
+                style={{ borderBottom: activeStep !== 3 ? '1px solid #cccccc' : '' }}
               >
-                <span>Subtotal </span>
-                <span>N{ticketTotal.toLocaleString()}</span>
+                <div className={styles.main_container_body_list_group_item_three_subtotal}>
+                  <span>Subtotal </span>
+                  <span>N{ticketTotal.toLocaleString()}</span>
+                </div>
+
+                {activeStep === 3 && (
+                  <div className={styles.main_container_body_list_group_item_three_discount}>
+                    <input
+                      type='text'
+                      value={couponCode}
+                      placeholder='Add Discount Code'
+                      onChange={(e) => setCouponCode(e.target.value)}
+                    />
+                    <button type='button' onClick={() => setCouponCode('')}>
+                      Clear
+                    </button>
+                  </div>
+                )}
               </li>
 
               <li className={styles.main_container_body_list_group_item}>

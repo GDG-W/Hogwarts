@@ -15,7 +15,7 @@ const AttendeeGroup = ({
   defaultValue?: string[];
   limit?: number;
 }) => {
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(defaultValue && defaultValue?.length > 0 ? true : false);
   const [pills, setPills] = useState<string[]>(defaultValue ?? []);
 
   const addPill = (value: string) => {

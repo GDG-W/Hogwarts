@@ -50,6 +50,16 @@
           font-weight: 500;
         }
 
+        span:first-child {
+          color: #1c1c1c;
+        }
+
+        span:last-child {
+          color: #1c1c1c;
+          font-weight: 600;
+          border: none;
+        }
+
         &:nth-child(3) {
           border-bottom: none;
         }
@@ -61,20 +71,62 @@
           gap: 1rem;
         }
 
-        &_subtotal {
+        &_three {
+          padding-bottom: 0.8rem;
+          margin-bottom: 0.5rem;
+          color: #1c1c1c;
+          // border-bottom: 1px solid #cccccc;
+
           span {
+            font-size: 18px;
+            font-weight: 500;
             color: #808080 !important;
           }
-        }
 
-        span:first-child {
-          color: #1c1c1c;
-        }
+          &_subtotal {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-        span:last-child {
-          color: #1c1c1c;
-          font-weight: 600;
-          border: none;
+            span:last-child {
+              font-weight: 600;
+              border: none;
+            }
+          }
+
+          &_discount {
+            margin-top: 1.5em;
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            padding: 16px 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            input {
+              background-color: transparent;
+              outline: none;
+              border: none;
+              width: 100%;
+            }
+
+            button {
+              color: #f28b82;
+              outline: none;
+              border: none;
+              background-color: transparent;
+            }
+
+            @include media('>=tablet') {
+              input {
+                font-size: 18px;
+              }
+              button {
+                font-size: 18px;
+              }
+            }
+          }
         }
       }
     }
