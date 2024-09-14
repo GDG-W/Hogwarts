@@ -1,11 +1,12 @@
 import { CacheKeys } from '@/utils/constants';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Checkout } from './components/checkout';
 import { OrderInformation } from './components/order-information';
 import { TicketType } from './components/ticket-type';
 import { SelectedTickets, TicketPurchaseData } from './model';
 import styles from './ticket.module.scss';
+import { compareObjects } from './tickets.util';
 
 interface IPurchaseTicketProps {
   closeModal: () => void;
@@ -16,6 +17,7 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
   const queryClient = useQueryClient();
   const [activeStep, setActiveStep] = useState<number>(1);
   const [isOrderInfoComplete, setIsOrderInfoComplete] = useState<boolean>(false);
+  const [isTicketTypeComplete, setIsTicketTypeComplete] = useState<boolean>(false);
 
   // Ticket Type Form
   const [selectedTickets, setSelectedTickets] = useState<SelectedTickets>({
@@ -34,6 +36,8 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
 
     if (one_day.quantity <= 0 && two_days.quantity <= 0) return;
 
+    console.log(values);
+
     queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
       return {
         ...prevData,
@@ -42,16 +46,10 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
     });
 
     setSelectedTickets(values);
+    setIsTicketTypeComplete(true);
+    setIsOrderInfoComplete(false);
     setActiveStep(2);
   };
-
-  const ticketTypeComplete = useMemo(() => {
-    const { one_day, two_days } = selectedTickets;
-
-    if (one_day.quantity <= 0 && two_days.quantity <= 0) return false;
-
-    return true;
-  }, [selectedTickets]);
 
   // Order Information  Form
   const handleOrderInfoCompletion = () => {
@@ -61,6 +59,7 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
 
   const resetPageState = () => {
     setActiveStep(1);
+    setIsTicketTypeComplete(false);
     setIsOrderInfoComplete(false);
     setSelectedTickets({
       one_day: {
@@ -75,9 +74,9 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
   };
 
   const stepperLists = [
-    { name: 'Ticket type', value: 1, isComplete: ticketTypeComplete },
-    { name: 'Order information', value: 2, isComplete: isOrderInfoComplete },
-    { name: 'Checkout', value: 3 },
+    { name: 'Ticket type', value: 1, isComplete: true },
+    { name: 'Order information', value: 2, isComplete: isTicketTypeComplete },
+    { name: 'Checkout', value: 3, isComplete: isOrderInfoComplete },
   ];
 
   useEffect(() => {
@@ -97,17 +96,19 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
     }
   }, [activeStep]);
 
-  const handleStepperClick = (value: number) => {
+  useEffect(() => {
     const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
       CacheKeys.USER_PURCHASE_TICKET,
     ]);
 
-    if (getTicketPurchaseData?.selectedTickets) {
+    if (!getTicketPurchaseData?.selectedTickets) return;
+
+    const isItTheSame = compareObjects(getTicketPurchaseData.selectedTickets, selectedTickets);
+
+    if (!isItTheSame) {
       setSelectedTickets(getTicketPurchaseData.selectedTickets);
     }
-
-    setActiveStep(value);
-  };
+  }, [activeStep]);
 
   return (
     <div className={styles.ticket_container}>
@@ -118,7 +119,7 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
             {stepperLists.map((list, id) => (
               <li
                 key={id}
-                onClick={() => list.isComplete && handleStepperClick(list.value)}
+                onClick={() => list.isComplete && setActiveStep(list.value)}
                 className={`
                   ${styles.title_container_list_group_item} 
                    ${activeStep >= list.value ? styles.title_container_list_group_active : ''}

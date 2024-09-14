@@ -69,11 +69,11 @@ export const TicketType = (props: TicketTypeFormProps) => {
       </div>
 
       <Formik
-        enableReinitialize
-        validateOnMount={true}
+        // enableReinitialize
         onSubmit={handleSubmit}
         initialValues={selectedTickets}
         validationSchema={validationSchema}
+        isInitialValid={false}
       >
         {({ isValid, values, errors, setFieldValue, submitForm }) => (
           <Form>
@@ -173,7 +173,7 @@ export const TicketType = (props: TicketTypeFormProps) => {
                         setSelectedTickets({
                           ...selectedTickets,
                           two_days: {
-                            ...selectedTickets.one_day,
+                            ...selectedTickets.two_days,
                             quantity: Number(event.target.value),
                           },
                         });
@@ -217,6 +217,7 @@ export const TicketType = (props: TicketTypeFormProps) => {
               }
               onClick={submitForm}
               variant={isValid ? 'primary' : 'disabled'}
+              disabled={!isValid}
             />
           </Form>
         )}

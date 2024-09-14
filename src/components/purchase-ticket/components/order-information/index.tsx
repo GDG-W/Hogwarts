@@ -167,7 +167,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
   const { setFieldValue, handleSubmit, handleChange, values, errors, isValid, submitForm } =
     useFormik({
       enableReinitialize: true,
-      validateOnMount: true,
+      isInitialValid: false,
       initialValues,
       validationSchema,
       onSubmit: handleProceed,
@@ -203,6 +203,10 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
 
     const { one_day, two_days } = getTicketPurchaseData?.selectedTickets;
 
+    const totalTicketQuantity = one_day.quantity + two_days.quantity;
+
+    if (totalTicketQuantity === 1) return true;
+
     const { oneDayAccessEmails, twoDaysAccessEmails } = values;
 
     if (
@@ -224,7 +228,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
 
       <Formik
         enableReinitialize
-        validateOnMount={true}
+        isInitialValid={false}
         onSubmit={handleProceed}
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -324,6 +328,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
                   defaultValue={getOptionsValue(values.expertLevel, expertiseOptions)}
                   options={expertiseOptions}
                   onChange={(valueObj: OptionProp) => setFieldValue('expertLevel', valueObj.value)}
+                  error={errors.expertLevel}
                 />
               </>
             )}
@@ -356,7 +361,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
               </div>
             )}
 
-            {isValid && showCheckoutButton && (
+            {((ticketType !== 'personal' && showCheckoutButton) || ticketType === 'personal') && (
               <Button
                 fullWidth
                 type='submit'
