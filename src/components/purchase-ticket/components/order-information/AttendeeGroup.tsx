@@ -1,6 +1,6 @@
 import Button from '@/components/button';
 import MultiInput from '@/components/form/multiinput/MultiInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './attendee.module.scss';
 
 const AttendeeGroup = ({
@@ -29,6 +29,16 @@ const AttendeeGroup = ({
     newPills.splice(index, 1);
     setPills(newPills);
   };
+
+  useEffect(() => {
+    defaultValue && setPills(defaultValue);
+  }, [defaultValue]);
+
+  useEffect(() => {
+    if (pills.length !== limit) {
+      setSaved(false);
+    }
+  }, [limit]);
 
   return (
     <div className={styles.attendees} style={{ background: saved ? '#fffaeb' : 'transparent' }}>

@@ -4,7 +4,7 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
 import { expertiseOptions, roleOptions, sessions, topicsOfInterest } from '@/utils/mock-data';
 import { Field, Form, Formik, useFormik } from 'formik';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import * as Yup from 'yup';
 import styles from './order.module.scss';
 // import AttendeeGroup from './AttendeeGroup';
@@ -183,6 +183,41 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
     }
   };
 
+  // Clear the email field if the user updates the amount of tickets to be lesser than the previous value
+  useEffect(() => {
+    if (!getTicketPurchaseData?.selectedTickets) return;
+
+    const { one_day, two_days } = getTicketPurchaseData?.selectedTickets;
+
+    if (one_day.quantity <= values.oneDayAccessEmails.length) {
+      setFieldValue('oneDayAccessEmails', []);
+    }
+
+    if (two_days.quantity <= values.twoDaysAccessEmails.length) {
+      setFieldValue('twoDaysAccessEmails', []);
+    }
+  }, [getTicketPurchaseData?.selectedTickets]);
+
+  const showCheckoutButton = useMemo(() => {
+    if (!getTicketPurchaseData?.selectedTickets) return false;
+
+    const { one_day, two_days } = getTicketPurchaseData?.selectedTickets;
+
+    const { oneDayAccessEmails, twoDaysAccessEmails } = values;
+
+    if (
+      oneDayAccessEmails.length === one_day.quantity &&
+      twoDaysAccessEmails.length === two_days.quantity
+    )
+      return true;
+
+    return false;
+  }, [
+    getTicketPurchaseData?.selectedTickets,
+    values.oneDayAccessEmails,
+    values.twoDaysAccessEmails,
+  ]);
+
   return (
     <div className={styles.or_container}>
       <h3 className={styles.or_container_title}>Buyer Information</h3>
@@ -321,7 +356,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
               </div>
             )}
 
-            {isValid && (
+            {isValid && showCheckoutButton && (
               <Button
                 fullWidth
                 type='submit'

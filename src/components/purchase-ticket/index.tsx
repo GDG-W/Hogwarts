@@ -97,6 +97,18 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
     }
   }, [activeStep]);
 
+  const handleStepperClick = (value: number) => {
+    const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
+      CacheKeys.USER_PURCHASE_TICKET,
+    ]);
+
+    if (getTicketPurchaseData?.selectedTickets) {
+      setSelectedTickets(getTicketPurchaseData.selectedTickets);
+    }
+
+    setActiveStep(value);
+  };
+
   return (
     <div className={styles.ticket_container}>
       <div className={styles.ticket_body}>
@@ -106,7 +118,7 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
             {stepperLists.map((list, id) => (
               <li
                 key={id}
-                onClick={() => list.isComplete && setActiveStep(list.value)}
+                onClick={() => list.isComplete && handleStepperClick(list.value)}
                 className={`
                   ${styles.title_container_list_group_item} 
                    ${activeStep >= list.value ? styles.title_container_list_group_active : ''}
