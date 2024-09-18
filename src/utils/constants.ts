@@ -8,6 +8,7 @@
 export enum CacheKeys {
   USER_PURCHASE_TICKET = 'userPurchaseTicket',
   USER_TICKETS = 'userTickets',
+  COUPON_CODE = 'couponCode',
 }
 
 export const TICKET_PRICES = {

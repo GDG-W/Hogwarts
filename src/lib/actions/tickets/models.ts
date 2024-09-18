@@ -48,3 +48,10 @@ export type TicketCheckoutResponse = {
   provider_response: string | null;
   status: string;
 };
+
+export type CouponResponse = {
+  code: string;
+  discount_rate: number;
+  total_units: number;
+  available_units: number;
+};

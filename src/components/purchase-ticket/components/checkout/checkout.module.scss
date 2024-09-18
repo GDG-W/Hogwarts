@@ -95,14 +95,19 @@
           }
 
           &_discount {
-            margin-top: 1.5em;
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-            padding: 16px 8px;
-            font-weight: 500;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+
+            &_container {
+              margin-top: 1.5em;
+              border: 1px solid #cccccc;
+              border-radius: 8px;
+              padding: 16px 8px;
+              font-weight: 500;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
 
             input {
               background-color: transparent;
@@ -118,6 +123,53 @@
               background-color: transparent;
             }
 
+            &_message {
+              font-size: 14px;
+              margin-top: 0.5em;
+              align-self: flex-end;
+              display: flex;
+              align-items: center;
+              gap: 0.5em;
+
+              .discountPending {
+                color: rgb(0, 132, 255) !important;
+              }
+
+              .discountError {
+                color: red !important;
+              }
+
+              .discountSuccess {
+                color: green !important;
+              }
+
+              @keyframes rotate {
+                to {
+                  transform: rotate(360deg);
+                }
+              }
+
+              .discount_button_loader {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                border: 1px solid rgb(0, 132, 255);
+                border-top: 4px solid transparent;
+                margin: auto;
+                animation: rotate 0.6s ease infinite;
+              }
+            }
+
+            span {
+              font-size: 14px;
+              color: rgb(0, 132, 255) !important;
+              margin-top: 0.5em;
+              align-self: flex-end;
+              display: flex;
+              align-items: center;
+              gap: 0.5em;
+            }
+
             @include media('>=tablet') {
               input {
                 font-size: 18px;
@@ -127,6 +179,13 @@
               }
             }
           }
+        }
+
+        .total_price_container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.6em;
         }
       }
     }
@@ -179,4 +238,10 @@
   font-size: 14px;
   color: green;
   margin-bottom: 0.5em;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: #808080 !important;
+  font-size: 15px !important;
 }

@@ -1,5 +1,5 @@
 import Button from '@/components/button';
-import { fetchTickets, ticketCheckout } from '@/lib/actions/tickets';
+import { fetchTickets, getCouponInformation, ticketCheckout } from '@/lib/actions/tickets';
 import { Ticket } from '@/lib/actions/tickets/models';
 import { classNames } from '@/utils/classNames';
 import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
@@ -43,17 +43,6 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
     return oneDayTotal + twoDaysTotal;
   }, [selectedTickets]);
 
-  const debouncedValue = useDebounce(couponCode, 500);
-
-  useEffect(() => {
-    queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
-      return {
-        ...prevData,
-        couponCode: debouncedValue,
-      };
-    });
-  }, [debouncedValue]);
-
   const { mutateAsync, isPending } = useMutation({
     mutationFn: ticketCheckout,
     onSuccess: (data) => {
@@ -81,6 +70,36 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
       handleError(error, setFormError);
     },
   });
+
+  const debouncedCouponCode = useDebounce(couponCode, 500);
+
+  const {
+    data: coupon,
+    isLoading: isValidatingCoupon,
+    refetch: validateCoupon,
+  } = useQuery({
+    queryKey: [CacheKeys.COUPON_CODE, debouncedCouponCode],
+    queryFn: () => getCouponInformation(debouncedCouponCode),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    if (!debouncedCouponCode.trim()) return;
+    validateCoupon();
+  }, [debouncedCouponCode]);
+
+  const couponDetails = useMemo(() => {
+    if (coupon) {
+      queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
+        return {
+          ...prevData,
+          couponCode: debouncedCouponCode,
+        };
+      });
+
+      return coupon;
+    }
+  }, [coupon]);
 
   const handleCheckout = async (retry: number = 0): Promise<void> => {
     if (!getTicketPurchaseData) return;
@@ -114,7 +133,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
           email_address: getTicketPurchaseData?.buyerInformation.email_address,
         },
         payer_is_attendee: true,
-        coupon_code: couponCode,
+        coupon_code: couponDetails?.discount_rate ? couponDetails.code : undefined,
         attendees: [
           {
             ticket_id: ticket.id,
@@ -197,6 +216,18 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
     return;
   };
 
+  function calculateDiscountedPrice(price: number, percentage: number): number {
+    const discount = (price * percentage) / 100;
+    const discountedPrice = price - discount;
+    return discountedPrice;
+  }
+
+  const isButtonDisabled = useMemo(() => {
+    return activeStep !== 3 || isLoading || isValidatingCoupon || isPending || formSuccess
+      ? true
+      : false;
+  }, [isLoading, isValidatingCoupon, isPending, formSuccess, activeStep]);
+
   return (
     <div className={styles.main_container}>
       <div className={styles.main_container_header}>
@@ -243,22 +274,62 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
 
                 {activeStep === 3 && (
                   <div className={styles.main_container_body_list_group_item_three_discount}>
-                    <input
-                      type='text'
-                      value={couponCode}
-                      placeholder='Add Discount Code'
-                      onChange={(e) => setCouponCode(e.target.value)}
-                    />
-                    <button type='button' onClick={() => setCouponCode('')}>
-                      Clear
-                    </button>
+                    <div
+                      className={
+                        styles.main_container_body_list_group_item_three_discount_container
+                      }
+                    >
+                      <input
+                        type='text'
+                        value={couponCode}
+                        placeholder='Add Discount Code'
+                        onChange={(e) => setCouponCode(e.target.value)}
+                      />
+                      <button type='button' onClick={() => setCouponCode('')}>
+                        Clear
+                      </button>
+                    </div>
+
+                    <div
+                      className={styles.main_container_body_list_group_item_three_discount_message}
+                    >
+                      {isValidatingCoupon && (
+                        <>
+                          <div className={styles.discount_button_loader}></div>
+
+                          <span className={styles.discountPending}>Validating Coupon</span>
+                        </>
+                      )}
+
+                      {!couponDetails && couponCode && !isValidatingCoupon && (
+                        <span className={styles.discountError}>Coupon Not Found</span>
+                      )}
+
+                      {couponDetails && couponDetails?.discount_rate && (
+                        <span className={styles.discountSuccess}>
+                          Coupon Valid: {couponDetails?.discount_rate}%
+                        </span>
+                      )}
+                    </div>
                   </div>
                 )}
               </li>
 
               <li className={styles.main_container_body_list_group_item}>
                 <span>Total </span>
-                <span>N{ticketTotal.toLocaleString()}</span>
+
+                <div className={styles.total_price_container}>
+                  {couponDetails?.discount_rate ? (
+                    <>
+                      <span>
+                        N{calculateDiscountedPrice(ticketTotal, couponDetails?.discount_rate)}
+                      </span>
+                      <span className={styles.oldPrice}>N{ticketTotal.toLocaleString()}</span>
+                    </>
+                  ) : (
+                    <span>N{ticketTotal.toLocaleString()}</span>
+                  )}
+                </div>
               </li>
             </ul>
 
@@ -270,9 +341,9 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
                 onClick={() => handleCheckout()}
                 fullWidth
                 text='Checkout'
-                variant={activeStep === 3 ? 'primary' : 'disabled'}
+                variant={!isButtonDisabled ? 'primary' : 'disabled'}
                 isLoading={isLoading || isPending}
-                disabled={activeStep !== 3 || isLoading || isPending || formSuccess ? true : false}
+                disabled={isButtonDisabled}
               />
             )}
           </>
