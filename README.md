@@ -47,3 +47,5 @@ The application should start running on `http://localhost:3000`.
 ## Contributing
 
 Contributions are welcome. Please feel free to submit a pull request.
+
+## Contributors
