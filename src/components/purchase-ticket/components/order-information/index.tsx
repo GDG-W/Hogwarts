@@ -4,7 +4,7 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
 import { expertiseOptions, roleOptions, sessions, topicsOfInterest } from '@/utils/mock-data';
 import { Field, Form, Formik, useFormik } from 'formik';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
 import styles from './order.module.scss';
 // import AttendeeGroup from './AttendeeGroup';
@@ -100,6 +100,8 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
     CacheKeys.USER_PURCHASE_TICKET,
   ]);
 
+  const [formError, setFormError] = useState('');
+
   /**
    * @returns {boolean | "one_day" | "two_days"}
    * - `false` if purchasing for others or if no tickets are selected.
@@ -141,6 +143,18 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
   };
 
   const handleProceed = (values: typeof initialValues) => {
+    const { oneDayAccessEmails, twoDaysAccessEmails } = values;
+
+    const set1 = new Set(oneDayAccessEmails);
+
+    for (const item of twoDaysAccessEmails) {
+      if (set1.has(item)) {
+        setFormError(`Email: ${item} Exists in both One Day emails and Two Day Emails`);
+
+        return;
+      }
+    }
+
     queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
       return {
         ...prevData,
@@ -360,6 +374,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
                 </div>
               </div>
             )}
+            <p className={styles.error}>{formError}</p>
 
             {((ticketType !== 'personal' && showCheckoutButton) || ticketType === 'personal') && (
               <Button
