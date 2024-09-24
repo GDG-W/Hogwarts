@@ -45,7 +45,13 @@ const AttendeeGroup = ({
       <h3>{title}</h3>
 
       {!saved && (
-        <MultiInput pills={pills} onAddPill={addPill} onRemovePill={removePill} limit={limit} />
+        <MultiInput
+          pills={pills}
+          onAddPill={addPill}
+          onRemovePill={removePill}
+          limit={limit}
+          extraInformation='Kindly Press Enter after entering each email to add it to the list.'
+        />
       )}
 
       {/* Add Tooltip for the button to signify that the button gets disabled until the emails written is the same as the target limit */}

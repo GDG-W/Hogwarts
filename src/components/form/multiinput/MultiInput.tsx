@@ -1,14 +1,22 @@
 import React, { useRef, useState } from 'react';
 import styles from './mulitinput.module.scss';
+import InfoCircle from '../../../../public/info-circle.svg';
 
 interface PillInputProps {
   pills: string[];
   onAddPill: (value: string) => void;
   onRemovePill: (index: number) => void;
   limit?: number;
+  extraInformation?: string;
 }
 
-const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill, limit }) => {
+const MultiInput: React.FC<PillInputProps> = ({
+  pills,
+  onAddPill,
+  onRemovePill,
+  limit,
+  extraInformation,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -88,6 +96,12 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill, 
           ref={inputRef}
         />
       </div>
+      {extraInformation && (
+        <div className={styles.extra}>
+          <InfoCircle />
+          <p>{extraInformation}</p>
+        </div>
+      )}
       {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
     </div>
   );
