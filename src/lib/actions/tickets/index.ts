@@ -1,5 +1,10 @@
 import client from '../../axios';
-import { CouponResponse, ClaimTicketPayload, TicketCheckoutPayload, TicketCheckoutResponse } from './models';
+import {
+  CouponResponse,
+  ClaimTicketPayload,
+  TicketCheckoutPayload,
+  TicketCheckoutResponse,
+} from './models';
 
 export const ticketCheckout = async (
   props: TicketCheckoutPayload,
@@ -31,8 +36,9 @@ export const getCouponInformation = async (coupon: string): Promise<CouponRespon
   } catch (error) {
     return Promise.reject(error);
   }
-  
- export const claimTicket = async ({
+};
+
+export const claimTicket = async ({
   ticket_id,
   payload,
 }: {
