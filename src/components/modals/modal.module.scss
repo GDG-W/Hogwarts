@@ -68,12 +68,18 @@
       }
     }
 
+    .error {
+      color: var(--secondary-red);
+    }
+
     .buttons {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
       gap: 1rem;
       margin-top: 2rem;
+
       button {
         @include media('<=tablet') {
           padding: 1rem;

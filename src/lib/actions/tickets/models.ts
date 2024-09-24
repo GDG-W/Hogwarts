@@ -40,3 +40,12 @@ export type TicketCheckoutResponse = {
   provider_response: string | null;
   status: string;
 };
+
+export type ClaimTicketPayload = {
+  token: string;
+  fullname: string;
+  level_of_expertise: string;
+  role: string;
+  interests: string[];
+  sessions: string[];
+};
