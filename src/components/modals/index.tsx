@@ -7,10 +7,22 @@ import styles from './modal.module.scss';
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  children?: React.ReactNode;
+  title?: string;
+  description?: string;
+  isError?: boolean;
+  ctaFunc?: () => void;
+  ctaText?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  description,
+  isError,
+  ctaFunc,
+  ctaText,
+}) => {
   if (!isOpen) return null;
 
   return (
@@ -23,15 +35,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         <div className={styles.modalContent}>
           <Notification />
           <div className={styles.modalText}>
-            <h1>Registration Successful</h1>
-            <p>
-              You have successfully registered for Devfest Lagos 2024. Check your email for your
-              Ticket ID.
-            </p>
+            <h1 className={isError ? styles.error : ''}>{title}</h1>
+            <p>{description}</p>
           </div>
           <div className={styles.buttons}>
-            <Button variant='primary' text='Ok' onClick={onClose} />
-            <Button variant='transparent' text='Upgrade Ticket' />
+            {isError ? (
+              <Button variant='primary' text='Retry' onClick={onClose} />
+            ) : (
+              <Button variant='primary' text={ctaText} onClick={ctaFunc} />
+            )}
+            {!isError && <Button variant='transparent' text='Upgrade Ticket' />}
           </div>
         </div>
       </div>

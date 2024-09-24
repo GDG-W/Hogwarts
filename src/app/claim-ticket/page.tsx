@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import Header from '@/components/header';
@@ -9,17 +9,52 @@ import SelectField from '@/components/form/selectfield/SelectField';
 import { OptionProp } from '@/components/form/models';
 import Button from '@/components/button';
 import Modal from '@/components/modals';
-import { roleOptions, sizeOptions, expertiseOptions } from '@/utils/mock-data';
+import { roleOptions, expertiseOptions, sessions, topicsOfInterest } from '@/utils/mock-data';
+import { CacheKeys } from '@/utils/constants';
+import { useMutation } from '@tanstack/react-query';
+import { claimTicket } from '@/lib/actions/tickets';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { getMultiOptionsValue } from '@/utils/helper';
+
+interface FormValues {
+  fullName: string;
+  email: string;
+  role: string;
+  customRole: string;
+  expertise: string;
+  topicsOfInterest: string[];
+  sessionsOfInterest: string[];
+}
 
 const ClaimTickets = () => {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const initialValues = {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const ticketInfo: { ticketId: string; token: string } | null = useMemo(() => {
+    if (!searchParams) return null;
+    const ticketId = searchParams.get('ticketId');
+    const token = searchParams.get('token');
+
+    if (!ticketId || !token) {
+      return null;
+    }
+    return { ticketId, token };
+  }, [searchParams]);
+
+  console.log(ticketInfo?.ticketId, ticketInfo?.token);
+
+  const [showModal, setShowModal] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const initialValues: FormValues = {
     fullName: '',
     email: '',
     role: '',
     customRole: '',
     expertise: '',
-    size: '',
+    topicsOfInterest: [],
+    sessionsOfInterest: [],
   };
 
   const schema = Yup.object().shape({
@@ -31,8 +66,53 @@ const ClaimTickets = () => {
     role: Yup.string().required('Role is required'),
     customRole: Yup.string(),
     expertise: Yup.string().required('Expertise is required'),
-    size: Yup.string().required('Size is required'),
+    topicsOfInterest: Yup.array()
+      .of(Yup.string())
+      .required('Topics of interest are required')
+      .min(1, 'Select at least one topic of interest')
+      .max(5, 'Select at most five topics of interest'),
+    sessionsOfInterest: Yup.array()
+      .of(Yup.string())
+      .required('Sessions of interest are required')
+      .min(1, 'Select at least one session of interest')
+      .max(3, 'Select at most three sessions of interest'),
   });
+
+  const { mutateAsync: setUpProfile, isPending } = useMutation({
+    mutationKey: [CacheKeys.CLAIM_TICKET],
+    mutationFn: claimTicket,
+  });
+
+  const handleSubmit = (values: typeof initialValues) => {
+    console.log(values);
+    setUpProfile({
+      ticket_id: ticketInfo?.ticketId as string,
+      payload: {
+        fullname: values.fullName,
+        level_of_expertise: values.expertise,
+        role: values.role || values.customRole,
+        token: ticketInfo?.token as string,
+        interests: values.topicsOfInterest,
+        sessions: values.sessionsOfInterest,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setIsError(false);
+        setTitle('Welcome to DevFest Lagos ‘24');
+        setDescription(
+          'Congratulations you have successfully registered for DevFest Lagos 2024. Log in to view your ticket details',
+        );
+        setShowModal(true);
+      })
+      .catch((err) => {
+        setIsError(true);
+        setTitle('Error');
+        setDescription(err.response.data.message);
+        setShowModal(true);
+        console.error(err);
+      });
+  };
 
   return (
     <div className='claim__tickets'>
@@ -58,10 +138,10 @@ const ClaimTickets = () => {
             <Formik
               initialValues={initialValues}
               enableReinitialize
-              onSubmit={() => setShowSuccessModal(true)}
+              onSubmit={handleSubmit}
               validationSchema={schema}
             >
-              {({ setFieldValue, isValid, values }) => (
+              {({ setFieldValue, isValid, values, errors }) => (
                 <Form className='registration__form'>
                   <Field
                     as={TextField}
@@ -72,6 +152,7 @@ const ClaimTickets = () => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('fullName', event.target.value);
                     }}
+                    error={errors.fullName}
                   />
                   <Field
                     as={TextField}
@@ -82,14 +163,16 @@ const ClaimTickets = () => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                       setFieldValue('email', event.target.value);
                     }}
+                    error={errors.email}
                   />
                   <Field
                     as={SelectField}
                     label='Role'
                     placeholder='Select'
                     options={roleOptions}
-                    id='size'
+                    id='role'
                     onChange={(valueObj: OptionProp) => setFieldValue('role', valueObj.value)}
+                    error={errors.role}
                   />
                   {values.role == 'Others' && (
                     <Field
@@ -101,29 +184,69 @@ const ClaimTickets = () => {
                       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                         setFieldValue('customRole', event.target.value);
                       }}
+                      error={errors.customRole}
                     />
                   )}
+
+                  <Field
+                    isMulti
+                    as={SelectField}
+                    id='topicsOfInterest'
+                    label='Topics of Interest'
+                    defaultValue={getMultiOptionsValue(values.topicsOfInterest, topicsOfInterest)}
+                    placeholder='Select topics of interest'
+                    options={topicsOfInterest}
+                    onChange={(selectedOptions: OptionProp[]) => {
+                      const selectedValues = selectedOptions.map((option) => option.value);
+                      setFieldValue('topicsOfInterest', selectedValues);
+                    }}
+                    error={errors.topicsOfInterest}
+                  />
+
+                  <Field
+                    isMulti
+                    as={SelectField}
+                    id='sessionsOfInterest'
+                    label='Sessions of Interest'
+                    defaultValue={getMultiOptionsValue(values.sessionsOfInterest, sessions)}
+                    placeholder='Select sessions of interest'
+                    options={sessions}
+                    onChange={(selectedOptions: OptionProp[]) => {
+                      const selectedValues = selectedOptions.map((option) => option.value);
+                      setFieldValue('sessionsOfInterest', selectedValues);
+                    }}
+                    error={errors.sessionsOfInterest}
+                  />
+
                   <Field
                     as={SelectField}
                     label='Level of Expertise'
                     placeholder='Select'
                     options={expertiseOptions}
-                    id='size'
+                    id='expertise'
                     onChange={(valueObj: OptionProp) => setFieldValue('expertise', valueObj.value)}
+                    error={errors.expertise}
                   />
-                  <Field
-                    as={SelectField}
-                    label='Shirt Size'
-                    placeholder='Select'
-                    options={sizeOptions}
-                    id='size'
-                    onChange={(valueObj: OptionProp) => setFieldValue('size', valueObj.value)}
+
+                  <Button
+                    text='Register'
+                    variant={isValid ? 'primary' : 'disabled'}
+                    isLoading={isPending}
                   />
-                  <Button text='Register' variant={isValid ? 'primary' : 'disabled'} />
                 </Form>
               )}
             </Formik>
-            {<Modal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} />}
+            {
+              <Modal
+                isOpen={showModal}
+                onClose={() => setShowModal(false)}
+                title={title}
+                description={description}
+                isError={isError}
+                ctaFunc={() => router.push('/login')}
+                ctaText='Log in'
+              />
+            }
           </div>
         </div>
       </div>
