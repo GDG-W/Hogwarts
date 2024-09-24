@@ -55,7 +55,7 @@ export type CouponResponse = {
   discount_rate: number;
   total_units: number;
   available_units: number;
-}
+};
 
 export type ClaimTicketPayload = {
   token: string;
