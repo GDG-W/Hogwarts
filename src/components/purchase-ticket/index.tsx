@@ -36,8 +36,6 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
 
     if (one_day.quantity <= 0 && two_days.quantity <= 0) return;
 
-    console.log(values);
-
     queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
       return {
         ...prevData,

@@ -145,11 +145,13 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
   const handleProceed = (values: typeof initialValues) => {
     const { oneDayAccessEmails, twoDaysAccessEmails } = values;
 
-    const set1 = new Set(oneDayAccessEmails);
+    const set1 = new Set(oneDayAccessEmails.map((item) => item.toLocaleLowerCase()));
 
     for (const item of twoDaysAccessEmails) {
-      if (set1.has(item)) {
-        setFormError(`Email: ${item} Exists in both One Day emails and Two Day Emails`);
+      if (set1.has(item.toLocaleLowerCase())) {
+        setFormError(
+          `Email: ${item.toLocaleLowerCase()} Exists in both One Day emails and Two Day Emails`,
+        );
 
         return;
       }
@@ -211,6 +213,17 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
       setFieldValue('twoDaysAccessEmails', []);
     }
   }, [getTicketPurchaseData?.selectedTickets]);
+
+  useEffect(() => {
+    if (!getTicketPurchaseData?.othersOrderInformation) return;
+
+    const { oneDayAccessEmails, twoDaysAccessEmails } =
+      getTicketPurchaseData?.othersOrderInformation;
+
+    handleAddTicketMails(twoDaysAccessEmails, 'two_days');
+
+    handleAddTicketMails(oneDayAccessEmails, 'one_day');
+  }, [getTicketPurchaseData?.othersOrderInformation]);
 
   const showCheckoutButton = useMemo(() => {
     if (!getTicketPurchaseData?.selectedTickets) return false;
