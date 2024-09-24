@@ -29,7 +29,7 @@ export const validateTicketPurchaseData = (data: TicketPurchaseData) => {
   if (totalTicketQuantity > 1) {
     const { oneDayAccessEmails, twoDaysAccessEmails } = othersOrderInformation;
 
-    if (oneDayAccessEmails.length <= 1 && twoDaysAccessEmails.length <= 1) {
+    if (oneDayAccessEmails.length < 1 && twoDaysAccessEmails.length < 1) {
       return false;
     }
   }

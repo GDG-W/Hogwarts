@@ -17,6 +17,7 @@ export type ListTicketsResponse = Ticket[];
 export type TicketCheckoutPayload = {
   payer: PayerInfo;
   payer_is_attendee: boolean;
+  coupon_code?: string;
   attendees:
     | {
         ticket_id: string;

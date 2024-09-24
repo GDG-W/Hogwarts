@@ -1,6 +1,6 @@
 import Button from '@/components/button';
 import { fetchTickets, getCouponInformation, ticketCheckout } from '@/lib/actions/tickets';
-import { Ticket } from '@/lib/actions/tickets/models';
+import { Ticket, TicketCheckoutPayload } from '@/lib/actions/tickets/models';
 import { classNames } from '@/utils/classNames';
 import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
@@ -127,13 +127,12 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
 
       if (!ticket) return;
 
-      const payload = {
+      const payload: TicketCheckoutPayload = {
         payer: {
           fullname: getTicketPurchaseData?.buyerInformation.fullName,
           email_address: getTicketPurchaseData?.buyerInformation.email_address,
         },
         payer_is_attendee: true,
-        coupon_code: couponDetails?.discount_rate ? couponDetails.code : undefined,
         attendees: [
           {
             ticket_id: ticket.id,
@@ -144,6 +143,10 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
           },
         ],
       };
+
+      if (couponDetails?.discount_rate) {
+        payload['coupon_code'] = couponDetails.code;
+      }
 
       mutateAsync(payload);
 
@@ -201,15 +204,18 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
       tickets.push(...twoDayTickets);
     }
 
-    const payload = {
+    const payload: TicketCheckoutPayload = {
       payer: {
         fullname: getTicketPurchaseData?.buyerInformation.fullName,
         email_address: getTicketPurchaseData?.buyerInformation.email_address,
       },
       payer_is_attendee: false,
-      coupon_code: couponCode,
       attendees: tickets,
     };
+
+    if (couponDetails?.discount_rate) {
+      payload['coupon_code'] = couponCode;
+    }
 
     mutateAsync(payload);
 
