@@ -1,5 +1,5 @@
 'use client';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import * as Yup from 'yup';
 import Header from '@/components/header';
@@ -18,7 +18,6 @@ import { getMultiOptionsValue } from '@/utils/helper';
 
 interface FormValues {
   fullName: string;
-  email: string;
   role: string;
   customRole: string;
   expertise: string;
@@ -29,6 +28,15 @@ interface FormValues {
 const ClaimTickets = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const ticketId = searchParams.get('ticketId');
+    const token = searchParams.get('token');
+
+    if (token == '' || !token || !ticketId) {
+      router.push('/login');
+    }
+  }, []);
 
   const ticketInfo: { ticketId: string; token: string } | null = useMemo(() => {
     if (!searchParams) return null;
@@ -41,15 +49,12 @@ const ClaimTickets = () => {
     return { ticketId, token };
   }, [searchParams]);
 
-  console.log(ticketInfo?.ticketId, ticketInfo?.token);
-
   const [showModal, setShowModal] = useState(false);
   const [isError, setIsError] = useState(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const initialValues: FormValues = {
     fullName: '',
-    email: '',
     role: '',
     customRole: '',
     expertise: '',
@@ -62,7 +67,6 @@ const ClaimTickets = () => {
       .required('Full name is required')
       .min(2, 'Full name must be at least 2 characters')
       .max(50, 'Full name must be at most 50 characters'),
-    email: Yup.string().required('Email is required').email('Email is invalid'),
     role: Yup.string().required('Role is required'),
     customRole: Yup.string(),
     expertise: Yup.string().required('Expertise is required'),
@@ -153,17 +157,6 @@ const ClaimTickets = () => {
                       setFieldValue('fullName', event.target.value);
                     }}
                     error={errors.fullName}
-                  />
-                  <Field
-                    as={TextField}
-                    name='email'
-                    id='email'
-                    label='Email Address'
-                    placeholder='example@gmail.com'
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                      setFieldValue('email', event.target.value);
-                    }}
-                    error={errors.email}
                   />
                   <Field
                     as={SelectField}
