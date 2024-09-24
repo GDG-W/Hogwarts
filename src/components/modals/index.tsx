@@ -44,7 +44,7 @@ const Modal: React.FC<ModalProps> = ({
             ) : (
               <Button variant='primary' text={ctaText} onClick={ctaFunc} />
             )}
-            {!isError && <Button variant='transparent' text='Upgrade Ticket' />}
+            {/* {!isError && <Button variant='transparent' text='Upgrade Ticket' />} */}
           </div>
         </div>
       </div>
