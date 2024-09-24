@@ -55,4 +55,13 @@ export type CouponResponse = {
   discount_rate: number;
   total_units: number;
   available_units: number;
+}
+
+export type ClaimTicketPayload = {
+  token: string;
+  fullname: string;
+  level_of_expertise: string;
+  role: string;
+  interests: string[];
+  sessions: string[];
 };

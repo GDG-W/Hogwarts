@@ -25,7 +25,28 @@ export function ModalLayout(props: IModalProps) {
   const modalContainerRef = useRef<HTMLDivElement>(null);
   const modalCardRef = useRef<HTMLDivElement>(null);
 
+  const handleBackground = () => {
+    if (showModal) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.overflow = 'hidden';
+      document.body.style.width = '100%';
+    }
+
+    if (!showModal) {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.overflow = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+  };
+
   useEffect(() => {
+    handleBackground();
+
     if (showModal) {
       gsap.to(modalContainerRef.current, {
         opacity: 1,

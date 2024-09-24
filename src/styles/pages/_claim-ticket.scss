@@ -42,7 +42,7 @@
 
       .claim__tickets__form {
         width: 100%;
-        padding-block: 1.5rem;
+        padding-block: 0.3rem;
 
         @include media('<=tablet') {
           padding: 0px;
@@ -65,6 +65,11 @@
           flex-direction: column;
           gap: 2rem;
           font-family: var(--generalSans);
+
+          @include media('>=desktop') {
+            max-height: 70vh;
+            overflow-y: scroll;
+          }
         }
       }
     }

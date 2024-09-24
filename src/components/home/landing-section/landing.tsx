@@ -15,7 +15,6 @@ import Link from 'next/link';
 
 interface ILandingProps {
   setShowTicketModal: Dispatch<SetStateAction<boolean>>;
-  showTicketModal: boolean;
 }
 
 const Landing = (props: ILandingProps) => {
@@ -28,20 +27,6 @@ const Landing = (props: ILandingProps) => {
       isInitialized.current = true;
     }
   }, []);
-
-  useEffect(() => {
-    const bodyElement = document.body;
-
-    if (props.showTicketModal) {
-      bodyElement.style.overflow = 'hidden';
-      bodyElement.style.height = '100vh';
-    }
-
-    return () => {
-      bodyElement.style.overflow = 'scroll';
-      bodyElement.style.height = 'auto';
-    };
-  }, [props.showTicketModal]);
 
   return (
     <div className={styles.landing}>
