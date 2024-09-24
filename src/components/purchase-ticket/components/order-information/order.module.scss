@@ -5,6 +5,11 @@
   flex-direction: column;
   width: 100%;
 
+  @include media('>=tablet') {
+    width: 60%;
+    margin: 0 auto;
+  }
+
   &_title {
     font-weight: 500;
     font-size: 1.15rem;
@@ -48,4 +53,10 @@
     gap: 1.5rem;
     padding-block: 1rem;
   }
+}
+
+.error {
+  font-size: 14px;
+  color: red;
+  margin-bottom: 0.5em;
 }

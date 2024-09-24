@@ -129,6 +129,8 @@
   width: 100%;
 
   @include media('>=tablet') {
-    display: none;
+    // display: none;
+    width: 60%;
+    margin: 0 auto;
   }
 }

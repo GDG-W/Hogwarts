@@ -1,4 +1,4 @@
-export type Tag = 'day_one' | 'day_two';
+export type Tag = 'both_days' | 'day_two' | 'day_one';
 export type TicketType = {
   title: string;
   tag: string;

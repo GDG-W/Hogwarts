@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const client = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  timeout: 10000,
   // baseURL: 'https://asgard.devfestlagos.com', https://asgard.devfest.notkruse.dev/users/${ticket_id}/profiles
-  baseURL: 'https://asgard.devfest.notkruse.dev',
-  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
     'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',

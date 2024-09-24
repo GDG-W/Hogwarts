@@ -1,13 +1,22 @@
 import React, { useRef, useState } from 'react';
 import styles from './mulitinput.module.scss';
+import InfoCircle from '../../../../public/info-circle.svg';
 
 interface PillInputProps {
   pills: string[];
   onAddPill: (value: string) => void;
   onRemovePill: (index: number) => void;
+  limit?: number;
+  extraInformation?: string;
 }
 
-const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }) => {
+const MultiInput: React.FC<PillInputProps> = ({
+  pills,
+  onAddPill,
+  onRemovePill,
+  limit,
+  extraInformation,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,11 +31,15 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }
       event.preventDefault();
       const trimmedValue = inputValue.trim();
 
+      if (limit && pills.length >= limit) {
+        return setErrorMessage('Email Limit');
+      }
+
       if (!trimmedValue) {
         setErrorMessage('Please enter an email address.');
       } else if (!isValidEmail(trimmedValue)) {
         setErrorMessage('Please enter a valid email address.');
-      } else if (pills.includes(trimmedValue)) {
+      } else if (pills.some((pill) => pill.toLowerCase() === trimmedValue.toLowerCase())) {
         setErrorMessage('This email has already been added.');
       } else {
         onAddPill(trimmedValue);
@@ -39,6 +52,10 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (limit && pills.length >= limit) {
+      return setErrorMessage('Email Limit');
+    }
+
     setInputValue(event.target.value);
   };
 
@@ -79,6 +96,12 @@ const MultiInput: React.FC<PillInputProps> = ({ pills, onAddPill, onRemovePill }
           ref={inputRef}
         />
       </div>
+      {extraInformation && (
+        <div className={styles.extra}>
+          <InfoCircle />
+          <p>{extraInformation}</p>
+        </div>
+      )}
       {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
     </div>
   );

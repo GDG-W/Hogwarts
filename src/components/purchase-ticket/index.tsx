@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import { CacheKeys } from '@/utils/constants';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { Checkout } from './components/checkout';
 import { OrderInformation } from './components/order-information';
 import { TicketType } from './components/ticket-type';
-import { TTicketNumber } from './model';
+import { SelectedTickets, TicketPurchaseData } from './model';
 import styles from './ticket.module.scss';
+import { compareObjects } from './tickets.util';
 
 interface IPurchaseTicketProps {
   closeModal: () => void;
@@ -11,47 +14,72 @@ interface IPurchaseTicketProps {
 }
 
 const PurchaseTicket = (props: IPurchaseTicketProps) => {
-  const [activeStep, setActiveStep] = React.useState<number>(1);
-  const [selectDays, setSelectDays] = React.useState<number>(0);
-  const [ticketNo, setTicketNo] = React.useState<TTicketNumber>({
-    oneDay: 0,
-    twoDays: 0,
+  const queryClient = useQueryClient();
+  const [activeStep, setActiveStep] = useState<number>(1);
+  const [isOrderInfoComplete, setIsOrderInfoComplete] = useState<boolean>(false);
+  const [isTicketTypeComplete, setIsTicketTypeComplete] = useState<boolean>(false);
+
+  // Ticket Type Form
+  const [selectedTickets, setSelectedTickets] = useState<SelectedTickets>({
+    one_day: {
+      quantity: 0,
+      selectedDay: null,
+    },
+
+    two_days: {
+      quantity: 0,
+    },
   });
-  const [isTicketTypeComplete, setIsTicketTypeComplete] = React.useState<boolean>(false);
-  const [isOrderInfoComplete, setIsOrderInfoComplete] = React.useState<boolean>(false);
-  const stepperLists = [
-    { name: 'Ticket type', value: 1, isComplete: isTicketTypeComplete },
-    { name: 'Order information', value: 2, isComplete: isOrderInfoComplete },
-    { name: 'Checkout', value: 3 },
-  ];
-  const handleNextStep = () => {
-    if ((activeStep === 1 && !isTicketTypeComplete) || (activeStep === 2 && !isOrderInfoComplete)) {
-      return; // Prevent moving to the next step if the current step is not complete
-    }
-    if (activeStep < 3) {
-      setActiveStep(activeStep + 1);
-    }
+
+  const handleTicketFormSubmit = (values: SelectedTickets) => {
+    const { one_day, two_days } = values;
+
+    if (one_day.quantity <= 0 && two_days.quantity <= 0) return;
+
+    queryClient.setQueryData([CacheKeys.USER_PURCHASE_TICKET], (prevData: TicketPurchaseData) => {
+      return {
+        ...prevData,
+        selectedTickets: values,
+      };
+    });
+
+    setSelectedTickets(values);
+    setIsTicketTypeComplete(true);
+    setIsOrderInfoComplete(false);
+    setActiveStep(2);
   };
 
-  const handleTicketTypeCompletion = () => {
-    if (selectDays > 0 && (ticketNo.oneDay > 0 || ticketNo.twoDays > 0)) {
-      setIsTicketTypeComplete(true);
-      handleNextStep();
-    } else return;
-  };
-
+  // Order Information  Form
   const handleOrderInfoCompletion = () => {
     setIsOrderInfoComplete(true);
-    handleNextStep();
+    setActiveStep(3);
   };
+
+  const resetPageState = () => {
+    setActiveStep(1);
+    setIsTicketTypeComplete(false);
+    setIsOrderInfoComplete(false);
+    setSelectedTickets({
+      one_day: {
+        quantity: 0,
+        selectedDay: null,
+      },
+
+      two_days: {
+        quantity: 0,
+      },
+    });
+  };
+
+  const stepperLists = [
+    { name: 'Ticket type', value: 1, isComplete: true },
+    { name: 'Order information', value: 2, isComplete: isTicketTypeComplete },
+    { name: 'Checkout', value: 3, isComplete: isOrderInfoComplete },
+  ];
 
   useEffect(() => {
     if (!props.showTicketModal) {
-      setActiveStep(1);
-      setSelectDays(0);
-      setTicketNo({ oneDay: 0, twoDays: 0 });
-      setIsTicketTypeComplete(false);
-      setIsOrderInfoComplete(false);
+      resetPageState();
     }
   }, [props.showTicketModal]);
 
@@ -63,6 +91,20 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
       if (!element || !wrapper) return;
 
       wrapper?.scrollTo(0, element.scrollHeight);
+    }
+  }, [activeStep]);
+
+  useEffect(() => {
+    const getTicketPurchaseData: TicketPurchaseData | undefined = queryClient.getQueryData([
+      CacheKeys.USER_PURCHASE_TICKET,
+    ]);
+
+    if (!getTicketPurchaseData?.selectedTickets) return;
+
+    const isItTheSame = compareObjects(getTicketPurchaseData.selectedTickets, selectedTickets);
+
+    if (!isItTheSame) {
+      setSelectedTickets(getTicketPurchaseData.selectedTickets);
     }
   }, [activeStep]);
 
@@ -91,14 +133,12 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
           <div className={styles.wrapper_container}>
             {activeStep === 1 && (
               <TicketType
-                selectDays={selectDays}
-                handleChangeSelectDays={setSelectDays}
-                ticketNo={ticketNo}
-                handleChangeTicketNo={setTicketNo}
-                handleNext={handleTicketTypeCompletion}
+                selectedTickets={selectedTickets}
+                setSelectedTickets={setSelectedTickets}
+                handleSubmit={handleTicketFormSubmit}
               />
             )}
-            {activeStep >= 2 && (
+            {activeStep === 2 && (
               <OrderInformation
                 handleNext={handleOrderInfoCompletion}
                 setActiveStep={setActiveStep}
@@ -109,21 +149,21 @@ const PurchaseTicket = (props: IPurchaseTicketProps) => {
               <div className={styles.mob_checkout}>
                 <Checkout
                   closeModal={props.closeModal}
-                  selectDays={selectDays}
-                  ticketNo={ticketNo}
                   activeStep={activeStep}
+                  selectedTickets={selectedTickets}
                 />
               </div>
             )}
           </div>
-          <div className={`${styles.wrapper_container} ${styles.wrapper_sticky_top}`}>
-            <Checkout
-              closeModal={props.closeModal}
-              selectDays={selectDays}
-              ticketNo={ticketNo}
-              activeStep={activeStep}
-            />
-          </div>
+          {activeStep === 1 && (
+            <div className={`${styles.wrapper_container} ${styles.wrapper_sticky_top}`}>
+              <Checkout
+                closeModal={props.closeModal}
+                activeStep={activeStep}
+                selectedTickets={selectedTickets}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
