@@ -9,7 +9,8 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "DevFest Lagos'24 | Tickets",
-  description: 'Get your DevFest Lagos 2024 tickets here to join over 1000 tech enthusiasts, experts, and thought leaders for talks hands-on workshops, and many more.',
+  description:
+    'Get your DevFest Lagos 2024 tickets here to join over 1000 tech enthusiasts, experts, and thought leaders for talks hands-on workshops, and many more.',
   keywords: [
     'devfest',
     'devfest lagos',
