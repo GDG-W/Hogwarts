@@ -9,7 +9,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "DevFest Lagos'24 | Tickets",
-  description: 'Get Early Bird Tickets',
+  description: 'Get Tickets',
   keywords: [
     'devfest',
     'devfest lagos',
