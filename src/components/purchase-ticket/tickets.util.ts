@@ -21,7 +21,7 @@ export const validateTicketPurchaseData = (data: TicketPurchaseData) => {
   if (totalTicketQuantity === 1) {
     const { role, expertise, topicsOfInterest, sessionsOfInterest } = personalOrderInformation;
 
-    if (!role || !expertise || topicsOfInterest.length <= 1 || sessionsOfInterest.length <= 1) {
+    if (!role || !expertise || topicsOfInterest.length < 1 || sessionsOfInterest.length < 1) {
       return false;
     }
   }

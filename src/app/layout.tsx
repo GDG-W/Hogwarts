@@ -9,7 +9,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: "DevFest Lagos'24 | Tickets",
-  description: 'Get Early Bird Tickets',
+  description: 'Get Tickets',
   keywords: [
     'devfest',
     'devfest lagos',
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en' className={classNames(GeneralSans.variable, GeistSans.className)}>
       <body>
         <ReactQueryProvider>
-          {/* Your layout content, including header, main content, footer, etc goes here. */}
+          {/* Your layout content , including header, main content, footer, etc goes here. */}
           {children}
         </ReactQueryProvider>
       </body>
