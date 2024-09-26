@@ -141,7 +141,7 @@ export const Footer = (props: IFooterProps) => {
               data-easing='SCALE'
               text={
                 <span data-animate-text data-delay='0.4'>
-                  Get Tickets
+                  Get Early Bird Tickets
                 </span>
               }
             />
