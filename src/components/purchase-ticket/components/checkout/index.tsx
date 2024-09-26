@@ -56,7 +56,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
 
         queryClient.clear();
 
-        setFormSuccess('Please Wait, You would be redirected Soon.');
+        setFormSuccess('Please wait, you will be redirected soon.');
       } else {
         handleError('Invalid Payment Link. Please Try again', setFormError);
       }

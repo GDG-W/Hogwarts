@@ -13,8 +13,8 @@ export enum CacheKeys {
 }
 
 export const TICKET_PRICES = {
-  DAY_ONE: 9000,
-  DAY_TWO: 13000,
+  DAY_ONE: 7000,
+  DAY_TWO: 10000,
 };
 
 // function formatNumberWithCommas(number) {

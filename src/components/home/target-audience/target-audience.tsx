@@ -91,7 +91,7 @@ const TargetAudience = (props: IProps) => {
               className={styles.button}
               text={
                 <span data-animate-text data-delay='0.917' data-easing='CTA.text'>
-                  Get Tickets
+                  Get Early Bird Tickets
                 </span>
               }
             />

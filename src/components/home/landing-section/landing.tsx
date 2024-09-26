@@ -95,7 +95,7 @@ const Landing = (props: ILandingProps) => {
             data-easing='CTA.button'
             text={
               <span data-animate-text data-delay='0.5' data-easing='CTA.text'>
-                Get Tickets
+                Get Early Bird Tickets
               </span>
             }
           />
