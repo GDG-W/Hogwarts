@@ -32,7 +32,7 @@ const MultiInput: React.FC<PillInputProps> = ({
       const trimmedValue = inputValue.trim();
 
       if (limit && pills.length >= limit) {
-        return setErrorMessage('Email Limit');
+        return setErrorMessage('Email Limit Reached');
       }
 
       if (!trimmedValue) {
@@ -53,7 +53,7 @@ const MultiInput: React.FC<PillInputProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (limit && pills.length >= limit) {
-      return setErrorMessage('Email Limit');
+      return setErrorMessage('Email Limit Reached');
     }
 
     setInputValue(event.target.value);
