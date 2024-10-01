@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import styles from './mulitinput.module.scss';
 import InfoCircle from '../../../../public/info-circle.svg';
+import styles from './mulitinput.module.scss';
 
 interface PillInputProps {
   pills: string[];
@@ -24,6 +24,22 @@ const MultiInput: React.FC<PillInputProps> = ({
   const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const addEmails = (emails: string[]) => {
+    const newPills = [...pills];
+    emails.forEach((email) => {
+      const trimmedEmail = email.trim();
+      if (trimmedEmail && isValidEmail(trimmedEmail) && !newPills.includes(trimmedEmail)) {
+        if (limit && newPills.length >= limit) {
+          setErrorMessage('Email Limit Reached');
+          return;
+        }
+        newPills.push(trimmedEmail);
+        onAddPill(trimmedEmail);
+      }
+    });
+    setErrorMessage('');
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -57,6 +73,15 @@ const MultiInput: React.FC<PillInputProps> = ({
     }
 
     setInputValue(event.target.value);
+  };
+
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const pastedText = event.clipboardData.getData('Text');
+    const emails = pastedText.split(/[\s,;]+/);
+
+    addEmails(emails);
+    setInputValue('');
   };
 
   const handleBlur = () => {
@@ -93,6 +118,7 @@ const MultiInput: React.FC<PillInputProps> = ({
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
           // onFocus={handleFocus}
+          onPaste={handlePaste}
           ref={inputRef}
         />
       </div>

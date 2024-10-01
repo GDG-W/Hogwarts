@@ -19,8 +19,10 @@ const AttendeeGroup = ({
   const [pills, setPills] = useState<string[]>(defaultValue ?? []);
 
   const addPill = (value: string) => {
+    const formerPills = pills;
+    formerPills.push(value);
     if (value) {
-      setPills([...pills, value]);
+      setPills(formerPills);
     }
   };
 
