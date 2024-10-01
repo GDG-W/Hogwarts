@@ -97,7 +97,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               data-easing='SCALE'
               text={
                 <span data-animate-y-up data-delay='0.7'>
-                  Get Early Bird Tickets
+                  Get Tickets
                 </span>
               }
             />
