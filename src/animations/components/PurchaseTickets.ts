@@ -122,7 +122,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
   private updateTicketDetails(ticketContainerClassname: string, index: number) {
     const ticketDetails = [
       {
-        title: '1 Day Access ONLY | <span> ₦7,000</span>',
+        title: '1 Day Access ONLY | <span> ₦9,000</span>',
         details: [
           'Get the one-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
@@ -130,7 +130,7 @@ export default class PurchaseTicketsAnimation extends AnimationBase {
         ],
       },
       {
-        title: '2 Days Access | <span> ₦10,000</span>',
+        title: '2 Days Access | <span> ₦13,000</span>',
         details: [
           'Get the two-day tickets for you or your friends',
           'Access to workshops, sessions and talks',
