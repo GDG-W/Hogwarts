@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import InfoCircle from '../../../../public/info-circle.svg';
 import styles from './mulitinput.module.scss';
 
@@ -6,6 +6,7 @@ interface PillInputProps {
   pills: string[];
   onAddPill: (value: string) => void;
   onRemovePill: (index: number) => void;
+  onPillsChange: (newPills: string[]) => void;
   limit?: number;
   extraInformation?: string;
 }
@@ -14,6 +15,7 @@ const MultiInput: React.FC<PillInputProps> = ({
   pills,
   onAddPill,
   onRemovePill,
+  onPillsChange,
   limit,
   extraInformation,
 }) => {
@@ -26,20 +28,17 @@ const MultiInput: React.FC<PillInputProps> = ({
     return emailRegex.test(email);
   };
 
-  const addEmails = (emails: string[]) => {
-    const newPills = [...pills];
-    emails.forEach((email) => {
-      const trimmedEmail = email.trim();
-      if (trimmedEmail && isValidEmail(trimmedEmail) && !newPills.includes(trimmedEmail)) {
-        if (limit && newPills.length >= limit) {
-          setErrorMessage('Email Limit Reached');
-          return;
-        }
-        newPills.push(trimmedEmail);
-        onAddPill(trimmedEmail);
+  const addEmail = (email: string) => {
+    const trimmedEmail = email.trim();
+    if (trimmedEmail && isValidEmail(trimmedEmail) && !pills.includes(trimmedEmail)) {
+      if (limit && pills.length >= limit) {
+        setErrorMessage('Email Limit Reached');
+        return false;
       }
-    });
-    setErrorMessage('');
+      onAddPill(trimmedEmail);
+      return true;
+    }
+    return false;
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -78,10 +77,29 @@ const MultiInput: React.FC<PillInputProps> = ({
   const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
     const pastedText = event.clipboardData.getData('Text');
-    const emails = pastedText.split(/[\s,;]+/);
+    const emails = pastedText.split(/[\s,;]+/).filter((email) => email.trim() !== '');
 
-    addEmails(emails);
+    let addedCount = 0;
+    const invalidEmails = [];
+    const newPills = [...pills];
+
+    for (const email of emails) {
+      if (addEmail(email)) {
+        addedCount++;
+        newPills.push(email.trim());
+      } else if (email.trim()) {
+        invalidEmails.push(email);
+      }
+    }
+
+    if (invalidEmails.length > 0) {
+      setErrorMessage(`Invalid email(s): ${invalidEmails.join(', ')}`);
+    } else if (addedCount > 0) {
+      setErrorMessage('');
+    }
+
     setInputValue('');
+    onPillsChange(newPills); // Note: This notifies parent component about the change
   };
 
   const handleBlur = () => {
@@ -90,11 +108,9 @@ const MultiInput: React.FC<PillInputProps> = ({
     }
   };
 
-  // const handleFocus = () => {
-  //   if (pills.length > 0) {
-  //     inputRef.current!.placeholder = 'Enter recipient email(s)';
-  //   }
-  // };
+  useEffect(() => {
+    onPillsChange(pills);
+  }, [pills, onPillsChange]);
 
   return (
     <div>
@@ -117,7 +133,6 @@ const MultiInput: React.FC<PillInputProps> = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
-          // onFocus={handleFocus}
           onPaste={handlePaste}
           ref={inputRef}
         />

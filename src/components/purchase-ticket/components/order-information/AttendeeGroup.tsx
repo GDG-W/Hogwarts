@@ -19,16 +19,18 @@ const AttendeeGroup = ({
   const [pills, setPills] = useState<string[]>(defaultValue ?? []);
 
   const addPill = (value: string) => {
-    const formerPills = pills;
-    formerPills.push(value);
-    if (value) {
-      setPills(formerPills);
-    }
+    setPills((prevPills) => [...prevPills, value]);
   };
 
   const removePill = (index: number) => {
-    const newPills = [...pills];
-    newPills.splice(index, 1);
+    setPills((prevPills) => {
+      const newPills = [...prevPills];
+      newPills.splice(index, 1);
+      return newPills;
+    });
+  };
+
+  const handlePillsChange = (newPills: string[]) => {
     setPills(newPills);
   };
 
@@ -40,7 +42,7 @@ const AttendeeGroup = ({
     if (pills.length !== limit) {
       setSaved(false);
     }
-  }, [limit]);
+  }, [pills, limit]);
 
   return (
     <div className={styles.attendees} style={{ background: saved ? '#fffaeb' : 'transparent' }}>
@@ -51,12 +53,11 @@ const AttendeeGroup = ({
           pills={pills}
           onAddPill={addPill}
           onRemovePill={removePill}
+          onPillsChange={handlePillsChange}
           limit={limit}
           extraInformation='Kindly Press Enter after entering each email to add it to the list.'
         />
       )}
-
-      {/* Add Tooltip for the button to signify that the button gets disabled until the emails written is the same as the target limit */}
 
       <Button
         onClick={() => {
