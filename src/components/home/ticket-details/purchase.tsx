@@ -37,7 +37,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
           <div className={styles.imagewrapper}>
             <div className={styles.headContainerWrapper}>
               <Image
-                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
+                src='https://svgshare.com/i/1Bqp.svg'
                 alt='An image of the one-day ticket'
                 width={650}
                 height={350}
@@ -58,7 +58,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               <div className={styles.border}></div>
 
               <Image
-                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
+                src='https://svgshare.com/i/1Bqp.svg'
                 alt='An image of the one-day ticket'
                 className={styles.thumbnailImage}
                 width={83}
