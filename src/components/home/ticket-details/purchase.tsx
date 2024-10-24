@@ -45,7 +45,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               />
 
               <Image
-                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723722423/devfest_2024/red-ticket_1723722419669.svg'
+                src='https://svgshare.com/i/1Bqt.svg'
                 alt='An image of the two-day ticket'
                 width={650}
                 height={350}
@@ -66,7 +66,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               />
 
               <Image
-                src='https://res.cloudinary.com/defsbafq2/image/upload/v1723722423/devfest_2024/red-ticket_1723722419669.svg'
+                src='https://svgshare.com/i/1Bqt.svg'
                 alt='An image of the Two-day ticket'
                 className={styles.thumbnailImage}
                 width={83}
