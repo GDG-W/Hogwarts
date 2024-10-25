@@ -130,7 +130,7 @@ const Landing = (props: ILandingProps) => {
         <div className={styles.ticketWrapper}>
           <div className={classNames(styles.ticket, styles.one)} data-animate-ticket-one>
             <Image
-              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030306/green-ticket_d973oo.svg'
+              src='https://svgshare.com/i/1Bqg.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -139,7 +139,7 @@ const Landing = (props: ILandingProps) => {
 
           <div className={classNames(styles.ticket, styles.middle)} data-animate-ticket-middle>
             <Image
-              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030366/blue-ticket_zqy1z2.svg'
+              src='https://svgshare.com/i/1Bqh.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -148,7 +148,7 @@ const Landing = (props: ILandingProps) => {
 
           <div className={classNames(styles.ticket, styles.two)} data-animate-ticket-two>
             <Image
-              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723030368/yellow-ticket_bokooz.svg'
+              src='https://svgshare.com/i/1Bqp.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}

@@ -126,7 +126,7 @@ const ClaimTickets = () => {
         <div className='claim__tickets__content'>
           <div className='claim__tickets__banner'>
             <Image
-              src='https://res.cloudinary.com/defsbafq2/image/upload/v1723026192/claim-ticket_ljyoeo.png'
+              src='https://i.ibb.co/Q98nRKL/claim-ticket-ljyoeo.png'
               width={558}
               height={799}
               alt=''
