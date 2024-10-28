@@ -53,11 +53,44 @@
   }
 }
 
+.ticket_image_wrapper {
+  display: none;
+  width: 50%;
+
+  @include media('>=tablet') {
+    display: block;
+    position: relative;
+    top: 0;
+  }
+
+  &_inner {
+    position: absolute;
+    opacity: 1;
+    transform: translateX(0);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+
+    &.inactive {
+      opacity: 0.4;
+    }
+
+    &.active {
+      opacity: 1;
+      transform: translateX(0);
+
+      &:nth-of-type(2) {
+        transform: translateX(100px);
+      }
+    }
+  }
+}
+
 .wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  max-height: calc(85vh - 128px);
+  min-height: calc(85vh - 128px);
   overflow-y: auto;
   scroll-behavior: smooth;
 
@@ -129,4 +162,10 @@
       }
     }
   }
+}
+
+.error {
+  font-size: 14px;
+  color: #f28b82;
+  margin-bottom: 1.5em;
 }

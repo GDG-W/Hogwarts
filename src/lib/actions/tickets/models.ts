@@ -86,6 +86,7 @@ export interface TicketDetailsResponse {
   ticket: { id: string; price: number; tag: Tag; title: string };
   ticket_id: string;
   ticket_updated: boolean;
+  payment_url?: string;
 }
 
 export enum Dates {
