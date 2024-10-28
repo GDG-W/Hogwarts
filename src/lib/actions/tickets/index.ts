@@ -1,9 +1,10 @@
 import client from '../../axios';
 import {
-  CouponResponse,
   ClaimTicketPayload,
+  CouponResponse,
   TicketCheckoutPayload,
   TicketCheckoutResponse,
+  UpdateTicketPayload,
 } from './models';
 
 export const ticketCheckout = async (
@@ -47,6 +48,20 @@ export const claimTicket = async ({
 }) => {
   try {
     const { data } = await client.post(`/users/${ticket_id}/profiles`, payload);
+
+    return Promise.resolve(data);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const updateTicket = async ({ token, ...others }: UpdateTicketPayload) => {
+  try {
+    const { data } = await client.post(`/tickets/updates`, others, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return Promise.resolve(data);
   } catch (error) {

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 
 export type InputProps = React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -44,6 +44,13 @@ export interface SelectFieldProps {
   onOpen?: () => void;
   width?: string;
 }
+
+export type RadioProps = {
+  id: string;
+  name: string;
+  label: string;
+  className?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 export interface MultiSelectFieldProps extends Omit<SelectFieldProps, 'defaultValue'> {
   defaultValue?: OptionProp[];

@@ -65,3 +65,31 @@ export type ClaimTicketPayload = {
   interests: string[];
   sessions: string[];
 };
+
+export type UpdateType = 'change_day' | 'upgrade_ticket';
+
+export type UpdateTicketPayload = {
+  ticket_id: string;
+  update_type: UpdateType;
+  token: string;
+};
+
+export interface TicketDetailsResponse {
+  created_at: string;
+  email_address: string;
+  fullname: string;
+  id: string;
+  interests: string[];
+  level_of_expertise: string;
+  role: string;
+  sessions: string[];
+  ticket: { id: string; price: number; tag: Tag; title: string };
+  ticket_id: string;
+  ticket_updated: boolean;
+}
+
+export enum Dates {
+  'day_one' = '15th Nov, 2024',
+  'day_two' = '16th Nov, 2024',
+  'both_days' = '15th & 16th Nov, 2024',
+}
