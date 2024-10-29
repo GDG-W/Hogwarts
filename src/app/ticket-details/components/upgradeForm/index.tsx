@@ -144,13 +144,13 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
             <li className={styles.main_container_body_list_group_item_one}>
               <p className={styles.main_container_body_date}>What would you like to to?</p>
 
-              <Radio
+              {/* <Radio
                 id='change_day'
                 name='upgrade_type'
                 label='Update day'
                 checked={tempUpgradeType === 'change_day'}
                 onClick={() => setTempUpgradeType('change_day')}
-              />
+              /> */}
               <Radio
                 id='upgrade_ticket'
                 name='upgrade_type'
