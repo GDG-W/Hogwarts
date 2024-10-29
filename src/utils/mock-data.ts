@@ -37,23 +37,6 @@ export const roleOptions: OptionProp[] = [
 export const genderOptions: OptionProp[] = [
   { label: 'Male', value: 'male' },
   { label: 'Female', value: 'female' },
-  { label: 'Non-Binary', value: 'non_binary' },
-  { label: 'Genderqueer', value: 'genderqueer' },
-  { label: 'Genderfluid', value: 'genderfluid' },
-  { label: 'Agender', value: 'agender' },
-  { label: 'Bigender', value: 'bigender' },
-  { label: 'Demiboy', value: 'demiboy' },
-  { label: 'Demigirl', value: 'demigirl' },
-  { label: 'Two-Spirit', value: 'two_spirit' },
-  { label: 'Androgynous', value: 'androgynous' },
-  { label: 'Intersex', value: 'intersex' },
-  { label: 'Neutrois', value: 'neutrois' },
-  { label: 'Pangender', value: 'pangender' },
-  { label: 'Transgender', value: 'transgender' },
-  { label: 'Transmasculine', value: 'transmasculine' },
-  { label: 'Transfeminine', value: 'transfeminine' },
-  { label: 'Questioning', value: 'questioning' },
-  { label: 'Other', value: 'other' },
 ];
 
 export const dayOptions: OptionProp[] = [

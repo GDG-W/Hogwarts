@@ -252,8 +252,8 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
                   </p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>One day access x{one_day.quantity}</span>
-                    <span>N{(one_day.quantity * TICKET_PRICES.DAY_ONE).toLocaleString()}</span>
+                    <span>One-Day Access x{one_day.quantity}</span>
+                    <span>₦{(one_day.quantity * TICKET_PRICES.DAY_ONE).toLocaleString()}</span>
                   </li>
                 </li>
               )}
@@ -263,8 +263,8 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
                   <p className={styles.main_container_body_date}>15th & 16th November 2024</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two days access x{two_days.quantity}</span>
-                    <span>N{(two_days.quantity * TICKET_PRICES.DAY_TWO).toLocaleString()}</span>
+                    <span>Two-Day Access x{two_days.quantity}</span>
+                    <span>₦{(two_days.quantity * TICKET_PRICES.DAY_TWO).toLocaleString()}</span>
                   </li>
                 </li>
               )}
@@ -275,7 +275,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
               >
                 <div className={styles.main_container_body_list_group_item_three_subtotal}>
                   <span>Subtotal </span>
-                  <span>N{ticketTotal.toLocaleString()}</span>
+                  <span>₦{ticketTotal.toLocaleString()}</span>
                 </div>
 
                 {activeStep === 3 && (
@@ -328,12 +328,12 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
                   {couponDetails?.discount_rate ? (
                     <>
                       <span>
-                        N{calculateDiscountedPrice(ticketTotal, couponDetails?.discount_rate)}
+                        ₦{calculateDiscountedPrice(ticketTotal, couponDetails?.discount_rate)}
                       </span>
-                      <span className={styles.oldPrice}>N{ticketTotal.toLocaleString()}</span>
+                      <span className={styles.oldPrice}>₦{ticketTotal.toLocaleString()}</span>
                     </>
                   ) : (
-                    <span>N{ticketTotal.toLocaleString()}</span>
+                    <span>₦{ticketTotal.toLocaleString()}</span>
                   )}
                 </div>
               </li>
