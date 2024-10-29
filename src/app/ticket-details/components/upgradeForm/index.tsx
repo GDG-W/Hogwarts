@@ -115,7 +115,13 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
         {upgradeType === 'change_day' ? 'Confirm Details' : 'Upgrade Options'}
 
         {upgradeType && (
-          <button className={styles.backButton} onClick={() => setUpgradeType(null)}>
+          <button
+            className={styles.backButton}
+            onClick={() => {
+              setUpgradeType(null);
+              setConfirmUpgrade(false);
+            }}
+          >
             <ArrowRight />
             Go Back
           </button>
@@ -129,19 +135,9 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
               <p className={styles.main_container_body_date}>Current Ticket</p>
 
               <li className={styles.main_container_body_list_group_item}>
-                {ticketInformation.ticket.tag === 'both_days' && (
-                  <>
-                    <span>Two days access</span>
-                    <span>N{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
-                  </>
-                )}
+                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day access</span>}
 
-                {ticketInformation.ticket.tag !== 'both_days' && (
-                  <>
-                    <span>One day access</span>
-                    <span>N{TICKET_PRICES.DAY_ONE.toLocaleString()}</span>
-                  </>
-                )}
+                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day access</span>}
               </li>
             </li>
 
@@ -149,18 +145,18 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
               <p className={styles.main_container_body_date}>What would you like to to?</p>
 
               <Radio
-                id='upgrade_ticket'
-                name='upgrade_type'
-                label='Upgrade to higher tier'
-                checked={tempUpgradeType === 'upgrade_ticket'}
-                onClick={() => setTempUpgradeType('upgrade_ticket')}
-              />
-              <Radio
                 id='change_day'
                 name='upgrade_type'
                 label='Update day'
                 checked={tempUpgradeType === 'change_day'}
                 onClick={() => setTempUpgradeType('change_day')}
+              />
+              <Radio
+                id='upgrade_ticket'
+                name='upgrade_type'
+                label='Upgrade to higher tier'
+                checked={tempUpgradeType === 'upgrade_ticket'}
+                onClick={() => setTempUpgradeType('upgrade_ticket')}
               />
             </li>
           </ul>
@@ -185,19 +181,9 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
               <p className={styles.main_container_body_date}>Current Ticket</p>
 
               <li className={styles.main_container_body_list_group_item}>
-                {ticketInformation.ticket.tag === 'both_days' && (
-                  <>
-                    <span>Two days access</span>
-                    <span className={styles.price}>N{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
-                  </>
-                )}
+                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day access</span>}
 
-                {ticketInformation.ticket.tag !== 'both_days' && (
-                  <>
-                    <span>One day access</span>
-                    <span className={styles.price}>N{TICKET_PRICES.DAY_ONE.toLocaleString()}</span>
-                  </>
-                )}
+                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day access</span>}
               </li>
             </li>
 
@@ -249,19 +235,15 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <li className={styles.main_container_body_list_group_item}>
                     {ticketInformation.ticket.tag === 'both_days' && (
                       <>
-                        <span>Two days access</span>
-                        <span className={styles.price}>
-                          N{TICKET_PRICES.DAY_TWO.toLocaleString()}
-                        </span>
+                        <span>Two-Day access</span>
+                        <span className={styles.price}></span>
                       </>
                     )}
 
                     {ticketInformation.ticket.tag !== 'both_days' && (
                       <>
-                        <span>One day access</span>
-                        <span className={styles.price}>
-                          N{TICKET_PRICES.DAY_ONE.toLocaleString()}
-                        </span>
+                        <span>One-Day access</span>
+                        <span className={styles.price}></span>
                       </>
                     )}
                   </li>
@@ -271,8 +253,8 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <p className={styles.main_container_body_date}>Upgrade Ticket To</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two days access</span>
-                    <span className={styles.price}>N{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
+                    <span>Two-Day access</span>
+                    {/* <span className={styles.price}>₦{TICKET_PRICES.DAY_TWO.toLocaleString()}</span> */}
                   </li>
                 </li>
               </ul>
@@ -296,9 +278,9 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <p className={styles.main_container_body_date}>15th & 16th November 2024</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two days access</span>
+                    <span>Two-Day access</span>
 
-                    <span className={styles.price}>N{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
+                    <span className={styles.price}>₦{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
                   </li>
                 </li>
 
@@ -307,7 +289,7 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
 
                   <li className={styles.main_container_body_list_group_item}>
                     <span>Amount to be Paid</span>
-                    <span className={styles.price}>N5000</span>
+                    <span className={styles.price}>₦5000</span>
                   </li>
                 </li>
 
@@ -315,7 +297,7 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <span>Total </span>
 
                   <div className={styles.total_price_container}>
-                    <span>N5000</span>
+                    <span>₦5000</span>
                   </div>
                 </li>
               </ul>
@@ -341,7 +323,7 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
         onClose={() => setShowTicketUpdatedModal(false)}
         title={'Day Change Successful'}
         description={
-          'You new day to attend DevFest Lagos, 2024 is now 16th November, 2024. We’ve sent you a confirmatory mail'
+          'Your new day to attend DevFest Lagos, 2024 is now 16th November, 2024. We’ve sent you a confirmatory mail'
         }
         ctaFunc={() => setShowTicketUpdatedModal(false)}
         ctaText='Go to Ticket Page'

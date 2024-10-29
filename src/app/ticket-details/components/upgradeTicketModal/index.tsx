@@ -56,9 +56,7 @@ const UpgradeTicketModal = (props: IModalProps) => {
             )}
           </div>
 
-          <div className={`${styles.form_container}  `}>
-            <p className={styles.error}>DevFest Lagos does not offer any refunds</p>
-
+          <div className={`${styles.form_container} ${styles.wrapper_sticky_top}  `}>
             <UpgradeForm
               ticketInformation={ticketInformation}
               setUpgradeType={setUpgradeType}
