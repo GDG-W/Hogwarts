@@ -18,6 +18,7 @@ type BuyForOthersForm = {
 
 type BuyForYourselfForm = {
   role: string;
+  gender: string;
   expertise: string;
   topicsOfInterest: string[];
   sessionsOfInterest: string[];

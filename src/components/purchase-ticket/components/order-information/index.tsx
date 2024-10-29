@@ -2,7 +2,13 @@ import Button from '@/components/button';
 import { OptionProp } from '@/components/form/models';
 import SelectField from '@/components/form/selectfield/SelectField';
 import TextField from '@/components/form/textfield/TextField';
-import { expertiseOptions, roleOptions, sessions, topicsOfInterest } from '@/utils/mock-data';
+import {
+  expertiseOptions,
+  genderOptions,
+  roleOptions,
+  sessions,
+  topicsOfInterest,
+} from '@/utils/mock-data';
 import { Field, Form, Formik, useFormik } from 'formik';
 import React, { useEffect, useMemo, useState } from 'react';
 import * as Yup from 'yup';
@@ -22,6 +28,7 @@ interface FormValues {
   fullName: string;
   email: string;
   role: string;
+  gender: string;
   expertLevel: string;
   topicsOfInterest: string[];
   sessionsOfInterest: string[];
@@ -42,6 +49,10 @@ const validationSchema = Yup.object().shape({
 
   role: Yup.string().when('ticketType', ([ticketType], schema) => {
     return ticketType === 'personal' ? schema.required('Role is required') : schema.notRequired();
+  }),
+
+  gender: Yup.string().when('ticketType', ([ticketType], schema) => {
+    return ticketType === 'personal' ? schema.required('Gender is required') : schema.notRequired();
   }),
 
   expertLevel: Yup.string().when('ticketType', ([ticketType], schema) => {
@@ -134,6 +145,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
     fullName: getTicketPurchaseData?.buyerInformation?.fullName || '',
     email: getTicketPurchaseData?.buyerInformation?.email_address || '',
     role: getTicketPurchaseData?.personalOrderInformation?.role || '',
+    gender: getTicketPurchaseData?.personalOrderInformation?.gender || '',
     expertLevel: getTicketPurchaseData?.personalOrderInformation?.expertise || '',
     topicsOfInterest: getTicketPurchaseData?.personalOrderInformation?.topicsOfInterest || [],
     sessionsOfInterest: getTicketPurchaseData?.personalOrderInformation?.sessionsOfInterest || [],
@@ -167,6 +179,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
         personalOrderInformation: {
           expertise: values.expertLevel,
           role: values.role,
+          // gender: values.gender,
           topicsOfInterest: values.topicsOfInterest,
           sessionsOfInterest: values.sessionsOfInterest,
         },
@@ -304,6 +317,17 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
                   placeholder='example@gmail.com'
                   value={values.email}
                   onChange={handleChange}
+                />
+
+                <Field
+                  as={SelectField}
+                  id='gender'
+                  label='Gender'
+                  defaultValue={getOptionsValue(values.gender, genderOptions)}
+                  placeholder='Select Gender'
+                  options={genderOptions}
+                  onChange={(valueObj: OptionProp) => setFieldValue('gender', valueObj.value)}
+                  error={errors.gender}
                 />
 
                 <Field

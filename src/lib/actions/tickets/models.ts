@@ -60,6 +60,7 @@ export type CouponResponse = {
 export type ClaimTicketPayload = {
   token: string;
   fullname: string;
+  gender: string;
   level_of_expertise: string;
   role: string;
   interests: string[];
