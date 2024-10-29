@@ -41,6 +41,7 @@ const TicketDetails = () => {
     mutationFn: getUserProfile,
     onSuccess: (data) => setProfile(data),
     onError: (error) => {
+      router.push('/login');
       handleError(error, setError);
     },
   });
