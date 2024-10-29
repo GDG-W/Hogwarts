@@ -156,7 +156,7 @@ const TicketDetails = () => {
                   </div>
                   <div className='detail'>
                     <p className='property'>Time</p>
-                    <span className='value'>10:00 AM WAT</span>
+                    <span className='value'>08:00 AM WAT</span>
                   </div>
                   <div className='detail'>
                     <p className='property'>Quantity</p>

@@ -135,9 +135,9 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
               <p className={styles.main_container_body_date}>Current Ticket</p>
 
               <li className={styles.main_container_body_list_group_item}>
-                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day access</span>}
+                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day Access</span>}
 
-                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day access</span>}
+                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day Access</span>}
               </li>
             </li>
 
@@ -181,9 +181,9 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
               <p className={styles.main_container_body_date}>Current Ticket</p>
 
               <li className={styles.main_container_body_list_group_item}>
-                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day access</span>}
+                {ticketInformation.ticket.tag === 'both_days' && <span>Two-Day Access</span>}
 
-                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day access</span>}
+                {ticketInformation.ticket.tag !== 'both_days' && <span>One-Day Access</span>}
               </li>
             </li>
 
@@ -235,14 +235,14 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <li className={styles.main_container_body_list_group_item}>
                     {ticketInformation.ticket.tag === 'both_days' && (
                       <>
-                        <span>Two-Day access</span>
+                        <span>Two-Day Access</span>
                         <span className={styles.price}></span>
                       </>
                     )}
 
                     {ticketInformation.ticket.tag !== 'both_days' && (
                       <>
-                        <span>One-Day access</span>
+                        <span>One-Day Access</span>
                         <span className={styles.price}></span>
                       </>
                     )}
@@ -253,7 +253,7 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <p className={styles.main_container_body_date}>Upgrade Ticket To</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two-Day access</span>
+                    <span>Two-Day Access</span>
                     {/* <span className={styles.price}>₦{TICKET_PRICES.DAY_TWO.toLocaleString()}</span> */}
                   </li>
                 </li>
@@ -278,7 +278,7 @@ export const UpgradeForm = (props: UpgradeFormProps) => {
                   <p className={styles.main_container_body_date}>15th & 16th November 2024</p>
 
                   <li className={styles.main_container_body_list_group_item}>
-                    <span>Two-Day access</span>
+                    <span>Two-Day Access</span>
 
                     <span className={styles.price}>₦{TICKET_PRICES.DAY_TWO.toLocaleString()}</span>
                   </li>
