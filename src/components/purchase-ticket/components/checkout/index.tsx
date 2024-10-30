@@ -1,6 +1,6 @@
 import Button from '@/components/button';
 import { fetchTickets, getCouponInformation, ticketCheckout } from '@/lib/actions/tickets';
-import { Ticket, TicketCheckoutPayload } from '@/lib/actions/tickets/models';
+import { Gender, Ticket, TicketCheckoutPayload } from '@/lib/actions/tickets/models';
 import { classNames } from '@/utils/classNames';
 import { CacheKeys, TICKET_PRICES } from '@/utils/constants';
 import { handleError } from '@/utils/helper';
@@ -139,6 +139,7 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
             email_address: getTicketPurchaseData?.buyerInformation.email_address,
             fullname: getTicketPurchaseData?.buyerInformation.fullName,
             role: getTicketPurchaseData?.personalOrderInformation.role,
+            gender: getTicketPurchaseData?.personalOrderInformation.gender as Gender,
             level_of_expertise: getTicketPurchaseData?.personalOrderInformation.expertise,
           },
         ],

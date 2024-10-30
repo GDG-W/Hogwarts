@@ -1,3 +1,5 @@
+import { Gender } from '@/lib/actions/tickets/models';
+
 export type SelectedDays = 'day_one' | 'day_two';
 
 export type SelectedTickets = {
@@ -18,7 +20,7 @@ type BuyForOthersForm = {
 
 type BuyForYourselfForm = {
   role: string;
-  gender: string;
+  gender: Gender;
   expertise: string;
   topicsOfInterest: string[];
   sessionsOfInterest: string[];

@@ -179,7 +179,7 @@ export const OrderInformation: React.FC<IOrderProps> = ({ handleNext, setActiveS
         personalOrderInformation: {
           expertise: values.expertLevel,
           role: values.role,
-          // gender: values.gender,
+          gender: values.gender,
           topicsOfInterest: values.topicsOfInterest,
           sessionsOfInterest: values.sessionsOfInterest,
         },

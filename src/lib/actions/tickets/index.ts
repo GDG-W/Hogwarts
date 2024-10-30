@@ -46,10 +46,8 @@ export const claimTicket = async ({
   ticket_id: string;
   payload: ClaimTicketPayload;
 }) => {
-  const { gender, ...others } = payload;
-  console.log(gender);
   try {
-    const { data } = await client.post(`/users/${ticket_id}/profiles`, others);
+    const { data } = await client.post(`/users/${ticket_id}/profiles`, payload);
 
     return Promise.resolve(data);
   } catch (error) {
