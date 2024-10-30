@@ -1,24 +1,31 @@
 'use client';
-import React, { useEffect, useMemo, useState } from 'react';
-import Image from 'next/image';
-import * as Yup from 'yup';
-import Header from '@/components/header';
-import { Formik, Field, Form } from 'formik';
-import TextField from '@/components/form/textfield/TextField';
-import SelectField from '@/components/form/selectfield/SelectField';
-import { OptionProp } from '@/components/form/models';
 import Button from '@/components/button';
+import { OptionProp } from '@/components/form/models';
+import SelectField from '@/components/form/selectfield/SelectField';
+import TextField from '@/components/form/textfield/TextField';
+import Header from '@/components/header';
 import Modal from '@/components/modals';
-import { roleOptions, expertiseOptions, sessions, topicsOfInterest } from '@/utils/mock-data';
-import { CacheKeys } from '@/utils/constants';
-import { useMutation } from '@tanstack/react-query';
 import { claimTicket } from '@/lib/actions/tickets';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { CacheKeys } from '@/utils/constants';
 import { getMultiOptionsValue } from '@/utils/helper';
+import {
+  expertiseOptions,
+  genderOptions,
+  roleOptions,
+  sessions,
+  topicsOfInterest,
+} from '@/utils/mock-data';
+import { useMutation } from '@tanstack/react-query';
+import { Field, Form, Formik } from 'formik';
+import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useMemo, useState } from 'react';
+import * as Yup from 'yup';
 
 interface FormValues {
   fullName: string;
   role: string;
+  gender: string;
   customRole: string;
   expertise: string;
   topicsOfInterest: string[];
@@ -56,6 +63,7 @@ const ClaimTickets = () => {
   const initialValues: FormValues = {
     fullName: '',
     role: '',
+    gender: '',
     customRole: '',
     expertise: '',
     topicsOfInterest: [],
@@ -68,6 +76,7 @@ const ClaimTickets = () => {
       .min(2, 'Full name must be at least 2 characters')
       .max(50, 'Full name must be at most 50 characters'),
     role: Yup.string().required('Role is required'),
+    gender: Yup.string().required('Gender is required'),
     customRole: Yup.string(),
     expertise: Yup.string().required('Expertise is required'),
     topicsOfInterest: Yup.array()
@@ -95,6 +104,7 @@ const ClaimTickets = () => {
         fullname: values.fullName,
         level_of_expertise: values.expertise,
         role: values.role || values.customRole,
+        gender: values.gender,
         token: ticketInfo?.token as string,
         interests: values.topicsOfInterest,
         sessions: values.sessionsOfInterest,
@@ -157,6 +167,15 @@ const ClaimTickets = () => {
                       setFieldValue('fullName', event.target.value);
                     }}
                     error={errors.fullName}
+                  />
+                  <Field
+                    as={SelectField}
+                    label='Gender'
+                    placeholder='Select'
+                    options={genderOptions}
+                    id='gender'
+                    onChange={(valueObj: OptionProp) => setFieldValue('gender', valueObj.value)}
+                    error={errors.gender}
                   />
                   <Field
                     as={SelectField}

@@ -34,6 +34,11 @@ export const roleOptions: OptionProp[] = [
   { label: 'Others', value: 'Others' },
 ];
 
+export const genderOptions: OptionProp[] = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+];
+
 export const dayOptions: OptionProp[] = [
   { label: 'Day 1', value: 'day_one' },
   { label: 'Day 2', value: 'day_two' },

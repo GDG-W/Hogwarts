@@ -80,7 +80,7 @@ export const TicketType = (props: TicketTypeFormProps) => {
             <div className={styles.t_container_body}>
               <div className={styles.t_container_box}>
                 <div className={styles.t_container_box_wrapper}>
-                  <h5 className={styles.t_container_box_wrapper_title}>One-day access</h5>
+                  <h5 className={styles.t_container_box_wrapper_title}>One-Day Access</h5>
                   <span className={styles.t_container_box_wrapper_title}>₦9,000</span>
                 </div>
 
@@ -150,7 +150,7 @@ export const TicketType = (props: TicketTypeFormProps) => {
             <div className={styles.t_container_body}>
               <div className={styles.t_container_box}>
                 <div className={styles.t_container_box_wrapper}>
-                  <h5 className={styles.t_container_box_wrapper_title}>Two-day access</h5>
+                  <h5 className={styles.t_container_box_wrapper_title}>Two-Day Access</h5>
                   <span className={styles.t_container_box_wrapper_title}>₦13,000</span>
                 </div>
 

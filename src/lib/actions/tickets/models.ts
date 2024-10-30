@@ -36,8 +36,11 @@ type Attendee = {
   email_address: string;
   fullname: string;
   role: string;
+  gender: Gender;
   level_of_expertise: string;
 };
+
+export type Gender = 'male' | 'female';
 
 export type TicketCheckoutResponse = {
   amount: number;
@@ -60,6 +63,7 @@ export type CouponResponse = {
 export type ClaimTicketPayload = {
   token: string;
   fullname: string;
+  gender: string;
   level_of_expertise: string;
   role: string;
   interests: string[];
