@@ -46,7 +46,6 @@ const Landing = (props: ILandingProps) => {
                 data-delay='0.417'
                 data-easing='NAVIGATION.button'
                 href='/login'
-                target='_blank'
               >
                 <span>Login</span>
                 <ArrowRight />
