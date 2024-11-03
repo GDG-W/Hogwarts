@@ -50,11 +50,11 @@
     "questions": [
       {
         "question": "I purchased a one-day ticket, but now I want to attend both days. Can I upgrade my ticket?",
-        "answer": "Yes, you can upgrade your one-day ticket to a two-day ticket through this platform (depending on availability). Please note that this feature is in development. Check back later."
+        "answer": "You can now upgrade your one-day ticket to a two-day ticket by signing in to your dashboard with your email and ticket ID."
       },
       {
         "question": "How do I upgrade my ticket?",
-        "answer": "Look for the 'Upgrade Ticket' option within your ticket purchase history in your User Profile. Follow the on-screen instructions to complete the upgrade process. Please note that this feature is in development. Check back later."
+        "answer": "Look for the 'Upgrade Ticket' button within your User Dashboard. Follow the on-screen instructions to complete the upgrade process."
       },
       {
         "question": "Will I receive a new ticket after upgrading?",

@@ -28,8 +28,8 @@ const footerLinks = [
   //   title: 'Upgrade Ticket',
   // },
   {
-    link: '#',
-    title: 'Ticket FAQ',
+    link: '/login',
+    title: 'Login',
   },
   {
     link: 'https://gdg.community.dev/gdg-lagos/',

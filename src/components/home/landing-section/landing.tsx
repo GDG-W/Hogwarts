@@ -45,10 +45,10 @@ const Landing = (props: ILandingProps) => {
                 data-animate-y-up
                 data-delay='0.417'
                 data-easing='NAVIGATION.button'
-                href={'https://dflagos24-trivia.netlify.app/'}
+                href='/login'
                 target='_blank'
               >
-                <span>Play Trivia</span>
+                <span>Login</span>
                 <ArrowRight />
               </Link>
             }
