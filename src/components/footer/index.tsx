@@ -27,10 +27,10 @@ const footerLinks = [
   //   link: '#',
   //   title: 'Upgrade Ticket',
   // },
-  {
-    link: '#',
-    title: 'Ticket FAQ',
-  },
+  // {
+  //   link: '/login',
+  //   title: 'Login',
+  // },
   {
     link: 'https://gdg.community.dev/gdg-lagos/',
 
@@ -148,6 +148,12 @@ export const Footer = (props: IFooterProps) => {
 
             <div className={footerlinks}>
               <ul>
+                <li data-animate-y-up data-delay={0 / 10 + 0.25}>
+                  <a href='/login' rel='noopener noreferrer' aria-label='login'>
+                    Login
+                  </a>
+                </li>
+
                 {footerLinks.slice(0, 3).map(({ link, title }, key) => (
                   <li data-animate-y-up data-delay={key / 10 + 0.25} key={key}>
                     <a href={link} target='_blank' rel='noopener noreferrer' aria-label={title}>

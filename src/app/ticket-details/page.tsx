@@ -128,7 +128,7 @@ const TicketDetails = () => {
                   </div>
                 </div>
                 <div className='cta__buttons mobile'>
-                  {canBeUpgraded && <Button text='Update / Upgrade Ticket' onClick={openModal} />}
+                  {canBeUpgraded && <Button text='Upgrade Ticket' onClick={openModal} />}
                   <Button
                     text='Add to Calendar'
                     variant={canBeUpgraded ? 'transparent' : 'primary'}
@@ -169,7 +169,7 @@ const TicketDetails = () => {
                   </div>
                 </div>
                 <div className='cta__buttons desktop'>
-                  {canBeUpgraded && <Button text='Update / Upgrade Ticket' onClick={openModal} />}
+                  {canBeUpgraded && <Button text='Upgrade Ticket' onClick={openModal} />}
                   <Button
                     text='Add to Calendar'
                     variant={canBeUpgraded ? 'transparent' : 'primary'}
