@@ -3,7 +3,7 @@ import path from 'path';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'i.ibb.co'],
   },
   reactStrictMode: true,
   // Ensures that Sass looks for .scss files in the styles directory
