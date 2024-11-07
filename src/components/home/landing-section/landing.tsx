@@ -38,7 +38,7 @@ const Landing = (props: ILandingProps) => {
           className={styles.headernav}
         >
           <Header
-            handleClick={() => { }}
+            handleClick={() => {}}
             navContent={
               <Link
                 className={styles.headernavButtonContainer}
