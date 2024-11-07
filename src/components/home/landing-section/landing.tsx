@@ -38,7 +38,7 @@ const Landing = (props: ILandingProps) => {
           className={styles.headernav}
         >
           <Header
-            handleClick={() => {}}
+            handleClick={() => { }}
             navContent={
               <Link
                 className={styles.headernavButtonContainer}
@@ -129,7 +129,7 @@ const Landing = (props: ILandingProps) => {
         <div className={styles.ticketWrapper}>
           <div className={classNames(styles.ticket, styles.one)} data-animate-ticket-one>
             <Image
-              src='https://svgshare.com/i/1Bqg.svg'
+              src='/green-ticket.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -138,7 +138,7 @@ const Landing = (props: ILandingProps) => {
 
           <div className={classNames(styles.ticket, styles.middle)} data-animate-ticket-middle>
             <Image
-              src='https://svgshare.com/i/1Bqh.svg'
+              src='/blue-ticket.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
@@ -147,7 +147,7 @@ const Landing = (props: ILandingProps) => {
 
           <div className={classNames(styles.ticket, styles.two)} data-animate-ticket-two>
             <Image
-              src='https://svgshare.com/i/1Bqp.svg'
+              src='/red-ticket.svg'
               alt='An image of the one-day ticket'
               fill
               priority={true}
