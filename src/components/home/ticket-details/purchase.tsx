@@ -37,7 +37,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
           <div className={styles.imagewrapper}>
             <div className={styles.headContainerWrapper}>
               <Image
-                src='https://svgshare.com/i/1Bqp.svg'
+                src='/yellow-ticket.svg'
                 alt='An image of the one-day ticket'
                 width={650}
                 height={350}
@@ -45,7 +45,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               />
 
               <Image
-                src='https://svgshare.com/i/1Bqt.svg'
+                src='/red-ticket.svg'
                 alt='An image of the two-day ticket'
                 width={650}
                 height={350}
@@ -58,7 +58,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               <div className={styles.border}></div>
 
               <Image
-                src='https://svgshare.com/i/1Bqp.svg'
+                src='/yellow-ticket.svg'
                 alt='An image of the one-day ticket'
                 className={styles.thumbnailImage}
                 width={83}
@@ -66,7 +66,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
               />
 
               <Image
-                src='https://svgshare.com/i/1Bqt.svg'
+                src='/red-ticket.svg'
                 alt='An image of the Two-day ticket'
                 className={styles.thumbnailImage}
                 width={83}
