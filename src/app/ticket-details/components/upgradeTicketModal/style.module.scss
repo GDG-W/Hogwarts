@@ -102,9 +102,9 @@
     width: 100%;
   }
 
-  &_sticky_top {
-    display: none;
-  }
+  // &_sticky_top {
+  //   display: none;
+  // }
 
   @include media('>=tablet') {
     flex-wrap: nowrap;

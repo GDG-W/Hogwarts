@@ -17,7 +17,7 @@ interface ICheckoutProps {
   selectedTickets: SelectedTickets;
 }
 
-export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets }) => {
+export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets, closeModal }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -57,6 +57,11 @@ export const Checkout: React.FC<ICheckoutProps> = ({ activeStep, selectedTickets
         queryClient.clear();
 
         setFormSuccess('Please wait, you will be redirected soon.');
+      } else if (data.status === 'finalizing') {
+        setFormSuccess('Your Purchase has been completed Successfully');
+        setTimeout(() => {
+          closeModal();
+        }, 2000);
       } else {
         handleError('Invalid Payment Link. Please Try again', setFormError);
       }
