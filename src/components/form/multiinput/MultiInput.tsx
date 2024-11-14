@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import InfoCircle from '../../../../public/info-circle.svg';
 import styles from './mulitinput.module.scss';
 
@@ -28,14 +28,13 @@ const MultiInput: React.FC<PillInputProps> = ({
     return emailRegex.test(email);
   };
 
-  const addEmail = (email: string) => {
+  const addEmail = (email: string, currentPills: string[]): boolean => {
     const trimmedEmail = email.trim();
-    if (trimmedEmail && isValidEmail(trimmedEmail) && !pills.includes(trimmedEmail)) {
-      if (limit && pills.length >= limit) {
+    if (trimmedEmail && isValidEmail(trimmedEmail) && !currentPills.includes(trimmedEmail)) {
+      if (limit && currentPills.length >= limit) {
         setErrorMessage('Email Limit Reached');
         return false;
       }
-      onAddPill(trimmedEmail);
       return true;
     }
     return false;
@@ -80,15 +79,19 @@ const MultiInput: React.FC<PillInputProps> = ({
     const emails = pastedText.split(/[\s,;]+/).filter((email) => email.trim() !== '');
 
     let addedCount = 0;
-    const invalidEmails = [];
+    const invalidEmails: string[] = [];
     const newPills = [...pills];
 
     for (const email of emails) {
-      if (addEmail(email)) {
+      if (addEmail(email, newPills)) {
         addedCount++;
         newPills.push(email.trim());
       } else if (email.trim()) {
         invalidEmails.push(email);
+      }
+
+      if (limit && newPills.length >= limit) {
+        break;
       }
     }
 
@@ -99,7 +102,7 @@ const MultiInput: React.FC<PillInputProps> = ({
     }
 
     setInputValue('');
-    onPillsChange(newPills); // Note: This notifies parent component about the change
+    onPillsChange(newPills);
   };
 
   const handleBlur = () => {
@@ -107,10 +110,6 @@ const MultiInput: React.FC<PillInputProps> = ({
       inputRef.current!.placeholder = '';
     }
   };
-
-  useEffect(() => {
-    onPillsChange(pills);
-  }, [pills, onPillsChange]);
 
   return (
     <div>
