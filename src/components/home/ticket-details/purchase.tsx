@@ -76,7 +76,7 @@ const PurchaseYourTicket = (props: IPurchaseYourTicketProps) => {
           </div>
           <div className={styles.ticketdetails}>
             <h2 data-animate-y-up data-delay='0.083'>
-              1 day access only | <span> N20,000</span>
+              1 day access only | <span> N10,000</span>
             </h2>
             <ul>
               <li data-animate-y-up data-delay='0.167'>
